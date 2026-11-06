@@ -7,271 +7,447 @@
 <meta name="description" content="Laboratorio interactivo de la Sesión 2: modelos, planes y prompting efectivo con Claude, con casos del negocio inmobiliario.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..900&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400;1,700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --concreto:#E9ECE6;
-  --papel:#FAFAF6;
-  --tinta:#1B2A41;
-  --tinta-suave:#43526A;
-  --linea:#C9CFC6;
-  --senal:#F2B705;
-  --senal-suave:#FFF3C4;
-  --verifica:#0F766E;
-  --verifica-suave:#DDF1EE;
-  --alerta:#B42318;
-  --alerta-suave:#FDE7E4;
-  --haiku:#0F766E;
-  --sonnet:#3B4CCA;
-  --opus:#8A2C9E;
-  --r-s:6px;
-  --r-m:12px;
-  --sombra:0 1px 0 rgba(27,42,65,.08), 0 8px 24px -12px rgba(27,42,65,.25);
+  --fondo:#F7F7F8;
+  --blanco:#FFFFFF;
+  --carbon:#1E1E1E;
+  --carbon-2:#2A2A2A;
+  --titulo:#1F2937;
+  --texto:#4B5563;
+  --suave:#6B7280;
+  --borde:#C4CAD3;
+  --borde-2:#E5E7EB;
+  --coral:#FF7C55;
+  --coral-osc:#C2410C;
+  --coral-suave:#FFF1EC;
+  --indigo:#5B5BD6;
+  --indigo-osc:#4343B8;
+  --indigo-suave:#F4F4FD;
+  --teal:#0E9F9A;
+  --teal-osc:#0B7A76;
+  --teal-suave:#E7F6F5;
+  --ambar:#F2A71B;
+  --ambar-osc:#9A6212;
+  --ambar-suave:#FEF6E4;
+  --rojo:#E5484D;
+  --rojo-suave:#FDECEC;
+  --haiku:var(--teal);--sonnet:var(--indigo);--opus:var(--coral);
+  --r-s:8px;--r-m:14px;
+  --sombra:0 2px 8px rgba(17,24,39,.06),0 12px 28px -18px rgba(17,24,39,.35);
+  --sans:"Lato",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"Courier New",monospace;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
-body{margin:0;background:var(--concreto);color:var(--tinta);font:400 17px/1.6 "IBM Plex Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-h1,h2,h3,h4{font-family:"Archivo",system-ui,sans-serif;font-stretch:112%;line-height:1.12;margin:0;color:var(--tinta)}
+body{margin:0;background:var(--fondo);color:var(--texto);font:400 17px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:clip}
+h1,h2,h3,h4{font-family:var(--sans);line-height:1.15;margin:0;color:var(--titulo);font-weight:900}
 p{margin:0 0 .8em}
-a{color:var(--sonnet)}
-:focus-visible{outline:3px solid var(--senal);outline-offset:2px;border-radius:4px}
-code,pre,.mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+a{color:var(--indigo-osc)}
+img,svg{max-width:100%}
+:focus-visible{outline:3px solid var(--coral);outline-offset:2px;border-radius:4px}
+pre,code{font-family:var(--mono)}
 .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.grid-2>*,.mision-cuerpo>*,.etapa>*,.constructor>*,.elegidor>*,.portada .wrap>*{min-width:0}
 
-/* Barra superior */
-.barra{position:sticky;top:0;z-index:20;background:var(--tinta);color:#E8EDF5}
-.barra .wrap{display:flex;align-items:center;gap:20px;height:56px}
-.marca{font-family:"Archivo",system-ui,sans-serif;font-stretch:118%;font-weight:800;font-size:17px;color:#fff;text-decoration:none;white-space:nowrap}
-.marca span{color:var(--senal)}
-.barra nav{display:flex;gap:4px;margin-left:auto;overflow-x:auto}
-.barra nav a{color:#C6D0DF;text-decoration:none;font-size:14px;padding:6px 10px;border-radius:var(--r-s);white-space:nowrap}
+/* Barra */
+.barra{position:sticky;top:0;z-index:30;background:var(--carbon);color:#F3F4F6}
+.barra .wrap{display:flex;align-items:center;gap:20px;height:58px}
+.marca{font-weight:900;font-size:18px;color:#fff;text-decoration:none;white-space:nowrap}
+.marca span{color:var(--coral)}
+.barra nav{display:flex;gap:2px;margin-left:auto}
+.barra nav a{color:#C9CDD3;text-decoration:none;font-size:15px;padding:6px 10px;border-radius:var(--r-s);white-space:nowrap}
 .barra nav a:hover{background:rgba(255,255,255,.08);color:#fff}
-.avance{display:flex;align-items:center;gap:10px;font-size:14px;white-space:nowrap}
-.avance .riel{width:120px;height:8px;background:rgba(255,255,255,.15);border-radius:4px;overflow:hidden}
-.avance .riel i{display:block;height:100%;width:0;background:var(--senal);transition:width .4s}
-@media (max-width:860px){.barra nav{display:none}.avance{margin-left:auto}}
+.avance{display:flex;align-items:center;gap:10px;font-size:14px;white-space:nowrap;color:#F3F4F6}
+.avance .riel{width:110px;height:8px;background:rgba(255,255,255,.15);border-radius:4px;overflow:hidden}
+.avance .riel i{display:block;height:100%;width:0;background:var(--coral);transition:width .4s}
+.subnav{display:none}
+@media (max-width:980px){
+  .barra nav{display:none}
+  .avance{margin-left:auto}
+  .subnav{display:flex;gap:6px;overflow-x:auto;padding:8px 16px;background:var(--carbon-2);scrollbar-width:none}
+  .subnav::-webkit-scrollbar{display:none}
+  .subnav a{flex:none;color:#E5E7EB;text-decoration:none;font-size:14px;padding:5px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.18)}
+}
 
 /* Portada */
-.portada{background:var(--tinta);color:#E8EDF5;position:relative;overflow:hidden}
-.portada::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:32px 32px;pointer-events:none}
+.portada{background:var(--carbon);color:#F3F4F6;position:relative;overflow:hidden}
+.portada::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:32px 32px;pointer-events:none}
+.portada::after{content:"";position:absolute;left:0;top:0;bottom:0;width:10px;background:var(--coral)}
 .portada .wrap{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:48px;padding-top:64px;padding-bottom:72px;align-items:center}
-.portada h1{color:#fff;font-size:clamp(40px,6vw,74px);font-weight:850;letter-spacing:-.01em}
-.portada .bajada{font-size:20px;line-height:1.5;color:#C6D0DF;max-width:34em;margin-top:20px}
-.portada .datos{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
-.chip{display:inline-flex;align-items:center;gap:8px;font-size:14px;padding:6px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.2);color:#E8EDF5}
-.acciones{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
-.btn{display:inline-flex;align-items:center;gap:8px;font:600 16px "IBM Plex Sans",system-ui,sans-serif;padding:12px 20px;border-radius:var(--r-s);border:2px solid transparent;cursor:pointer;text-decoration:none;transition:transform .15s,background .15s}
+.portada .eyebrow{color:#fff;font-weight:700;letter-spacing:.12em;font-size:15px;margin-bottom:14px}
+.portada h1{color:var(--coral);font-size:clamp(38px,6vw,72px);letter-spacing:-.01em}
+.portada .bajada{font-size:20px;line-height:1.5;color:#E5E7EB;max-width:34em;margin-top:20px}
+.portada .datos{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.chip{display:inline-flex;align-items:center;gap:8px;font-size:14px;padding:6px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.22);color:#F3F4F6}
+.acciones{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:700 16px var(--sans);padding:12px 20px;border-radius:var(--r-s);border:2px solid transparent;cursor:pointer;text-decoration:none;transition:transform .15s,background .15s}
 .btn:active{transform:translateY(1px)}
-.btn-senal{background:var(--senal);color:var(--tinta)}
-.btn-senal:hover{background:#FFC928}
-.btn-borde{border-color:rgba(255,255,255,.35);color:#fff;background:transparent}
+.btn-coral{background:var(--coral);color:var(--carbon)}
+.btn-coral:hover{background:#FF946F}
+.btn-borde{border-color:rgba(255,255,255,.4);color:#fff;background:transparent}
 .btn-borde:hover{background:rgba(255,255,255,.08)}
-.btn-tinta{background:var(--tinta);color:#fff}
-.btn-tinta:hover{background:#26395A}
-
-/* La torre */
-.torre{justify-self:center;width:100%;max-width:360px}
+.torre{justify-self:center;width:100%;max-width:340px}
 .torre svg{width:100%;height:auto;display:block}
-.piso rect.cuerpo{fill:#24375A;stroke:#5A6B88;stroke-width:1.5;transition:fill .5s}
-.piso text{font:600 13px "IBM Plex Sans",system-ui,sans-serif;fill:#AEB9CB}
-.piso .ventana{fill:#33486E;transition:fill .5s}
-.piso.hecho rect.cuerpo{fill:#2E4470}
-.piso.hecho .ventana{fill:var(--senal)}
+.piso rect.cuerpo{fill:#2A2A2A;stroke:#5A5A5A;stroke-width:1.5;transition:fill .5s}
+.piso text{font:700 13px var(--sans);fill:#9CA3AF}
+.piso .ventana{fill:#3A3A3A;transition:fill .5s}
+.piso.hecho rect.cuerpo{fill:#333}
+.piso.hecho .ventana{fill:var(--coral)}
 .piso.hecho text{fill:#fff}
 .piso{cursor:pointer}
-.piso:hover rect.cuerpo{stroke:var(--senal)}
-.torre .leyenda{font-size:14px;color:#AEB9CB;text-align:center;margin-top:12px}
-@media (max-width:860px){.portada .wrap{grid-template-columns:1fr}.torre{max-width:280px}}
+.piso:hover rect.cuerpo,.piso:focus rect.cuerpo{stroke:var(--coral)}
+.torre .leyenda{font-size:14px;color:#9CA3AF;text-align:center;margin-top:12px}
+@media (max-width:860px){
+  .portada .wrap{grid-template-columns:1fr;gap:28px;padding-top:40px;padding-bottom:44px}
+  .torre{max-width:230px;justify-self:start}
+  .portada .bajada{font-size:18px}
+}
 
 /* Secciones */
-section.bloque{padding:72px 0;scroll-margin-top:56px}
-@media (max-width:520px){.marca{font-size:15px}.avance .riel{display:none}.barra .wrap{gap:10px}}
-.bloque h2{font-size:clamp(30px,3.6vw,44px);font-weight:800;margin-bottom:12px}
-.bloque .intro{font-size:19px;color:var(--tinta-suave);max-width:40em;margin-bottom:36px}
-.claro{background:var(--papel)}
+section.bloque{padding:72px 0;scroll-margin-top:58px}
+.bloque h2{font-size:clamp(28px,3.6vw,44px);margin-bottom:12px}
+.bloque .intro{font-size:19px;color:var(--suave);max-width:40em;margin-bottom:34px}
+.alt{background:var(--blanco)}
+@media (max-width:600px){
+  .avance .riel{display:none}.marca{font-size:16px}
+  .wrap{padding:0 16px}
+  section.bloque{padding:48px 0;scroll-margin-top:96px}
+  .bloque .intro{font-size:17px;margin-bottom:24px}
+  body{font-size:16px}
+}
 
-/* Antes de empezar */
+/* Preparación */
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
 @media (max-width:860px){.grid-2{grid-template-columns:1fr}}
 .lista-check{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
-.lista-check label{display:flex;gap:14px;align-items:flex-start;background:#fff;border:1px solid var(--linea);border-radius:var(--r-m);padding:14px 16px;cursor:pointer}
-.lista-check input{width:22px;height:22px;accent-color:var(--verifica);margin-top:2px;flex:none}
-.lista-check input:checked + span{color:var(--tinta-suave);text-decoration:line-through}
+.lista-check label{display:flex;gap:14px;align-items:flex-start;background:var(--blanco);border:1px solid var(--borde-2);border-radius:var(--r-m);padding:14px 16px;cursor:pointer}
+.lista-check input{width:22px;height:22px;accent-color:var(--teal);margin-top:2px;flex:none}
+.lista-check input:checked + span{color:var(--suave);text-decoration:line-through}
 .archivos{display:flex;flex-direction:column;gap:10px}
-.archivo{display:grid;grid-template-columns:52px 1fr auto;gap:14px;align-items:center;background:#fff;border:1px solid var(--linea);border-radius:var(--r-m);padding:12px 14px}
-.archivo .tipo{width:52px;height:52px;border-radius:var(--r-s);display:grid;place-items:center;font:700 13px "IBM Plex Mono",ui-monospace,monospace;color:#fff}
-.archivo b{display:block}
-.archivo small{color:var(--tinta-suave);font-size:14px}
-.archivo a{font-weight:600;font-size:15px;text-decoration:none;padding:8px 12px;border-radius:var(--r-s);background:var(--concreto);color:var(--tinta)}
-.archivo a:hover{background:var(--senal-suave)}
-.aviso{display:flex;gap:14px;align-items:flex-start;background:var(--alerta-suave);border-left:5px solid var(--alerta);border-radius:var(--r-s);padding:16px 18px;margin-top:24px}
-.aviso b{color:var(--alerta)}
+.archivo{display:grid;grid-template-columns:52px 1fr auto;gap:14px;align-items:center;background:var(--blanco);border:1px solid var(--borde-2);border-radius:var(--r-m);padding:12px 14px}
+.archivo .tipo{width:52px;height:52px;border-radius:var(--r-s);display:grid;place-items:center;font:700 13px var(--mono);color:#fff}
+.archivo b{display:block;overflow-wrap:anywhere;color:var(--titulo)}
+.archivo small{color:var(--suave);font-size:14px}
+.archivo a{font-weight:700;font-size:15px;text-decoration:none;padding:8px 12px;border-radius:var(--r-s);background:var(--coral-suave);color:var(--coral-osc);text-align:center}
+.archivo a:hover{background:#FFE2D6}
+@media (max-width:520px){.archivo{grid-template-columns:44px 1fr}.archivo .tipo{width:44px;height:44px}.archivo a{grid-column:1/-1}}
+.aviso{display:flex;gap:14px;align-items:flex-start;background:var(--rojo-suave);border-left:5px solid var(--rojo);border-radius:var(--r-s);padding:16px 18px;margin-top:22px}
+.aviso b{color:#B42318}
+
+/* Cadena del negocio */
+.cadena{display:grid;grid-template-columns:repeat(7,1fr);gap:10px}
+.eslabon{display:flex;flex-direction:column;position:relative}
+.eslabon .cab{display:flex;align-items:center;gap:10px;background:var(--carbon);color:#fff;border-radius:var(--r-m) var(--r-m) 0 0;padding:12px;min-height:72px}
+.eslabon .cab b{font-size:16px;line-height:1.2}
+.eslabon .cab span{width:28px;height:28px;flex:none;border-radius:50%;background:var(--coral);color:var(--carbon);display:grid;place-items:center;font-weight:900;font-size:14px}
+.eslabon .cuerpo{flex:1;background:var(--blanco);border:1px solid var(--borde-2);border-top:none;border-radius:0 0 var(--r-m) var(--r-m);padding:12px;font-size:14.5px;line-height:1.5;display:flex;flex-direction:column;gap:10px}
+.eslabon .dolor{font-weight:700;color:var(--titulo);margin:0}
+.eslabon .dato{background:var(--fondo);border-radius:var(--r-s);padding:8px 10px;font-size:14px;margin:0}
+.eslabon .dato a{font-size:13px}
+.eslabon .practica{margin-top:auto;margin-bottom:0;font-size:14px;color:var(--teal-osc);font-weight:700}
+@media (max-width:1100px){.cadena{grid-template-columns:repeat(4,1fr)}}
+@media (max-width:760px){.cadena{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:480px){
+  .cadena{grid-template-columns:1fr;gap:0}
+  .eslabon{padding-left:26px;padding-bottom:14px}
+  .eslabon::before{content:"";position:absolute;left:9px;top:0;bottom:0;width:3px;background:var(--coral)}
+  .eslabon:last-child::before{bottom:auto;height:36px}
+  .eslabon::after{content:"";position:absolute;left:3px;top:28px;width:15px;height:15px;border-radius:50%;background:var(--coral);border:3px solid var(--fondo)}
+  .eslabon .cab{min-height:0}
+}
 
 /* Teoría */
 .modelos{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px}
 @media (max-width:860px){.modelos{grid-template-columns:1fr}}
-.modelo{background:#fff;border-radius:var(--r-m);padding:22px;border-top:6px solid var(--c);box-shadow:var(--sombra)}
-.modelo h3{font-size:28px;color:var(--c)}
-.modelo .perfil{font-weight:600;margin:4px 0 10px}
-.modelo .ej{font-size:15px;background:var(--concreto);border-radius:var(--r-s);padding:10px 12px;margin-top:12px}
-.elegidor{background:var(--tinta);color:#E8EDF5;border-radius:var(--r-m);padding:24px;display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}
+.modelo{background:var(--blanco);border-radius:var(--r-m);padding:22px;border-top:6px solid var(--c);box-shadow:var(--sombra)}
+.modelo h3{font-size:30px;color:var(--c)}
+.modelo .perfil{font-weight:700;margin:4px 0 10px;color:var(--titulo)}
+.modelo .ej{font-size:15px;background:var(--fondo);border-radius:var(--r-s);padding:10px 12px;margin:12px 0 0;font-style:italic}
+.elegidor{background:var(--carbon);color:#F3F4F6;border-radius:var(--r-m);padding:24px;display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}
 @media (max-width:860px){.elegidor{grid-template-columns:1fr}}
 .elegidor h3{color:#fff;font-size:22px;margin-bottom:8px}
-.elegidor select{width:100%;font:500 16px "IBM Plex Sans",system-ui,sans-serif;padding:12px;border-radius:var(--r-s);border:none;background:#fff;color:var(--tinta)}
+.elegidor select{width:100%;font:400 16px var(--sans);padding:12px;border-radius:var(--r-s);border:none;background:#fff;color:var(--titulo)}
 .veredicto{border-radius:var(--r-m);padding:18px 20px;background:rgba(255,255,255,.06);min-height:110px}
-.veredicto .nombre{font-family:"Archivo",system-ui,sans-serif;font-stretch:115%;font-size:30px;font-weight:800}
-.tabla{width:100%;border-collapse:collapse;background:#fff;border-radius:var(--r-m);overflow:hidden;box-shadow:var(--sombra);font-size:16px}
-.tabla th{text-align:left;background:var(--tinta);color:#fff;font-weight:600;padding:12px 14px}
-.tabla td{padding:12px 14px;border-top:1px solid var(--concreto);vertical-align:top}
-.tabla tr.org td{background:#FBF6E4}
-.scroll-x{overflow-x:auto}
-.nota{font-size:14px;color:var(--tinta-suave);margin-top:10px}
+.veredicto .nombre{font-size:30px;font-weight:900}
+.tabla{width:100%;border-collapse:collapse;background:var(--blanco);border-radius:var(--r-m);overflow:hidden;box-shadow:var(--sombra);font-size:16px;min-width:560px}
+.tabla th{text-align:left;background:var(--carbon);color:#fff;font-weight:700;padding:12px 14px}
+.tabla td{padding:12px 14px;border-top:1px solid var(--borde-2);vertical-align:top}
+.tabla tr.org td{background:var(--coral-suave)}
+.scroll-x{overflow-x:auto;border-radius:var(--r-m)}
+.nota{font-size:14px;color:var(--suave);margin-top:10px}
 
-/* Constructor de prompts */
+/* Constructor */
 .constructor{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:20px}
 @media (max-width:960px){.constructor{grid-template-columns:1fr}}
 .ingr{display:flex;flex-direction:column;gap:12px}
-.campo{background:#fff;border-radius:var(--r-m);padding:12px 14px;border-left:6px solid var(--c)}
-.campo label{display:flex;justify-content:space-between;gap:8px;font-weight:600;font-size:15px;margin-bottom:6px}
-.campo label small{font-weight:400;color:var(--tinta-suave)}
-.campo textarea{width:100%;font:400 15px/1.45 "IBM Plex Sans",system-ui,sans-serif;border:1px solid var(--linea);border-radius:var(--r-s);padding:8px 10px;resize:vertical;min-height:44px;color:var(--tinta);background:var(--papel)}
-.vista{position:sticky;top:76px;align-self:start;background:var(--tinta);border-radius:var(--r-m);padding:20px;color:#E8EDF5}
+.campo{background:var(--blanco);border-radius:var(--r-m);padding:12px 14px;border-left:6px solid var(--c);box-shadow:var(--sombra)}
+.campo label{display:flex;justify-content:space-between;gap:8px;font-weight:700;font-size:15px;margin-bottom:6px;color:var(--titulo)}
+.campo label small{font-weight:400;color:var(--suave)}
+.campo textarea{width:100%;font:400 15px/1.45 var(--sans);border:1px solid var(--borde-2);border-radius:var(--r-s);padding:8px 10px;resize:vertical;min-height:44px;color:var(--titulo);background:var(--fondo)}
+.vista{position:sticky;top:76px;align-self:start;background:var(--carbon);border-radius:var(--r-m);padding:20px;color:#F3F4F6}
+@media (max-width:960px){.vista{position:static}}
 .vista h3{color:#fff;font-size:20px;margin-bottom:12px}
-.vista pre{white-space:pre-wrap;word-wrap:break-word;font-size:14.5px;line-height:1.55;margin:0;min-height:180px}
-.vista pre .r{color:#9DB4FF}.vista pre .c{color:#7EE0D2}.vista pre .t{color:#FFD45C}.vista pre .f{color:#F7B3A3}.vista pre .g{color:#E2C6F0}
+.vista pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:14.5px;line-height:1.55;margin:0;min-height:160px}
+.vista pre .r{color:#A5A5F0}.vista pre .c{color:#6FD6D1}.vista pre .t{color:#FFC7B5}.vista pre .f{color:#F7CB72}.vista pre .g{color:#E5E7EB}
 .medidor{display:flex;gap:6px;margin:14px 0}
 .medidor i{flex:1;height:8px;border-radius:4px;background:rgba(255,255,255,.15);transition:background .3s}
-.medidor i.on{background:var(--senal)}
+.medidor i.on{background:var(--coral)}
 .vista .fila{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 
 /* Misiones */
-.mapa{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:48px}
+.mapa{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:44px}
 @media (max-width:860px){.mapa{grid-template-columns:repeat(2,1fr)}}
-.mapa a{display:block;background:#fff;border:1px solid var(--linea);border-radius:var(--r-m);padding:14px;text-decoration:none;color:var(--tinta)}
-.mapa a:hover{border-color:var(--tinta)}
-.mapa a .n{font:800 14px "Archivo",system-ui,sans-serif;font-stretch:115%;color:var(--tinta-suave)}
+.mapa a{display:block;background:var(--blanco);border:1px solid var(--borde-2);border-radius:var(--r-m);padding:14px;text-decoration:none;color:var(--titulo)}
+.mapa a:hover{border-color:var(--coral)}
+.mapa a .n{font-weight:900;font-size:14px;color:var(--coral-osc)}
 .mapa a b{display:block;font-size:16px;line-height:1.3;margin-top:4px}
-.mapa a.hecho{background:var(--senal-suave);border-color:var(--senal)}
-.mapa a.hecho .n::after{content:"  ✓ hecha";color:var(--verifica)}
-.pausa{display:flex;gap:20px;align-items:center;background:var(--tinta);color:#fff;border-radius:var(--r-m);padding:22px 26px;margin:8px 0 40px}
-.pausa .reloj{font-family:"Archivo",system-ui,sans-serif;font-stretch:120%;font-weight:900;font-size:44px;color:var(--senal);line-height:1}
+.mapa a.hecho{background:var(--teal-suave);border-color:var(--teal)}
+.mapa a.hecho .n::after{content:"  ✓ hecha";color:var(--teal-osc)}
+.pausa{display:flex;gap:18px;align-items:center;background:var(--coral);color:var(--carbon);border-radius:var(--r-m);padding:20px 24px;margin:8px 0 40px}
+.pausa .reloj{font-size:40px;line-height:1}
+.pausa p{color:#2A2A2A}
 
-.mision{background:#fff;border-radius:16px;box-shadow:var(--sombra);margin-bottom:40px;overflow:hidden;scroll-margin-top:72px}
-.mision-cab{display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center;padding:26px 28px;border-bottom:1px solid var(--concreto)}
-.numero{width:76px;height:76px;border-radius:var(--r-m);background:var(--tinta);color:var(--senal);display:grid;place-items:center;font:900 38px "Archivo",system-ui,sans-serif;font-stretch:120%}
-.mision.hecho .numero{background:var(--senal);color:var(--tinta)}
-.mision-cab h3{font-size:clamp(24px,2.6vw,32px);font-weight:800}
+.mision{background:var(--blanco);border-radius:18px;box-shadow:var(--sombra);margin-bottom:40px;overflow:hidden;scroll-margin-top:72px}
+.mision-cab{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;padding:24px 28px;border-bottom:1px solid var(--borde-2)}
+.numero{width:72px;height:72px;border-radius:var(--r-m);background:var(--carbon);color:var(--coral);display:grid;place-items:center;font-weight:900;font-size:36px}
+.mision.hecho .numero{background:var(--teal);color:#fff}
+.mision-cab h3{font-size:clamp(22px,2.6vw,32px)}
 .etiquetas{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-.et{font-size:13.5px;font-weight:500;padding:3px 10px;border-radius:999px;background:var(--concreto);color:var(--tinta)}
-.et.haiku{background:#DDF1EE;color:var(--haiku)}.et.sonnet{background:#E4E7FB;color:var(--sonnet)}.et.opus{background:#F3E3F6;color:var(--opus)}
-.mision-cuerpo{display:grid;grid-template-columns:1fr 1.25fr;gap:0}
+.et{font-size:13.5px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--fondo);color:var(--texto)}
+.et.haiku{background:var(--teal-suave);color:var(--teal-osc)}.et.sonnet{background:var(--indigo-suave);color:var(--indigo-osc)}.et.opus{background:var(--coral-suave);color:var(--coral-osc)}
+.mision-cuerpo{display:grid;grid-template-columns:1fr 1.25fr}
 @media (max-width:960px){.mision-cuerpo{grid-template-columns:1fr}}
-.lado{padding:26px 28px}
-.lado + .lado{background:#F6F7F3;border-left:1px solid var(--concreto)}
-@media (max-width:960px){.lado + .lado{border-left:none;border-top:1px solid var(--concreto)}}
-.lado h4{font-size:18px;margin:0 0 10px;font-weight:700}
+.lado{padding:24px 28px}
+.lado + .lado{background:#FAFAFA;border-left:1px solid var(--borde-2)}
+@media (max-width:960px){.lado + .lado{border-left:none;border-top:1px solid var(--borde-2)}}
+@media (max-width:600px){
+  .mision-cab{padding:18px;gap:14px}.numero{width:52px;height:52px;font-size:26px}
+  .lado{padding:18px}
+}
+.lado h4{font-size:18px;margin:0 0 10px}
 .para{font-size:17px;margin-bottom:18px}
-.para b{color:var(--verifica)}
+.para b{color:var(--coral-osc)}
 ol.pasos{padding-left:0;margin:0 0 18px;list-style:none;counter-reset:p}
 ol.pasos li{counter-increment:p;position:relative;padding:0 0 12px 40px}
-ol.pasos li::before{content:counter(p);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:50%;background:var(--tinta);color:#fff;font:700 14px "IBM Plex Sans",system-ui,sans-serif;display:grid;place-items:center}
+ol.pasos li::before{content:counter(p);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:50%;background:var(--carbon);color:var(--coral);font-weight:900;font-size:14px;display:grid;place-items:center}
 
-.prompt{background:var(--tinta);border-radius:var(--r-m);margin:0 0 16px;overflow:hidden}
-.prompt-cab{display:flex;align-items:center;gap:10px;padding:10px 12px 10px 16px;background:#14203A;color:#C6D0DF;font-size:14px}
-.prompt-cab .quien{font-weight:600;color:#fff}
-.prompt-cab .punto{width:10px;height:10px;border-radius:50%;background:var(--c,#C6D0DF)}
-.copiar{margin-left:auto;font:600 14px "IBM Plex Sans",system-ui,sans-serif;background:var(--senal);color:var(--tinta);border:none;border-radius:var(--r-s);padding:7px 12px;cursor:pointer}
-.copiar.ok{background:#7EE0D2}
-.prompt pre{margin:0;padding:16px 18px;color:#E8EDF5;font-size:14.5px;line-height:1.6;white-space:pre-wrap;word-wrap:break-word;max-height:420px;overflow:auto}
+.prompt{background:var(--carbon);border-radius:var(--r-m);margin:0 0 16px;overflow:hidden}
+.prompt-cab{display:flex;align-items:center;gap:10px;padding:10px 12px 10px 16px;background:#141414;color:#C9CDD3;font-size:14px}
+.prompt-cab .quien{font-weight:700;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.prompt-cab .punto{width:10px;height:10px;border-radius:50%;background:var(--c,#C9CDD3);flex:none}
+.copiar{margin-left:auto;flex:none;font:700 14px var(--sans);background:var(--coral);color:var(--carbon);border:none;border-radius:var(--r-s);padding:7px 12px;cursor:pointer}
+.copiar.ok{background:#6FD6D1}
+.prompt pre{margin:0;padding:16px 18px;color:#F3F4F6;font-size:14px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere;max-height:420px;overflow:auto}
 
-details{background:#fff;border:1px solid var(--linea);border-radius:var(--r-m);margin-bottom:10px}
-details summary{cursor:pointer;padding:12px 16px;font-weight:600;list-style:none;display:flex;align-items:center;gap:10px}
+details{background:var(--blanco);border:1px solid var(--borde-2);border-radius:var(--r-m);margin-bottom:10px}
+details summary{cursor:pointer;padding:12px 16px;font-weight:700;list-style:none;display:flex;align-items:center;gap:10px}
 details summary::-webkit-details-marker{display:none}
-details summary::before{content:"+";width:22px;height:22px;border-radius:50%;background:var(--concreto);display:grid;place-items:center;font-weight:700}
+details summary::before{content:"+";width:22px;height:22px;flex:none;border-radius:50%;background:var(--fondo);display:grid;place-items:center;font-weight:900}
 details[open] summary::before{content:"−"}
 details > div{padding:0 16px 14px 48px;font-size:16px}
-details.ver summary{color:var(--verifica)}
-details.pista summary{color:#8A5A00}
-details.reto summary{color:var(--opus)}
-.completar{display:flex;justify-content:flex-end;padding:16px 28px;border-top:1px solid var(--concreto);background:#fff}
-.completar button{font:600 16px "IBM Plex Sans",system-ui,sans-serif;padding:11px 18px;border-radius:var(--r-s);border:2px solid var(--tinta);background:#fff;color:var(--tinta);cursor:pointer}
-.mision.hecho .completar button{background:var(--verifica);border-color:var(--verifica);color:#fff}
+details.ver summary{color:var(--teal-osc)}
+details.pista summary{color:var(--ambar-osc)}
+details.reto summary{color:var(--indigo-osc)}
+.completar{display:flex;justify-content:flex-end;padding:16px 28px;border-top:1px solid var(--borde-2)}
+.completar button{font:700 16px var(--sans);padding:11px 18px;border-radius:var(--r-s);border:2px solid var(--carbon);background:var(--blanco);color:var(--carbon);cursor:pointer}
+.mision.hecho .completar button{background:var(--teal);border-color:var(--teal);color:#fff}
+@media (max-width:600px){.completar{padding:14px 18px}.completar button{width:100%}}
 .trio{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
-@media (max-width:700px){.trio{grid-template-columns:1fr}}
-.trio div{background:#fff;border:1px solid var(--linea);border-radius:var(--r-s);padding:10px 12px;font-size:15px;border-top:4px solid var(--c)}
+@media (max-width:520px){.trio{grid-template-columns:1fr}}
+.trio div{background:var(--blanco);border:1px solid var(--borde-2);border-radius:var(--r-s);padding:10px 12px;font-size:15px;border-top:4px solid var(--c)}
 .trio b{display:block;color:var(--c)}
+
+/* Misión final */
+.final .numero{background:var(--coral);color:var(--carbon)}
+.etapa{border-top:1px solid var(--borde-2);display:grid;grid-template-columns:1fr 1.25fr}
+@media (max-width:960px){.etapa{grid-template-columns:1fr}}
+.etapa .lado h4{display:flex;align-items:center;gap:10px}
+.etapa .lado h4 i{width:30px;height:30px;border-radius:50%;background:var(--coral);color:var(--carbon);display:grid;place-items:center;font-weight:900;font-size:14px;font-style:normal;flex:none}
+
+.maqueta{background:var(--blanco);border:1px dashed var(--suave);border-radius:var(--r-m);padding:14px 16px;font-size:15px;margin:4px 0 14px}
+.maqueta .t{font-weight:700;margin-bottom:6px;color:var(--titulo)}
+.maqueta sup{color:var(--indigo);font-weight:900}
+.maqueta ol{margin:8px 0 0;padding-left:22px;font-size:14px;color:var(--suave)}
+.maqueta .tag{display:inline-block;font-size:12.5px;font-weight:700;background:var(--fondo);border-radius:4px;padding:1px 6px;margin-bottom:6px;color:var(--suave)}
+.despues{background:var(--teal-suave);border-radius:var(--r-m);padding:14px 16px;margin:0 0 14px}
+.despues h4{color:var(--teal-osc);margin-bottom:6px}
+.despues ol{margin:0;padding-left:20px}
+
+/* Visuales interactivos */
+.viz{background:linear-gradient(180deg,#FAFAFA,#FFFFFF);border-bottom:1px solid var(--borde-2);padding:24px 28px}
+@media (max-width:600px){.viz{padding:18px}}
+.viz-cab{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-bottom:16px}
+.viz-cab h4{font-size:19px}
+.viz-cab span{font-size:14.5px;color:var(--suave)}
+.viz button{font-family:var(--sans)}
+.tog{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.tog button{font-weight:700;font-size:15px;padding:9px 14px;border-radius:999px;border:2px solid var(--borde);background:var(--blanco);color:var(--titulo);cursor:pointer}
+.tog button[aria-pressed="true"]{background:var(--carbon);border-color:var(--carbon);color:#fff}
+.explica-viz{background:var(--carbon);color:#F3F4F6;border-radius:var(--r-m);padding:14px 16px;font-size:15.5px;margin-top:14px}
+.explica-viz b{color:var(--coral)}
+
+/* M1 medidores */
+.cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:700px){.cols3{grid-template-columns:1fr}}
+.mod{border:2px solid var(--borde-2);border-radius:var(--r-m);padding:14px;background:var(--blanco);transition:border-color .25s,box-shadow .25s,opacity .25s}
+.mod.on{border-color:var(--c);box-shadow:0 0 0 4px color-mix(in srgb,var(--c) 18%,transparent)}
+.mod.off{opacity:.55}
+.mod h5{margin:0 0 10px;font-size:20px;color:var(--c);display:flex;justify-content:space-between;align-items:center}
+.mod h5 small{font-size:12.5px;font-weight:900;background:var(--c);color:#fff;border-radius:999px;padding:2px 8px;visibility:hidden}
+.mod.on h5 small{visibility:visible}
+.met{display:grid;grid-template-columns:110px 1fr;align-items:center;gap:8px;font-size:14px;margin-bottom:6px}
+.barra-m{height:10px;background:var(--fondo);border-radius:5px;overflow:hidden}
+.barra-m i{display:block;height:100%;background:var(--c);border-radius:5px}
+
+/* M2 flujo + simulador */
+@media (max-width:600px){.paso-f{min-width:84px;padding:8px 2px}.paso-f small{display:none}.paso-f .ic{width:42px;height:42px;font-size:19px}.paso-f:not(:last-child)::after{top:29px;left:calc(50% + 24px);right:calc(-50% + 24px)}.nodo{min-width:76px;font-size:13px}}
+.flujo{display:flex;align-items:stretch;gap:0;margin-bottom:18px;overflow-x:auto;padding-bottom:4px}
+.paso-f{flex:1;min-width:120px;text-align:center;padding:12px 8px;position:relative}
+.paso-f .ic{width:52px;height:52px;margin:0 auto 8px;border-radius:50%;display:grid;place-items:center;font-size:24px;background:var(--fondo);border:2px solid var(--borde)}
+.paso-f.hot .ic{background:var(--coral);border-color:var(--coral)}
+.paso-f b{display:block;font-size:15px;color:var(--titulo)}
+.paso-f small{font-size:13px;color:var(--suave)}
+.paso-f:not(:last-child)::after{content:"";position:absolute;top:37px;left:calc(50% + 30px);right:calc(-50% + 30px);height:3px;background:var(--borde)}
+.lazo{font-size:13.5px;color:var(--coral-osc);font-weight:700;text-align:center;margin:-6px 0 14px}
+.sim{display:grid;grid-template-columns:1fr 1fr;gap:16px;background:var(--blanco);border:1px solid var(--borde-2);border-radius:var(--r-m);padding:16px}
+@media (max-width:700px){.sim{grid-template-columns:1fr}}
+.sim label{display:block;font-size:14px;font-weight:700;color:var(--titulo);margin-bottom:10px}
+.sim input[type=range]{width:100%;accent-color:var(--coral)}
+.sim output{float:right;font-weight:900;color:var(--coral-osc)}
+.cuota{background:var(--carbon);color:#fff;border-radius:var(--r-m);padding:16px;display:flex;flex-direction:column;justify-content:center;gap:4px}
+.cuota .grande{font-size:38px;font-weight:900;color:var(--coral);line-height:1.1}
+.cuota small{color:#C9CDD3;font-size:14px}
+.reparto{display:flex;height:14px;border-radius:7px;overflow:hidden;margin-top:10px}
+.reparto i{display:block;height:100%}
+
+/* M3 hoja */
+.foto-hoja{display:grid;grid-template-columns:150px auto 1fr;align-items:center;gap:14px}
+@media (max-width:700px){.foto-hoja{grid-template-columns:1fr}.foto-hoja .flecha{transform:rotate(90deg);justify-self:center}}
+.foto-hoja img{width:150px;height:170px;object-fit:cover;object-position:top;border-radius:var(--r-s);border:1px solid var(--borde)}
+.flecha{font-size:28px;color:var(--coral);font-weight:900}
+.hoja{overflow-x:auto;border:1px solid var(--borde);border-radius:var(--r-s);background:#fff}
+.hoja table{border-collapse:collapse;width:100%;min-width:460px;font-size:14px}
+.hoja th{background:#E9F2EC;color:#1F5130;font-weight:700;padding:6px 8px;border:1px solid #CFD8D2;text-align:left}
+.hoja td{padding:6px 8px;border:1px solid #E5E7EB;font-family:var(--mono);font-size:13px}
+.hoja td.f{color:var(--teal-osc);font-weight:600}
+.hoja td.f.formula{background:var(--teal-suave)}
+.hoja td.misterio{color:var(--coral-osc);font-weight:700}
+
+/* M4 valor ganado */
+.vg{display:grid;grid-template-columns:1fr 1.2fr;gap:18px}
+@media (max-width:760px){.vg{grid-template-columns:1fr}}
+.vg label{display:block;font-size:14px;font-weight:700;color:var(--titulo);margin-bottom:12px}
+.vg input[type=range]{width:100%;accent-color:var(--coral)}
+.vg output{float:right;font-weight:900;color:var(--coral-osc)}
+.vg .chk{display:flex;gap:8px;align-items:center;font-weight:400}
+.barras-vg{display:flex;flex-direction:column;gap:10px;background:var(--blanco);border:1px solid var(--borde-2);border-radius:var(--r-m);padding:14px}
+.fila-vg{display:grid;grid-template-columns:120px 1fr 92px;gap:10px;align-items:center;font-size:14px}
+@media (max-width:420px){.fila-vg{grid-template-columns:90px 1fr 74px;font-size:13px}}
+.fila-vg .b{height:18px;background:var(--fondo);border-radius:4px;overflow:hidden}
+.fila-vg .b i{display:block;height:100%;transition:width .3s}
+.fila-vg span:last-child{text-align:right;font-family:var(--mono);font-size:13px}
+.semaforo{display:flex;align-items:center;gap:12px;font-weight:700;margin-top:4px;color:var(--titulo)}
+.semaforo i{width:22px;height:22px;border-radius:50%;flex:none;transition:background .3s}
+
+/* M5 citas */
+.cita-demo{display:grid;grid-template-columns:1.1fr 1fr;gap:16px}
+@media (max-width:760px){.cita-demo{grid-template-columns:1fr}}
+.texto-cita{background:var(--blanco);border:1px solid var(--borde-2);border-radius:var(--r-m);padding:16px;font-size:16px;line-height:1.7}
+.texto-cita button.ref{border:none;background:var(--indigo-suave);color:var(--indigo-osc);font-weight:900;border-radius:6px;padding:0 6px;cursor:pointer;font-size:14px}
+.texto-cita button.ref[aria-pressed="true"]{background:var(--indigo);color:#fff}
+.fuentes-demo{display:flex;flex-direction:column;gap:10px}
+.fuente{background:var(--blanco);border:2px solid var(--borde-2);border-radius:var(--r-m);padding:12px 14px;font-size:14.5px;transition:border-color .25s,background .25s}
+.fuente.on{border-color:var(--indigo);background:var(--indigo-suave)}
+.fuente b{display:block;color:var(--titulo)}
+.fuente .q{display:block;margin-top:6px;color:var(--texto);font-style:italic}
+.cadena-v{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:16px;font-size:14px;font-weight:700;color:var(--titulo)}
+.cadena-v span{background:var(--blanco);border:1px solid var(--borde);border-radius:999px;padding:5px 12px}
+.cadena-v em{color:var(--coral);font-style:normal;font-weight:900}
+
+/* M6 anatomía */
+.anatomia{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:760px){.anatomia{grid-template-columns:1fr}}
+.bloques{display:flex;flex-direction:column;gap:8px}
+.bloque-p{display:flex;align-items:center;gap:12px;border-radius:var(--r-s);padding:12px 14px;border:2px solid var(--c);background:var(--blanco);cursor:pointer;text-align:left;font:inherit;color:var(--titulo);transition:opacity .2s,background .2s}
+.bloque-p code{font-weight:700;color:var(--c);font-size:14px}
+.bloque-p .estado{margin-left:auto;font-size:13px;font-weight:700;color:var(--suave)}
+.bloque-p[aria-pressed="false"]{opacity:.45;border-style:dashed}
+.calidad{background:var(--carbon);color:#fff;border-radius:var(--r-m);padding:16px}
+.calidad .barra-m{height:14px;background:rgba(255,255,255,.15)}
+.calidad .barra-m i{background:var(--coral);transition:width .3s}
+.calidad ul{margin:12px 0 0;padding-left:18px;font-size:14.5px;color:#E5E7EB}
+.calidad li{margin-bottom:6px}
+
+/* M7 termómetro */
+.termo{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center}
+@media (max-width:640px){.termo{grid-template-columns:1fr}}
+.gauge{width:230px;max-width:100%}
+.gauge .aguja{transition:transform .5s cubic-bezier(.3,1.4,.5,1);transform-origin:120px 120px}
+.chat-rosa{background:var(--blanco);border:1px solid var(--borde-2);border-radius:var(--r-m);padding:14px;min-height:96px;font-size:15.5px}
+.chat-rosa .quien{font-weight:900;color:var(--coral-osc);font-size:13px;display:block;margin-bottom:4px}
+.opciones-r{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.opciones-r button{font-size:14px;font-weight:700;padding:8px 12px;border-radius:var(--r-s);border:2px solid var(--c);background:var(--blanco);color:var(--titulo);cursor:pointer}
+.opciones-r button:hover{background:var(--fondo)}
+
+/* M8 pipeline */
+.pipe{display:flex;gap:0;overflow-x:auto;padding:4px 0 8px}
+.nodo{flex:1;min-width:110px;text-align:center;position:relative;background:none;border:none;cursor:pointer;padding:6px 4px;color:var(--titulo);font:700 14.5px var(--sans)}
+.nodo i{display:grid;place-items:center;width:46px;height:46px;margin:0 auto 6px;border-radius:50%;background:var(--blanco);border:3px solid var(--borde);font-style:normal;font-weight:900;font-size:17px;position:relative;z-index:1;transition:background .2s,border-color .2s}
+.nodo.hecho i{background:var(--coral-suave);border-color:var(--coral)}
+.nodo[aria-pressed="true"] i{background:var(--coral);border-color:var(--coral);color:var(--carbon)}
+.nodo:not(:last-child)::after{content:"";position:absolute;top:28px;left:calc(50% + 23px);right:calc(-50% + 23px);height:3px;background:var(--borde)}
+.nodo.hecho:not(:last-child)::after{background:var(--coral)}
+.io{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:10px;align-items:stretch;margin-top:10px}
+@media (max-width:760px){.io{grid-template-columns:1fr}.io .fl{transform:rotate(90deg);justify-self:center}}
+.io div.c{background:var(--blanco);border:1px solid var(--borde-2);border-radius:var(--r-m);padding:12px 14px;font-size:14.5px}
+.io div.c b{display:block;font-size:13px;letter-spacing:.06em;color:var(--suave);margin-bottom:4px}
+.io div.c.claude{background:var(--carbon);color:#F3F4F6;border-color:var(--carbon)}
+.io div.c.claude b{color:var(--coral)}
+.io .fl{align-self:center;color:var(--coral);font-weight:900;font-size:22px}
+.memoria{margin-top:14px;background:var(--fondo);border-radius:var(--r-m);padding:12px 14px}
+.memoria b{font-size:14px;color:var(--titulo)}
+.memoria .fichas{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.memoria .fichas span{font-size:13px;font-weight:700;background:var(--blanco);border:1px solid var(--coral);color:var(--coral-osc);border-radius:999px;padding:3px 10px}
 
 /* Cuestionario */
 .quiz{max-width:820px}
-.pregunta{background:#fff;border-radius:var(--r-m);padding:22px 24px;margin-bottom:16px;box-shadow:var(--sombra)}
-.pregunta h3{font-size:20px;font-weight:700;font-stretch:105%;margin-bottom:14px;line-height:1.3}
-.pregunta h3 span{color:var(--tinta-suave);font-weight:600;margin-right:6px}
+.pregunta{background:var(--blanco);border-radius:var(--r-m);padding:22px 24px;margin-bottom:16px;box-shadow:var(--sombra)}
+@media (max-width:600px){.pregunta{padding:18px}}
+.pregunta h3{font-size:19px;font-weight:700;margin-bottom:14px;line-height:1.35}
+.pregunta h3 span{color:var(--coral-osc);font-weight:900;margin-right:6px}
 .opciones{display:flex;flex-direction:column;gap:8px}
-.opciones button{text-align:left;font:400 16px/1.4 "IBM Plex Sans",system-ui,sans-serif;padding:12px 14px;border-radius:var(--r-s);border:1px solid var(--linea);background:var(--papel);color:var(--tinta);cursor:pointer}
-.opciones button:hover:not(:disabled){border-color:var(--tinta)}
-.opciones button.bien{background:var(--verifica-suave);border-color:var(--verifica);font-weight:600}
-.opciones button.mal{background:var(--alerta-suave);border-color:var(--alerta)}
+.opciones button{text-align:left;font:400 16px/1.4 var(--sans);padding:12px 14px;border-radius:var(--r-s);border:1px solid var(--borde);background:var(--fondo);color:var(--titulo);cursor:pointer}
+.opciones button:hover:not(:disabled){border-color:var(--carbon)}
+.opciones button.bien{background:var(--teal-suave);border-color:var(--teal);font-weight:700}
+.opciones button.mal{background:var(--rojo-suave);border-color:var(--rojo)}
 .opciones button:disabled{cursor:default}
-.explica{display:none;margin-top:12px;padding:12px 14px;border-radius:var(--r-s);background:var(--concreto);font-size:15.5px}
+.explica{display:none;margin-top:12px;padding:12px 14px;border-radius:var(--r-s);background:var(--fondo);font-size:15.5px}
 .pregunta.respondida .explica{display:block}
-.resultado{background:var(--tinta);color:#fff;border-radius:var(--r-m);padding:26px;display:flex;flex-wrap:wrap;gap:24px;align-items:center}
-.resultado .nota-grande{font-family:"Archivo",system-ui,sans-serif;font-stretch:120%;font-weight:900;font-size:64px;color:var(--senal);line-height:1}
-.resultado p{margin:0;color:#C6D0DF;max-width:32em}
+.resultado{background:var(--carbon);color:#fff;border-radius:var(--r-m);padding:24px;display:flex;flex-wrap:wrap;gap:20px;align-items:center}
+.resultado .nota-grande{font-weight:900;font-size:60px;color:var(--coral);line-height:1}
+.resultado p{margin:0;color:#C9CDD3;max-width:32em}
 
 /* Plantillas */
 .pestanas{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
-.pestanas button{font:600 15px "IBM Plex Sans",system-ui,sans-serif;padding:9px 16px;border-radius:999px;border:1px solid var(--linea);background:#fff;color:var(--tinta);cursor:pointer}
-.pestanas button[aria-selected="true"]{background:var(--tinta);color:#fff;border-color:var(--tinta)}
+.pestanas button{font:700 15px var(--sans);padding:9px 16px;border-radius:999px;border:1px solid var(--borde);background:var(--blanco);color:var(--titulo);cursor:pointer}
+.pestanas button[aria-selected="true"]{background:var(--carbon);color:#fff;border-color:var(--carbon)}
+.aviso.coral{background:var(--coral-suave);border-color:var(--coral)}
+.aviso.coral b{color:var(--coral-osc)}
 
-footer{background:var(--tinta);color:#AEB9CB;padding:36px 0;font-size:14px}
+footer{background:var(--carbon);color:#9CA3AF;padding:34px 0;font-size:14px}
 footer a{color:#fff}
-.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(120%);background:var(--tinta);color:#fff;padding:12px 18px;border-radius:var(--r-s);box-shadow:var(--sombra);transition:transform .25s;z-index:50;font-weight:500}
-.toast.ver{transform:translateX(-50%) translateY(0)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(140%);background:var(--carbon);color:#fff;padding:12px 18px;border-radius:var(--r-s);box-shadow:var(--sombra);transition:transform .25s,opacity .25s,visibility .25s;z-index:50;font-weight:700;border-left:4px solid var(--coral);opacity:0;visibility:hidden}
+.toast.ver{transform:translateX(-50%) translateY(0);opacity:1;visibility:visible}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-
-/* Cadena del negocio */
-.cadena{display:grid;grid-template-columns:repeat(7,minmax(200px,1fr));gap:0;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x mandatory}
-.eslabon{scroll-snap-align:start;position:relative;padding:0 14px 0 0}
-.eslabon:not(:last-child)::after{content:"";position:absolute;top:34px;right:0;width:14px;height:3px;background:var(--tinta)}
-.eslabon .cab{display:flex;align-items:center;gap:10px;background:var(--tinta);color:#fff;border-radius:var(--r-m) var(--r-m) 0 0;padding:14px 14px;min-height:68px}
-.eslabon .cab b{font-family:"Archivo",system-ui,sans-serif;font-stretch:112%;font-size:17px;line-height:1.2}
-.eslabon .cab span{width:30px;height:30px;flex:none;border-radius:50%;background:var(--senal);color:var(--tinta);display:grid;place-items:center;font:800 15px "Archivo",system-ui,sans-serif}
-.eslabon .cuerpo{background:#fff;border:1px solid var(--linea);border-top:none;border-radius:0 0 var(--r-m) var(--r-m);padding:14px;font-size:15px;line-height:1.5;display:flex;flex-direction:column;gap:10px;min-height:290px}
-.eslabon .dolor{font-weight:600;color:var(--tinta)}
-.eslabon .dato{background:var(--concreto);border-radius:var(--r-s);padding:8px 10px;font-size:14.5px}
-.eslabon .dato a{font-size:13.5px}
-.eslabon .practica{margin-top:auto;font-size:14px;color:var(--verifica);font-weight:600}
-@media (max-width:860px){.cadena{grid-template-columns:repeat(7,78%)}}
-
-/* Etapas de la misión final */
-.etapas{display:flex;gap:0;margin:0 28px;padding:22px 0 4px;overflow-x:auto}
-.etapas div{flex:1;min-width:120px;text-align:center;position:relative;font-size:14.5px;font-weight:600;color:var(--tinta)}
-.etapas div i{display:grid;place-items:center;width:38px;height:38px;margin:0 auto 6px;border-radius:50%;background:var(--senal);font:800 16px "Archivo",system-ui,sans-serif;font-style:normal;position:relative;z-index:1}
-.etapas div:not(:last-child)::after{content:"";position:absolute;top:18px;left:calc(50% + 19px);right:calc(-50% + 19px);height:3px;background:var(--senal)}
-.etapa{border-top:1px solid var(--concreto);display:grid;grid-template-columns:1fr 1.25fr}
-@media (max-width:960px){.etapa{grid-template-columns:1fr}}
-.etapa .lado h4{display:flex;align-items:center;gap:10px}
-.etapa .lado h4 i{width:30px;height:30px;border-radius:50%;background:var(--senal);display:grid;place-items:center;font:800 14px "Archivo",system-ui,sans-serif;font-style:normal;flex:none}
-.final .numero{background:var(--senal);color:var(--tinta)}
-.final.hecho .numero{background:var(--verifica);color:#fff}
-
-/* Maqueta de resultado con fuentes */
-.maqueta{background:#fff;border:1px dashed var(--tinta-suave);border-radius:var(--r-m);padding:14px 16px;font-size:15px;margin:4px 0 14px}
-.maqueta .t{font-weight:600;margin-bottom:6px}
-.maqueta sup{color:var(--sonnet);font-weight:700}
-.maqueta ol{margin:8px 0 0;padding-left:22px;font-size:14px;color:var(--tinta-suave)}
-.maqueta .tag{display:inline-block;font-size:12.5px;font-weight:600;background:var(--concreto);border-radius:4px;padding:1px 6px;margin-bottom:6px;color:var(--tinta-suave)}
-.despues{background:var(--verifica-suave);border-radius:var(--r-m);padding:14px 16px;margin:0 0 14px}
-.despues h4{color:var(--verifica);margin-bottom:6px}
-.despues ol{margin:0;padding-left:20px}
 </style>
 </head>
 <body>
-
 <header class="barra">
   <div class="wrap">
-    <a class="marca" href="#inicio">Laboratorio Claude</a>
+    <a class="marca" href="#inicio">Laboratorio <span>Claude</span></a>
     <nav aria-label="Secciones">
       <a href="#preparacion">Preparación</a>
       <a href="#negocio">El negocio</a>
@@ -284,11 +460,15 @@ footer a{color:#fff}
     <div class="avance" aria-live="polite"><span id="avanceTexto">0/8 misiones</span><span class="riel"><i id="avanceBarra"></i></span></div>
   </div>
 </header>
+<nav class="subnav" aria-label="Secciones">
+  <a href="#preparacion">Preparación</a><a href="#negocio">El negocio</a><a href="#teoria">Teoría</a><a href="#receta">Constructor</a><a href="#misiones">Misiones</a><a href="#cuestionario">Cuestionario</a><a href="#plantillas">Plantillas</a>
+</nav>
 
 <main id="inicio">
 <section class="portada">
   <div class="wrap">
     <div>
+      <p class="eyebrow">SESIÓN 2 · LABORATORIO PRÁCTICO</p>
       <h1>Hoy construimos con Claude, piso por piso</h1>
       <p class="bajada">Ocho misiones sobre los problemas reales de una inmobiliaria: evaluar un terreno, vender en preventa, controlar la obra, cumplir la entrega y atender la postventa. Cada misión te deja algo que funciona. Al terminarla, márcala y se encenderá un piso de la torre.</p>
       <div class="datos">
@@ -296,7 +476,7 @@ footer a{color:#fff}
         <span class="chip">8 misiones y un cuestionario</span>
       </div>
       <div class="acciones">
-        <a class="btn btn-senal" href="#preparacion">Empezar la preparación</a>
+        <a class="btn btn-coral" href="#preparacion">Empezar la preparación</a>
         <a class="btn btn-borde" href="#misiones">Ir a las misiones</a>
       </div>
     </div>
@@ -322,9 +502,9 @@ footer a{color:#fff}
       </ul>
       <div>
         <div class="archivos">
-          <div class="archivo"><span class="tipo" style="background:#0F766E">PNG</span><span><b>cotizacion_ventanas.png</b><small>Foto de la cotización de un proveedor. Misión 3</small></span><a href="materiales/cotizacion_ventanas.png" download>Descargar</a></div>
+          <div class="archivo"><span class="tipo" style="background:#0E9F9A">PNG</span><span><b>cotizacion_ventanas.png</b><small>Foto de la cotización de un proveedor. Misión 3</small></span><a href="materiales/cotizacion_ventanas.png" download>Descargar</a></div>
           <div class="archivo"><span class="tipo" style="background:#1F7A3E">XLSX</span><span><b>presupuesto_obra_mirador.xlsx</b><small>Presupuesto contra ejecutado de una obra. Misión 4</small></span><a href="materiales/presupuesto_obra_mirador.xlsx" download>Descargar</a></div>
-          <div class="archivo"><span class="tipo" style="background:#B42318">PDF</span><span><b>contrato_compraventa_dpto_802.pdf</b><small>Compraventa de un departamento en preventa. Misiones 6 y 7</small></span><a href="materiales/contrato_compraventa_dpto_802.pdf" download>Descargar</a></div>
+          <div class="archivo"><span class="tipo" style="background:#E5484D">PDF</span><span><b>contrato_compraventa_dpto_802.pdf</b><small>Compraventa de un departamento en preventa. Misiones 6 y 7</small></span><a href="materiales/contrato_compraventa_dpto_802.pdf" download>Descargar</a></div>
           <div class="archivo"><span class="tipo" style="background:#1F7A3E">XLSX</span><span><b>terrenos_candidatos.xlsx</b><small>Tres terrenos en evaluación y supuestos internos. Misión 8</small></span><a href="materiales/terrenos_candidatos.xlsx" download>Descargar</a></div>
         </div>
         <div class="aviso"><span aria-hidden="true">⚠</span><span><b>Regla de oro.</b> Los archivos de práctica no contienen datos reales. Con información real de la empresa, de clientes o de colaboradores, usa solo las cuentas corporativas aprobadas.</span></div>
@@ -334,10 +514,10 @@ footer a{color:#fff}
 </section>
 
 <!-- EL NEGOCIO -->
-<section class="bloque claro" id="negocio">
+<section class="bloque alt" id="negocio">
   <div class="wrap">
     <h2>El negocio de punta a punta</h2>
-    <p class="intro">Una inmobiliaria no solo vende departamentos. Compra terrenos, tramita licencias, financia, construye, entrega, inscribe, atiende la postventa y, cada vez más, alquila. Estos son los problemas de hoy en cada etapa y dónde los vas a practicar. Desliza para ver las siete etapas.</p>
+    <p class="intro">Una inmobiliaria no solo vende departamentos. Compra terrenos, tramita licencias, financia, construye, entrega, inscribe, atiende la postventa y, cada vez más, alquila. Estos son los problemas de hoy en cada etapa y dónde los vas a practicar.</p>
     <div class="cadena">
       <div class="eslabon"><div class="cab"><span>1</span><b>Terrenos y evaluación</b></div><div class="cuerpo"><p class="dolor">Encontrar suelo que haga viable el proyecto.</p><p class="dato">El costo del suelo urbano habilitado es hoy la principal presión sobre la rentabilidad del sector. <a href="https://gestion.pe/economia/empresas/vivienda-en-lima-el-desafio-que-pone-presion-a-la-rentabilidad-del-sector-noticia/" target="_blank" rel="noopener">Gestión, con datos de CODIP</a></p><p class="practica">Misiones 1 y 8</p></div></div>
       <div class="eslabon"><div class="cab"><span>2</span><b>Licencias y trámites</b></div><div class="cuerpo"><p class="dolor">Procesos lentos que encarecen el proyecto.</p><p class="dato">CODIP advierte trámites duplicados: ministerio, municipalidades y Fondo Mivivienda piden la misma información varias veces. <a href="https://gestion.pe/economia/empresas/vivienda-en-lima-el-desafio-que-pone-presion-a-la-rentabilidad-del-sector-noticia/" target="_blank" rel="noopener">Gestión</a></p><p class="practica">Misión 5</p></div></div>
@@ -363,7 +543,7 @@ footer a{color:#fff}
     <div class="elegidor">
       <div>
         <h3>¿Qué modelo usarías?</h3>
-        <p style="color:#C6D0DF">Elige una tarea y mira la recomendación.</p>
+        <p style="color:#C9CDD3">Elige una tarea y mira la recomendación.</p>
         <label class="sr" for="tarea">Tarea</label>
         <select id="tarea">
           <option value="">Elige una tarea del negocio</option>
@@ -375,7 +555,7 @@ footer a{color:#fff}
           <option value="opus|Un flujo de caja con escenarios encadenados pide profundidad. Opus.">Armar los escenarios de flujo de caja de un proyecto nuevo</option>
         </select>
       </div>
-      <div class="veredicto" id="veredicto"><p style="color:#AEB9CB;margin:0">La recomendación aparecerá aquí.</p></div>
+      <div class="veredicto" id="veredicto"><p style="color:#9CA3AF;margin:0">La recomendación aparecerá aquí.</p></div>
     </div>
     <p class="nota">Regla práctica: empieza con Sonnet, sube a Opus si no basta y baja a Haiku si la tarea es repetitiva. Por encima existe Fable, el modelo tope de Anthropic, en planes de mayor nivel.</p>
 
@@ -396,25 +576,25 @@ footer a{color:#fff}
 </section>
 
 <!-- CONSTRUCTOR -->
-<section class="bloque claro" id="receta">
+<section class="bloque alt" id="receta">
   <div class="wrap">
     <h2>La receta del prompt</h2>
     <p class="intro">Imagina un practicante brillante que no conoce la empresa. Antes de empezar te preguntaría cinco cosas. Escríbelas aquí y mira cómo se arma tu prompt.</p>
     <div class="constructor">
       <div class="ingr">
-        <div class="campo" style="--c:#3B4CCA"><label for="i-rol">Rol <small>¿Quién debe ser?</small></label><textarea id="i-rol" rows="1" placeholder="Actúa como ejecutivo de cobranzas de una inmobiliaria."></textarea></div>
-        <div class="campo" style="--c:#0F766E"><label for="i-ctx">Contexto <small>¿Qué debe saber?</small></label><textarea id="i-ctx" rows="2" placeholder="El cliente Carlos Ríos compró en preventa el departamento 504 y tiene 2 cuotas de la inicial vencidas."></textarea></div>
-        <div class="campo" style="--c:#B88700"><label for="i-tar">Tarea <small>¿Qué debe hacer?</small></label><textarea id="i-tar" rows="1" placeholder="Escribe un correo de recordatorio de pago."></textarea></div>
+        <div class="campo" style="--c:#5B5BD6"><label for="i-rol">Rol <small>¿Quién debe ser?</small></label><textarea id="i-rol" rows="1" placeholder="Actúa como ejecutivo de cobranzas de una inmobiliaria."></textarea></div>
+        <div class="campo" style="--c:#0E9F9A"><label for="i-ctx">Contexto <small>¿Qué debe saber?</small></label><textarea id="i-ctx" rows="2" placeholder="El cliente Carlos Ríos compró en preventa el departamento 504 y tiene 2 cuotas de la inicial vencidas."></textarea></div>
+        <div class="campo" style="--c:#F2A71B"><label for="i-tar">Tarea <small>¿Qué debe hacer?</small></label><textarea id="i-tar" rows="1" placeholder="Escribe un correo de recordatorio de pago."></textarea></div>
         <div class="campo" style="--c:#C2410C"><label for="i-for">Formato <small>¿Cómo lo quiero?</small></label><textarea id="i-for" rows="1" placeholder="Máximo 120 palabras, con asunto y 3 formas de pago en viñetas."></textarea></div>
-        <div class="campo" style="--c:#8A2C9E"><label for="i-reg">Reglas <small>¿Qué debe evitar?</small></label><textarea id="i-reg" rows="1" placeholder="Tono cordial y firme, sin amenazas legales. Si falta un dato, pregúntame."></textarea></div>
+        <div class="campo" style="--c:#1F2937"><label for="i-reg">Reglas <small>¿Qué debe evitar?</small></label><textarea id="i-reg" rows="1" placeholder="Tono cordial y firme, sin amenazas legales. Si falta un dato, pregúntame."></textarea></div>
       </div>
       <div class="vista">
         <h3>Tu prompt</h3>
         <div class="medidor" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-        <p id="medidorTexto" style="font-size:14px;color:#C6D0DF;margin:0 0 12px">0 de 5 ingredientes</p>
-        <pre id="vistaPrompt"><span style="color:#7F8BA0">Empieza a escribir en los campos de la izquierda.</span></pre>
+        <p id="medidorTexto" style="font-size:14px;color:#C9CDD3;margin:0 0 12px">0 de 5 ingredientes</p>
+        <pre id="vistaPrompt"><span style="color:#8B8F96">Empieza a escribir en los campos de la izquierda.</span></pre>
         <div class="fila" style="margin-top:16px">
-          <button class="btn btn-senal" id="copiarReceta" type="button">Copiar mi prompt</button>
+          <button class="btn btn-coral" id="copiarReceta" type="button">Copiar mi prompt</button>
           <button class="btn btn-borde" id="ejemploReceta" type="button">Ver un ejemplo</button>
           <button class="btn btn-borde" id="limpiarReceta" type="button">Limpiar</button>
         </div>
@@ -443,6 +623,30 @@ footer a{color:#fff}
     <!-- M1 -->
     <article class="mision" id="m1" data-m="1">
       <div class="mision-cab"><div class="numero">1</div><div><h3>Tres cerebros, tres encargos</h3><div class="etiquetas"><span class="et">Nivel 1</span><span class="et">Postventa y terrenos</span><span class="et haiku">Haiku</span><span class="et sonnet">Sonnet</span><span class="et opus">Opus</span></div></div></div>
+      <div class="viz" id="viz1">
+  <div class="viz-cab"><h4>¿Qué cerebro para qué encargo?</h4><span>Elige un encargo y mira qué modelo encaja mejor.</span></div>
+  <div class="tog" role="group" aria-label="Encargos">
+    <button type="button" aria-pressed="true" data-e="a">A · Clasificar 24 reclamos</button>
+    <button type="button" aria-pressed="false" data-e="b">B · Responder al propietario</button>
+    <button type="button" aria-pressed="false" data-e="c">C · Evaluar el terreno</button>
+  </div>
+  <div class="cols3">
+    <div class="mod" data-m="a" style="--c:var(--haiku)"><h5>Haiku <small>Ideal aquí</small></h5>
+      <div class="met"><span>Velocidad</span><div class="barra-m"><i style="width:100%"></i></div></div>
+      <div class="met"><span>Profundidad</span><div class="barra-m"><i style="width:40%"></i></div></div>
+      <div class="met"><span>Consumo de uso</span><div class="barra-m"><i style="width:20%"></i></div></div></div>
+    <div class="mod" data-m="b" style="--c:var(--sonnet)"><h5>Sonnet <small>Ideal aquí</small></h5>
+      <div class="met"><span>Velocidad</span><div class="barra-m"><i style="width:70%"></i></div></div>
+      <div class="met"><span>Profundidad</span><div class="barra-m"><i style="width:75%"></i></div></div>
+      <div class="met"><span>Consumo de uso</span><div class="barra-m"><i style="width:45%"></i></div></div></div>
+    <div class="mod" data-m="c" style="--c:var(--opus)"><h5>Opus <small>Ideal aquí</small></h5>
+      <div class="met"><span>Velocidad</span><div class="barra-m"><i style="width:45%"></i></div></div>
+      <div class="met"><span>Profundidad</span><div class="barra-m"><i style="width:100%"></i></div></div>
+      <div class="met"><span>Consumo de uso</span><div class="barra-m"><i style="width:85%"></i></div></div></div>
+  </div>
+  <p class="explica-viz" id="viz1txt"></p>
+  <p class="nota" style="margin:8px 0 0">Escala ilustrativa para comparar perfiles, no una medición.</p>
+</div>
       <div class="mision-cuerpo">
         <div class="lado">
           <p class="para"><b>Qué te llevas:</b> criterio para elegir el modelo correcto según el encargo, probado con tus propios ojos.</p>
@@ -529,6 +733,33 @@ Si un dato del vendedor debe verificarse, márcalo.</pre></div>
     <!-- M2 -->
     <article class="mision" id="m2" data-m="2">
       <div class="mision-cab"><div class="numero">2</div><div><h3>Crea una app sin código</h3><div class="etiquetas"><span class="et">Nivel 2</span><span class="et">Preventa</span><span class="et sonnet">Sonnet</span><span class="et">Artifacts</span></div></div></div>
+      <div class="viz" id="viz2">
+  <div class="viz-cab"><h4>Así nace una app sin código</h4><span>Pruébala: esto es lo que vas a construir.</span></div>
+  <div class="flujo">
+    <div class="paso-f hot"><div class="ic">✍️</div><b>Describes</b><small>qué debe hacer</small></div>
+    <div class="paso-f"><div class="ic">⚙️</div><b>Claude construye</b><small>la app en un panel</small></div>
+    <div class="paso-f"><div class="ic">🖱️</div><b>Pruebas</b><small>mueves los valores</small></div>
+    <div class="paso-f"><div class="ic">🔁</div><b>Pides mejoras</b><small>en el mismo chat</small></div>
+    <div class="paso-f"><div class="ic">🔗</div><b>Compartes</b><small>con un link</small></div>
+  </div>
+  <p class="lazo">Pruebas y mejoras se repiten las veces que quieras</p>
+  <div class="sim">
+    <div>
+      <label>Precio del departamento <output id="o-precio"></output><input type="range" id="s-precio" min="200000" max="900000" step="10000" value="440000"></label>
+      <label>Cuota inicial <output id="o-ini"></output><input type="range" id="s-ini" min="10" max="40" step="1" value="10"></label>
+      <label>Tasa efectiva anual <output id="o-tea"></output><input type="range" id="s-tea" min="6" max="14" step="0.1" value="9.5"></label>
+      <label>Plazo <output id="o-plazo"></output><input type="range" id="s-plazo" min="5" max="25" step="1" value="20"></label>
+    </div>
+    <div class="cuota">
+      <small>Cuota mensual estimada</small>
+      <span class="grande" id="o-cuota">S/ 0</span>
+      <small id="o-fin"></small>
+      <div class="reparto" aria-hidden="true"><i id="r-cap" style="background:var(--teal)"></i><i id="r-int" style="background:var(--coral)"></i></div>
+      <small><span style="color:#6FD6D1">■</span> Capital &nbsp; <span style="color:var(--coral)">■</span> Intereses en todo el crédito</small>
+      <small style="margin-top:6px">Simulación referencial de este demo.</small>
+    </div>
+  </div>
+</div>
       <div class="mision-cuerpo">
         <div class="lado">
           <p class="para"><b>Qué te llevas:</b> un simulador de crédito hipotecario que funciona y que el equipo comercial puede usar con sus clientes.</p>
@@ -568,6 +799,26 @@ Diseño limpio y profesional, todo en español, montos en soles con separador de
     <!-- M3 -->
     <article class="mision" id="m3" data-m="3">
       <div class="mision-cab"><div class="numero">3</div><div><h3>De foto a Excel con fórmulas</h3><div class="etiquetas"><span class="et">Nivel 3</span><span class="et">Obra y compras</span><span class="et sonnet">Sonnet</span><span class="et">Imagen</span><span class="et">Crear archivos</span></div></div></div>
+      <div class="viz" id="viz3">
+  <div class="viz-cab"><h4>De la foto a la fórmula</h4><span>Un número escrito no se puede auditar. Una fórmula sí.</span></div>
+  <div class="tog" role="group" aria-label="Vista de la hoja">
+    <button type="button" aria-pressed="true" data-v="val">Ver valores</button>
+    <button type="button" aria-pressed="false" data-v="for">Ver fórmulas</button>
+  </div>
+  <div class="foto-hoja">
+    <img src="materiales/cotizacion_ventanas.png" alt="Foto de la cotización">
+    <span class="flecha" aria-hidden="true">→</span>
+    <div class="hoja"><table>
+      <tr><th></th><th>B · Descripción</th><th>C · Cant.</th><th>D · P. unit.</th><th>E · Total</th></tr>
+      <tr><td>2</td><td>Ventana corrediza 1.50 x 1.20</td><td>48</td><td>680.00</td><td class="f" data-val="32,640.00" data-for="=C2*D2">32,640.00</td></tr>
+      <tr><td>3</td><td>Ventana proyectante 0.60 x 0.60</td><td>24</td><td>310.00</td><td class="f" data-val="7,440.00" data-for="=C3*D3">7,440.00</td></tr>
+      <tr><td>…</td><td>…</td><td>…</td><td>…</td><td>…</td></tr>
+      <tr><td>7</td><td><b>Subtotal</b></td><td></td><td></td><td class="f misterio" data-val="¿?" data-for="=SUMA(E2:E6)">¿?</td></tr>
+      <tr><td>8</td><td><b>IGV 18%</b></td><td></td><td></td><td class="f misterio" data-val="¿?" data-for="=E7*0.18">¿?</td></tr>
+    </table></div>
+  </div>
+  <p class="explica-viz">Con fórmulas, cualquier persona puede revisar de dónde sale cada número. <b>El subtotal real lo descubrirás en la hoja Verificación.</b></p>
+</div>
       <div class="mision-cuerpo">
         <div class="lado">
           <p class="para"><b>Qué te llevas:</b> un Excel descargable armado desde una foto, con fórmulas vivas y una hoja que verifica los números del proveedor.</p>
@@ -599,6 +850,24 @@ Después del archivo, explícame en 3 líneas si la cotización está bien calcu
     <!-- M4 -->
     <article class="mision" id="m4" data-m="4">
       <div class="mision-cab"><div class="numero">4</div><div><h3>Un dashboard de la obra</h3><div class="etiquetas"><span class="et">Nivel 3</span><span class="et">Obra y costos</span><span class="et sonnet">Sonnet u Opus</span><span class="et">Excel</span><span class="et">Artifacts</span></div></div></div>
+      <div class="viz" id="viz4">
+  <div class="viz-cab"><h4>El valor ganado en una partida</h4><span>Mueve el avance y el gasto, y mira cómo cambia el semáforo.</span></div>
+  <div class="vg">
+    <div>
+      <p style="font-size:14.5px">Ejemplo: una partida con presupuesto de <b>S/ 1,000,000</b>.</p>
+      <label>Avance físico de la obra <output id="o-av"></output><input type="range" id="s-av" min="0" max="100" value="60"></label>
+      <label>Gasto ejecutado <output id="o-ga"></output><input type="range" id="s-ga" min="0" max="1200000" step="10000" value="680000"></label>
+      <label class="chk"><input type="checkbox" id="c-adel"> Parte del gasto es un adelanto a proveedor</label>
+    </div>
+    <div class="barras-vg">
+      <div class="fila-vg"><span>Presupuesto</span><div class="b"><i style="width:83.3%;background:#9CA3AF"></i></div><span>1,000,000</span></div>
+      <div class="fila-vg"><span>Valor ganado</span><div class="b"><i id="b-vg" style="background:var(--teal)"></i></div><span id="t-vg"></span></div>
+      <div class="fila-vg"><span>Ejecutado</span><div class="b"><i id="b-ej" style="background:var(--coral)"></i></div><span id="t-ej"></span></div>
+      <div class="semaforo"><i id="sem"></i><span id="t-sem"></span></div>
+      <p style="font-size:13.5px;margin:0;color:var(--suave)">Valor ganado = presupuesto × avance físico. Es lo que “debería” haberse gastado por lo avanzado.</p>
+    </div>
+  </div>
+</div>
       <div class="mision-cuerpo">
         <div class="lado">
           <p class="para"><b>Qué te llevas:</b> un tablero interactivo del avance y los costos de una obra, listo para mostrar en un comité.</p>
@@ -630,11 +899,23 @@ Reglas: distingue un adelanto a proveedor de un sobrecosto, y explícalo con una
       <div class="completar"><button type="button" data-hecho="4">Marcar misión como hecha</button></div>
     </article>
 
-    <div class="pausa"><span class="reloj" aria-hidden="true">☕</span><div><b style="font-size:20px">Pausa</b><p style="margin:4px 0 0;color:#C6D0DF">Mientras tanto, piensa en una tarea repetitiva de tu semana que le encargarías a Claude.</p></div></div>
+    <div class="pausa"><span class="reloj" aria-hidden="true">☕</span><div><b style="font-size:20px">Pausa</b><p style="margin:4px 0 0">Mientras tanto, piensa en una tarea repetitiva de tu semana que le encargarías a Claude.</p></div></div>
 
     <!-- M5 -->
     <article class="mision" id="m5" data-m="5">
       <div class="mision-cab"><div class="numero">5</div><div><h3>Investigación con fuentes que puedes verificar</h3><div class="etiquetas"><span class="et">Nivel 4</span><span class="et">Entrega y trámites</span><span class="et sonnet">Sonnet</span><span class="et">Búsqueda web</span><span class="et">Research</span></div></div></div>
+      <div class="viz" id="viz5">
+  <div class="viz-cab"><h4>Cómo se conecta una afirmación con su fuente</h4><span>Haz clic en los números entre corchetes.</span></div>
+  <div class="cadena-v"><span>Tu pregunta</span><em>→</em><span>Claude busca en la web</span><em>→</em><span>Lee las fuentes</span><em>→</em><span>Escribe con [n]</span><em>→</em><span>Tú verificas</span></div>
+  <div class="cita-demo">
+    <div class="texto-cita">Desde julio de 2026, un proyecto puede anotarse en el registro con la licencia aprobada, sin esperar al final de la obra <button class="ref" type="button" data-f="f1" aria-pressed="false">[1]</button>. Indecopi ha ordenado a inmobiliarias pagar el alquiler de compradores afectados por entregas tardías <button class="ref" type="button" data-f="f2" aria-pressed="false">[2]</button>.</div>
+    <div class="fuentes-demo">
+      <div class="fuente" id="f1"><b>[1] Proyectos inmobiliarios podrán anotarse desde la licencia municipal</b>El Peruano · 9 jul 2026 · <a href="https://elperuano.pe/noticia/299935-proyectos-inmobiliarios-podran-anotarse-desde-la-licencia-municipal-conoce-el-nuevo-cambio" target="_blank" rel="noopener">abrir</a><span class="q">Lo que verificas: que la nota mencione el cambio de Sunarp y la fecha.</span></div>
+      <div class="fuente" id="f2"><b>[2] Inmobiliarias podrían pagar alquiler de compradores por no entregar a tiempo</b>Gestión · <a href="https://gestion.pe/economia/inmobiliarias-podrian-pagar-alquiler-de-compradores-por-no-entregar-departamento-a-tiempo-vivienda-compra-inmobiliaria-inmueble-compraventa-retraso-noticia/" target="_blank" rel="noopener">abrir</a><span class="q">Lo que verificas: que describa la medida de Indecopi. Fíjate también en la fecha de la nota.</span></div>
+    </div>
+  </div>
+  <p class="explica-viz">Sin número no hay forma de saber de dónde salió un dato. <b>Una afirmación sin fuente se trata como una suposición.</b></p>
+</div>
       <div class="mision-cuerpo">
         <div class="lado">
           <p class="para"><b>Qué te llevas:</b> pasar de “búscame info” a una investigación profesional, con cada afirmación conectada a su fuente.</p>
@@ -681,6 +962,23 @@ Reglas:
     <!-- M6 -->
     <article class="mision" id="m6" data-m="6">
       <div class="mision-cab"><div class="numero">6</div><div><h3>El contrato bajo la lupa</h3><div class="etiquetas"><span class="et">Nivel 4</span><span class="et">Preventa y entrega</span><span class="et opus">Opus</span><span class="et">PDF</span><span class="et">Búsqueda web</span><span class="et">Prompt avanzado</span></div></div></div>
+      <div class="viz" id="viz6">
+  <div class="viz-cab"><h4>Anatomía de un prompt profesional</h4><span>Apaga un bloque y mira qué se pierde.</span></div>
+  <div class="anatomia">
+    <div class="bloques">
+      <button type="button" class="bloque-p" aria-pressed="true" data-b="rol" style="--c:var(--indigo)"><code>&lt;rol&gt;</code> Abogado inmobiliario de la compradora<span class="estado">activo</span></button>
+      <button type="button" class="bloque-p" aria-pressed="true" data-b="ctx" style="--c:var(--teal)"><code>&lt;contexto&gt;</code> Preventa con la obra atrasada<span class="estado">activo</span></button>
+      <button type="button" class="bloque-p" aria-pressed="true" data-b="tar" style="--c:var(--ambar)"><code>&lt;tarea&gt;</code> Resumen, tabla de riesgos, Indecopi, 3 cambios<span class="estado">activo</span></button>
+      <button type="button" class="bloque-p" aria-pressed="true" data-b="reg" style="--c:var(--coral)"><code>&lt;reglas&gt;</code> Citar cláusulas y fuentes, revisar coherencia<span class="estado">activo</span></button>
+      <p class="nota" style="margin-top:4px">Las etiquetas separan cada ingrediente para que Claude no los mezcle.</p>
+    </div>
+    <div class="calidad">
+      <b>Calidad esperada de la respuesta</b>
+      <div class="barra-m" style="margin-top:10px"><i id="cal-barra"></i></div>
+      <ul id="cal-lista"></ul>
+    </div>
+  </div>
+</div>
       <div class="mision-cuerpo">
         <div class="lado">
           <p class="para"><b>Qué te llevas:</b> un análisis de contrato donde cada riesgo cita su cláusula y cada criterio externo cita su fuente, más una propuesta de cambios en Word.</p>
@@ -735,6 +1033,33 @@ Es un contrato de compraventa de un departamento en preventa. La compradora est�
     <!-- M7 -->
     <article class="mision" id="m7" data-m="7">
       <div class="mision-cab"><div class="numero">7</div><div><h3>Ensayo con una compradora molesta</h3><div class="etiquetas"><span class="et">Nivel 5</span><span class="et">Entrega y postventa</span><span class="et sonnet">Sonnet</span><span class="et">Juego de roles</span></div></div></div>
+      <div class="viz" id="viz7">
+  <div class="viz-cab"><h4>El termómetro de Rosa</h4><span>Así reacciona el personaje según cómo respondas. Prueba distintas respuestas.</span></div>
+  <div class="termo">
+    <svg class="gauge" viewBox="0 0 240 140" role="img" aria-label="Nivel de molestia de Rosa">
+      <path d="M20 120 A100 100 0 0 1 220 120" fill="none" stroke="#E5E7EB" stroke-width="22"/>
+      <path d="M20 120 A100 100 0 0 1 86 26" fill="none" stroke="#0E9F9A" stroke-width="22"/>
+      <path d="M86 26 A100 100 0 0 1 154 26" fill="none" stroke="#F2A71B" stroke-width="22"/>
+      <path d="M154 26 A100 100 0 0 1 220 120" fill="none" stroke="#E5484D" stroke-width="22"/>
+      <g class="aguja" id="aguja"><line x1="120" y1="120" x2="120" y2="34" stroke="#1E1E1E" stroke-width="5" stroke-linecap="round"/></g>
+      <circle cx="120" cy="120" r="10" fill="#1E1E1E"/>
+      <text x="16" y="138" font-size="12" fill="#6B7280" font-family="Lato,sans-serif">Calmada</text>
+      <text x="184" y="138" font-size="12" fill="#6B7280" font-family="Lato,sans-serif">Furiosa</text>
+    </svg>
+    <div>
+      <div class="chat-rosa" aria-live="polite"><span class="quien">Rosa Medina</span><span id="rosa-txt">Llevo cuatro meses pagando alquiler. ¿Cuándo me entregan mi departamento?</span></div>
+      <div class="opciones-r">
+        <button type="button" data-d="18" style="--c:var(--rojo)">“Según la cláusula quinta, aún estamos en plazo”</button>
+        <button type="button" data-d="10" style="--c:var(--rojo)">“Estamos viendo el tema”</button>
+        <button type="button" data-d="-12" style="--c:var(--teal)">Reconozco el problema y me disculpo</button>
+        <button type="button" data-d="-16" style="--c:var(--teal)">Doy una fecha concreta y el porqué</button>
+        <button type="button" data-d="-16" style="--c:var(--teal)">Ofrezco una compensación posible</button>
+        <button type="button" data-d="0" data-reset="1" style="--c:var(--borde)">Reiniciar</button>
+      </div>
+    </div>
+  </div>
+  <p class="explica-viz">En el chat real, Claude decide cómo reacciona Rosa con estas mismas reglas. Al escribir <b>FIN</b>, te evalúa con una rúbrica.</p>
+</div>
       <div class="mision-cuerpo">
         <div class="lado">
           <p class="para"><b>Qué te llevas:</b> un sparring para practicar conversaciones difíciles, que además te evalúa con una rúbrica y te da consejos.</p>
@@ -773,7 +1098,22 @@ Empieza tú, con el primer mensaje de Rosa.</pre></div>
         <p class="para"><b>El caso:</b> el comité de inversiones debe elegir dónde lanzar el próximo proyecto. Hay tres terrenos en evaluación: Jesús María, Ate y Chorrillos. Vas a hacer el trabajo de un analista completo en <b>un solo chat</b>: investigar el mercado, analizar los terrenos, visualizar, presentar y defender tu recomendación ante un directorio exigente.</p>
         <p class="para" style="margin:0"><b>Por qué en un solo chat:</b> cada etapa usa lo que produjo la anterior. No tendrás que volver a explicar nada.</p>
       </div>
-      <div class="etapas" aria-hidden="true"><div><i>1</i>Investiga</div><div><i>2</i>Analiza</div><div><i>3</i>Visualiza</div><div><i>4</i>Presenta</div><div><i>5</i>Defiende</div></div>
+      <div class="viz" id="viz8">
+  <div class="viz-cab"><h4>El flujo completo en un solo chat</h4><span>Haz clic en cada etapa: qué entra, qué hace Claude y qué sale.</span></div>
+  <div class="pipe" role="group" aria-label="Etapas">
+    <button type="button" class="nodo" data-n="0" aria-pressed="true"><i>1</i>Investiga</button>
+    <button type="button" class="nodo" data-n="1" aria-pressed="false"><i>2</i>Analiza</button>
+    <button type="button" class="nodo" data-n="2" aria-pressed="false"><i>3</i>Visualiza</button>
+    <button type="button" class="nodo" data-n="3" aria-pressed="false"><i>4</i>Presenta</button>
+    <button type="button" class="nodo" data-n="4" aria-pressed="false"><i>5</i>Defiende</button>
+  </div>
+  <div class="io">
+    <div class="c"><b>ENTRA</b><span id="io-in"></span></div><span class="fl" aria-hidden="true">→</span>
+    <div class="c claude"><b>CLAUDE HACE</b><span id="io-do"></span></div><span class="fl" aria-hidden="true">→</span>
+    <div class="c"><b>SALE</b><span id="io-out"></span></div>
+  </div>
+  <div class="memoria"><b>Lo que el chat ya sabe en esta etapa</b><div class="fichas" id="fichas"></div></div>
+</div>
 
       <div class="etapa">
         <div class="lado">
@@ -866,7 +1206,7 @@ Cuando termine la quinta, sal del rol y evalúa mi defensa: qué respuestas conv
 </section>
 
 <!-- CUESTIONARIO -->
-<section class="bloque claro" id="cuestionario">
+<section class="bloque alt" id="cuestionario">
   <div class="wrap">
     <h2>Cuestionario: la azotea de la torre</h2>
     <p class="intro">Seis preguntas para comprobar lo aprendido. Al responder verás si acertaste y por qué. Si apruebas, se ilumina la azotea.</p>
@@ -874,7 +1214,7 @@ Cuando termine la quinta, sal del rol y evalúa mi defensa: qué respuestas conv
     <div class="resultado" id="resultado" hidden>
       <span class="nota-grande" id="notaQuiz">0/6</span>
       <p id="mensajeQuiz"></p>
-      <button class="btn btn-senal" id="reiniciarQuiz" type="button">Volver a intentar</button>
+      <button class="btn btn-coral" id="reiniciarQuiz" type="button">Volver a intentar</button>
     </div>
   </div>
 </section>
@@ -891,8 +1231,8 @@ Cuando termine la quinta, sal del rol y evalúa mi defensa: qué respuestas conv
       <button role="tab" aria-selected="false" data-p="pro">Proyectos</button>
       <button role="tab" aria-selected="false" data-p="inv">Investigación con fuentes</button>
     </div>
-    <div class="prompt" id="plantilla"><div class="prompt-cab"><span class="punto" style="background:var(--senal)"></span><span class="quien" id="plantillaTitulo">Finanzas</span><button class="copiar" type="button">Copiar</button></div><pre id="plantillaTexto"></pre></div>
-    <div class="aviso" style="background:var(--senal-suave);border-color:var(--senal)"><span aria-hidden="true">✎</span><span><b style="color:var(--tinta)">Para la próxima sesión.</b> Elige una tarea repetitiva de tu semana, escribe su prompt con una de estas plantillas y pruébalo con datos anonimizados. Lo convertiremos en un Proyecto para no repetirlo en cada chat.</span></div>
+    <div class="prompt" id="plantilla"><div class="prompt-cab"><span class="punto" style="background:var(--coral)"></span><span class="quien" id="plantillaTitulo">Finanzas</span><button class="copiar" type="button">Copiar</button></div><pre id="plantillaTexto"></pre></div>
+    <div class="aviso coral"><span aria-hidden="true">✎</span><span><b>Para la próxima sesión.</b> Elige una tarea repetitiva de tu semana, escribe su prompt con una de estas plantillas y pruébalo con datos anonimizados. Lo convertiremos en un Proyecto para no repetirlo en cada chat.</span></div>
   </div>
 </section>
 </main>
@@ -929,11 +1269,11 @@ Cuando termine la quinta, sal del rol y evalúa mi defensa: qué respuestas conv
   var svg=document.getElementById("torreSvg");var NS="http://www.w3.org/2000/svg";
   function el(t,a){var n=document.createElementNS(NS,t);for(var k in a)n.setAttribute(k,a[k]);return n}
   var alto=44,x0=50,ancho=200,base=440;
-  svg.appendChild(el("rect",{x:20,y:base,width:260,height:10,fill:"#5A6B88",rx:2}));
+  svg.appendChild(el("rect",{x:20,y:base,width:260,height:10,fill:"#5A5A5A",rx:2}));
   var grua=el("g",{});
-  grua.appendChild(el("line",{x1:262,y1:base,x2:262,y2:40,stroke:"#F2B705","stroke-width":4}));
-  grua.appendChild(el("line",{x1:150,y1:46,x2:290,y2:46,stroke:"#F2B705","stroke-width":4}));
-  grua.appendChild(el("line",{x1:180,y1:46,x2:180,y2:70,stroke:"#AEB9CB","stroke-width":1.5}));
+  grua.appendChild(el("line",{x1:262,y1:base,x2:262,y2:40,stroke:"#FF7C55","stroke-width":4}));
+  grua.appendChild(el("line",{x1:150,y1:46,x2:290,y2:46,stroke:"#FF7C55","stroke-width":4}));
+  grua.appendChild(el("line",{x1:180,y1:46,x2:180,y2:70,stroke:"#9CA3AF","stroke-width":1.5}));
   svg.appendChild(grua);
   var pisos={};
   for(var i=1;i<=9;i++){
@@ -971,12 +1311,12 @@ Cuando termine la quinta, sal del rol y evalúa mi defensa: qué respuestas conv
   });
 
   /* Elegidor de modelo */
-  var colores={haiku:"#7EE0D2",sonnet:"#AAB4FF",opus:"#E2B1EE"};
+  var colores={haiku:"#6FD6D1",sonnet:"#A5A5F0",opus:"#FFA98D"};
   var nombres={haiku:"Haiku",sonnet:"Sonnet",opus:"Opus"};
   document.getElementById("tarea").addEventListener("change",function(){
     var v=this.value,box=document.getElementById("veredicto");
-    if(!v){box.innerHTML='<p style="color:#AEB9CB;margin:0">La recomendación aparecerá aquí.</p>';return}
-    var p=v.split("|");box.innerHTML='<div class="nombre" style="color:'+colores[p[0]]+'">'+nombres[p[0]]+'</div><p style="margin:6px 0 0;color:#E8EDF5">'+p[1]+'</p>';
+    if(!v){box.innerHTML='<p style="color:#9CA3AF;margin:0">La recomendación aparecerá aquí.</p>';return}
+    var p=v.split("|");box.innerHTML='<div class="nombre" style="color:'+colores[p[0]]+'">'+nombres[p[0]]+'</div><p style="margin:6px 0 0;color:#F3F4F6">'+p[1]+'</p>';
   });
 
   /* Constructor de prompts */
@@ -989,7 +1329,7 @@ Cuando termine la quinta, sal del rol y evalúa mi defensa: qué respuestas conv
     document.querySelectorAll(".medidor i").forEach(function(b,i){b.classList.toggle("on",i<n)});
     var msg=["0 de 5 ingredientes","1 de 5: es un comienzo","2 de 5: sigue sumando","3 de 5: va tomando forma","4 de 5: casi listo","5 de 5: prompt completo"];
     document.getElementById("medidorTexto").textContent=msg[n];
-    document.getElementById("vistaPrompt").innerHTML=n?partes.join("\n\n"):'<span style="color:#7F8BA0">Empieza a escribir en los campos de la izquierda.</span>';
+    document.getElementById("vistaPrompt").innerHTML=n?partes.join("\n\n"):'<span style="color:#8B8F96">Empieza a escribir en los campos de la izquierda.</span>';
   }
   ids.forEach(function(id){document.getElementById(id).addEventListener("input",armar)});
   document.getElementById("ejemploReceta").addEventListener("click",function(){ids.forEach(function(id,i){document.getElementById(id).value=ejemplo[i]});armar()});
@@ -1022,7 +1362,7 @@ Cuando termine la quinta, sal del rol y evalúa mi defensa: qué respuestas conv
           if(i in respuestas)return;respuestas[i]=j;
           ops.querySelectorAll("button").forEach(function(x,k){x.disabled=true;if(k===q.c)x.classList.add("bien");else if(k===j)x.classList.add("mal")});
           d.classList.add("respondida");
-          d.querySelector(".explica").innerHTML=(j===q.c?"<b style='color:var(--verifica)'>Correcto.</b> ":"<b style='color:var(--alerta)'>No es esa.</b> ")+q.e;
+          d.querySelector(".explica").innerHTML=(j===q.c?"<b style='color:var(--teal-osc)'>Correcto.</b> ":"<b style='color:#B42318'>No es esa.</b> ")+q.e;
           if(Object.keys(respuestas).length===preguntas.length)final();
         });
         ops.appendChild(b);
@@ -1059,5 +1399,109 @@ Cuando termine la quinta, sal del rol y evalúa mi defensa: qué respuestas conv
   pintar();
 })();
 </script>
+
+
+<script>
+(function(){
+  function $(s,c){return (c||document).querySelector(s)}
+  function $$(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s))}
+  function soles(n){return "S/ "+Math.round(n).toLocaleString("en-US")}
+
+  /* M1 */
+  var t1={a:"Clasificar reclamos es <b>repetitivo y de volumen</b>. Haiku lo hace casi igual de bien, mucho más rápido y gastando menos de tu límite de uso.",b:"Responder a un cliente molesto pide <b>tono, criterio y cuidado con la política</b>. Sonnet equilibra calidad y velocidad.",c:"Evaluar un terreno encadena <b>cálculos, supuestos y una decisión de millones</b>. Aquí vale la pena la profundidad de Opus."};
+  function m1(e){
+    $$("#viz1 .tog button").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.e===e?"true":"false")});
+    $$("#viz1 .mod").forEach(function(m){m.classList.toggle("on",m.dataset.m===e);m.classList.toggle("off",m.dataset.m!==e)});
+    $("#viz1txt").innerHTML=t1[e];
+  }
+  $$("#viz1 .tog button").forEach(function(b){b.addEventListener("click",function(){m1(b.dataset.e)})});
+  m1("a");
+
+  /* M2 */
+  var pasos=$$("#viz2 .paso-f"),ip=0;
+  setInterval(function(){if(document.hidden)return;pasos.forEach(function(p,i){p.classList.toggle("hot",i===ip)});ip=(ip+1)%pasos.length},1600);
+  function m2(){
+    var P=+$("#s-precio").value,I=+$("#s-ini").value,T=+$("#s-tea").value,N=+$("#s-plazo").value;
+    $("#o-precio").textContent=soles(P);$("#o-ini").textContent=I+"%";$("#o-tea").textContent=T.toFixed(1)+"%";$("#o-plazo").textContent=N+" años";
+    var M=P*(1-I/100),r=Math.pow(1+T/100,1/12)-1,n=N*12,c=M*r/(1-Math.pow(1+r,-n)),tot=c*n,int=tot-M;
+    $("#o-cuota").textContent=soles(c);
+    $("#o-fin").textContent="Financias "+soles(M)+" · Intereses totales "+soles(int);
+    $("#r-cap").style.width=(M/tot*100)+"%";$("#r-int").style.width=(int/tot*100)+"%";
+  }
+  ["#s-precio","#s-ini","#s-tea","#s-plazo"].forEach(function(s){$(s).addEventListener("input",m2)});m2();
+
+  /* M3 */
+  $$("#viz3 .tog button").forEach(function(b){b.addEventListener("click",function(){
+    var v=b.dataset.v;$$("#viz3 .tog button").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});
+    $$("#viz3 td.f").forEach(function(td){td.textContent=v==="for"?td.dataset.for:td.dataset.val;td.classList.toggle("formula",v==="for")});
+  })});
+
+  /* M4 */
+  function m4(){
+    var av=+$("#s-av").value,ga=+$("#s-ga").value,ad=$("#c-adel").checked,P=1000000,vg=P*av/100,max=1200000;
+    $("#o-av").textContent=av+"%";$("#o-ga").textContent=soles(ga);
+    $("#b-vg").style.width=(vg/max*100)+"%";$("#b-ej").style.width=(ga/max*100)+"%";
+    $("#t-vg").textContent=Math.round(vg).toLocaleString("en-US");$("#t-ej").textContent=Math.round(ga).toLocaleString("en-US");
+    var d=vg>0?(ga/vg-1):(ga>0?1:0),col,txt;
+    if(ad&&d>0){col="#9CA3AF";txt="Gris: gastaste más que el avance, pero es un adelanto. No es sobrecosto, hay que seguirlo."}
+    else if(d<=0){col="#0E9F9A";txt="Verde: el gasto va acorde o por debajo del avance."}
+    else if(d<=.05){col="#F2A71B";txt="Ámbar: gastas "+(d*100).toFixed(1)+"% más de lo que corresponde al avance."}
+    else{col="#E5484D";txt="Rojo: gastas "+(d*100).toFixed(1)+"% más de lo que corresponde al avance."}
+    $("#sem").style.background=col;$("#t-sem").textContent=txt;
+  }
+  ["#s-av","#s-ga","#c-adel"].forEach(function(s){$(s).addEventListener("input",m4)});m4();
+
+  /* M5 */
+  $$("#viz5 .ref").forEach(function(b){b.addEventListener("click",function(){
+    var on=b.getAttribute("aria-pressed")!=="true";
+    $$("#viz5 .ref").forEach(function(x){x.setAttribute("aria-pressed","false")});
+    $$("#viz5 .fuente").forEach(function(f){f.classList.remove("on")});
+    if(on){b.setAttribute("aria-pressed","true");$("#"+b.dataset.f).classList.add("on")}
+  })});
+
+  /* M6 */
+  var efectos={
+    rol:["Analiza desde la posición de la compradora, con criterio de especialista.","Sin rol: responde como un asistente general, sin saber de qué lado está."],
+    ctx:["Prioriza las cláusulas de entrega, prórroga y penalidad.","Sin contexto: revisa todo por igual y no enfoca el problema del retraso."],
+    tar:["Entrega exactamente cuatro piezas en el orden pedido.","Sin tarea clara: te da un resumen genérico y tú debes pedir lo demás."],
+    reg:["Cada riesgo trae su cita y cada criterio de Indecopi su fuente. Detecta incoherencias.","Sin reglas: puede afirmar cosas sin citar y no revisa la coherencia del contrato."]
+  };
+  function m6(){
+    var n=0,html="";
+    $$("#viz6 .bloque-p").forEach(function(b){var on=b.getAttribute("aria-pressed")==="true";if(on)n++;b.querySelector(".estado").textContent=on?"activo":"apagado";html+="<li>"+(on?"✓ ":"✗ ")+efectos[b.dataset.b][on?0:1]+"</li>"});
+    $("#cal-barra").style.width=(n/4*100)+"%";$("#cal-lista").innerHTML=html;
+  }
+  $$("#viz6 .bloque-p").forEach(function(b){b.addEventListener("click",function(){b.setAttribute("aria-pressed",b.getAttribute("aria-pressed")==="true"?"false":"true");m6()})});m6();
+
+  /* M7 */
+  var nivel=75,frases={
+    up:["¿Me está leyendo el contrato a mí? Yo también lo leí. Indecopi ya ha hecho pagar el alquiler a otras inmobiliarias.","Eso mismo me dijeron hace dos meses. Necesito algo concreto, no promesas."],
+    down:["Bueno, al menos reconoce el problema. ¿Qué me puede ofrecer?","Una fecha con sustento es lo mínimo. ¿Y quién me cubre estos meses de alquiler?","Eso ya es otra cosa. Mándemelo por escrito y lo conversamos."]
+  };
+  function m7(d,reset){
+    if(reset){nivel=75;$("#rosa-txt").textContent="Llevo cuatro meses pagando alquiler. ¿Cuándo me entregan mi departamento?"}
+    else{nivel=Math.max(5,Math.min(100,nivel+d));var arr=d>0?frases.up:frases.down;$("#rosa-txt").textContent=arr[Math.floor(Math.random()*arr.length)]}
+    $("#aguja").style.transform="rotate("+((nivel/100)*180-90)+"deg)";
+  }
+  $$("#viz7 .opciones-r button").forEach(function(b){b.addEventListener("click",function(){m7(+b.dataset.d,!!b.dataset.reset)})});m7(0,true);
+
+  /* M8 */
+  var etapas=[
+    {i:"Tu pregunta: ¿dónde lanzamos el próximo proyecto? Jesús María, Ate o Chorrillos.",d:"Busca en la web, lee fuentes y arma una tabla por distrito con cada dato citado.",o:"Tabla de mercado con fuentes numeradas.",f:["Datos de mercado con fuentes"]},
+    {i:"El Excel con 3 terrenos y los supuestos internos, más el mercado de la etapa 1.",d:"Calcula cabida, ingresos, costos y margen. Hace la sensibilidad y la matriz ponderada.",o:"Márgenes por terreno y un ganador con su sustento.",f:["Excel de terrenos","Márgenes y sensibilidad","Matriz ponderada"]},
+    {i:"Todo el análisis anterior.",d:"Construye un tablero interactivo con un control de precio.",o:"Dashboard para que el comité explore.",f:["Dashboard"]},
+    {i:"El análisis y el tablero.",d:"Redacta una presentación de 6 slides con notas del orador.",o:"PowerPoint descargable para el comité.",f:["Presentación"]},
+    {i:"Tu recomendación y sus puntos débiles.",d:"Actúa como un directorio escéptico, pregunta y evalúa tu defensa.",o:"Tus brechas antes del comité real.",f:["Tu defensa evaluada"]}
+  ];
+  function m8(k){
+    $$("#viz8 .nodo").forEach(function(n,i){n.setAttribute("aria-pressed",i===k?"true":"false");n.classList.toggle("hecho",i<k)});
+    var e=etapas[k];$("#io-in").textContent=e.i;$("#io-do").textContent=e.d;$("#io-out").textContent=e.o;
+    var fs=[];for(var j=0;j<=k;j++)fs=fs.concat(etapas[j].f);
+    $("#fichas").innerHTML=fs.map(function(x){return "<span>"+x+"</span>"}).join("");
+  }
+  $$("#viz8 .nodo").forEach(function(n){n.addEventListener("click",function(){m8(+n.dataset.n)})});m8(0);
+})();
+</script>
+
 </body>
 </html>
