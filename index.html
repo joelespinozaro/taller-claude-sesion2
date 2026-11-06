@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Laboratorio Claude · Sesión 2</title>
-<meta name="description" content="Guía interactiva del laboratorio de la Sesión 2: modelos, planes y prompting efectivo con Claude, con casos del sector inmobiliario.">
+<meta name="description" content="Laboratorio interactivo de la Sesión 2: modelos, planes y prompting efectivo con Claude, con casos del negocio inmobiliario.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..900&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -21,7 +21,6 @@
   --verifica-suave:#DDF1EE;
   --alerta:#B42318;
   --alerta-suave:#FDE7E4;
-  --datapath:#E8613C;
   --haiku:#0F766E;
   --sonnet:#3B4CCA;
   --opus:#8A2C9E;
@@ -44,7 +43,7 @@ code,pre,.mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
 .barra{position:sticky;top:0;z-index:20;background:var(--tinta);color:#E8EDF5}
 .barra .wrap{display:flex;align-items:center;gap:20px;height:56px}
 .marca{font-family:"Archivo",system-ui,sans-serif;font-stretch:118%;font-weight:800;font-size:17px;color:#fff;text-decoration:none;white-space:nowrap}
-.marca span{color:var(--datapath)}
+.marca span{color:var(--senal)}
 .barra nav{display:flex;gap:4px;margin-left:auto;overflow-x:auto}
 .barra nav a{color:#C6D0DF;text-decoration:none;font-size:14px;padding:6px 10px;border-radius:var(--r-s);white-space:nowrap}
 .barra nav a:hover{background:rgba(255,255,255,.08);color:#fff}
@@ -230,15 +229,52 @@ footer a{color:#fff}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(120%);background:var(--tinta);color:#fff;padding:12px 18px;border-radius:var(--r-s);box-shadow:var(--sombra);transition:transform .25s;z-index:50;font-weight:500}
 .toast.ver{transform:translateX(-50%) translateY(0)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* Cadena del negocio */
+.cadena{display:grid;grid-template-columns:repeat(7,minmax(200px,1fr));gap:0;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x mandatory}
+.eslabon{scroll-snap-align:start;position:relative;padding:0 14px 0 0}
+.eslabon:not(:last-child)::after{content:"";position:absolute;top:34px;right:0;width:14px;height:3px;background:var(--tinta)}
+.eslabon .cab{display:flex;align-items:center;gap:10px;background:var(--tinta);color:#fff;border-radius:var(--r-m) var(--r-m) 0 0;padding:14px 14px;min-height:68px}
+.eslabon .cab b{font-family:"Archivo",system-ui,sans-serif;font-stretch:112%;font-size:17px;line-height:1.2}
+.eslabon .cab span{width:30px;height:30px;flex:none;border-radius:50%;background:var(--senal);color:var(--tinta);display:grid;place-items:center;font:800 15px "Archivo",system-ui,sans-serif}
+.eslabon .cuerpo{background:#fff;border:1px solid var(--linea);border-top:none;border-radius:0 0 var(--r-m) var(--r-m);padding:14px;font-size:15px;line-height:1.5;display:flex;flex-direction:column;gap:10px;min-height:290px}
+.eslabon .dolor{font-weight:600;color:var(--tinta)}
+.eslabon .dato{background:var(--concreto);border-radius:var(--r-s);padding:8px 10px;font-size:14.5px}
+.eslabon .dato a{font-size:13.5px}
+.eslabon .practica{margin-top:auto;font-size:14px;color:var(--verifica);font-weight:600}
+@media (max-width:860px){.cadena{grid-template-columns:repeat(7,78%)}}
+
+/* Etapas de la misión final */
+.etapas{display:flex;gap:0;margin:0 28px;padding:22px 0 4px;overflow-x:auto}
+.etapas div{flex:1;min-width:120px;text-align:center;position:relative;font-size:14.5px;font-weight:600;color:var(--tinta)}
+.etapas div i{display:grid;place-items:center;width:38px;height:38px;margin:0 auto 6px;border-radius:50%;background:var(--senal);font:800 16px "Archivo",system-ui,sans-serif;font-style:normal;position:relative;z-index:1}
+.etapas div:not(:last-child)::after{content:"";position:absolute;top:18px;left:calc(50% + 19px);right:calc(-50% + 19px);height:3px;background:var(--senal)}
+.etapa{border-top:1px solid var(--concreto);display:grid;grid-template-columns:1fr 1.25fr}
+@media (max-width:960px){.etapa{grid-template-columns:1fr}}
+.etapa .lado h4{display:flex;align-items:center;gap:10px}
+.etapa .lado h4 i{width:30px;height:30px;border-radius:50%;background:var(--senal);display:grid;place-items:center;font:800 14px "Archivo",system-ui,sans-serif;font-style:normal;flex:none}
+.final .numero{background:var(--senal);color:var(--tinta)}
+.final.hecho .numero{background:var(--verifica);color:#fff}
+
+/* Maqueta de resultado con fuentes */
+.maqueta{background:#fff;border:1px dashed var(--tinta-suave);border-radius:var(--r-m);padding:14px 16px;font-size:15px;margin:4px 0 14px}
+.maqueta .t{font-weight:600;margin-bottom:6px}
+.maqueta sup{color:var(--sonnet);font-weight:700}
+.maqueta ol{margin:8px 0 0;padding-left:22px;font-size:14px;color:var(--tinta-suave)}
+.maqueta .tag{display:inline-block;font-size:12.5px;font-weight:600;background:var(--concreto);border-radius:4px;padding:1px 6px;margin-bottom:6px;color:var(--tinta-suave)}
+.despues{background:var(--verifica-suave);border-radius:var(--r-m);padding:14px 16px;margin:0 0 14px}
+.despues h4{color:var(--verifica);margin-bottom:6px}
+.despues ol{margin:0;padding-left:20px}
 </style>
 </head>
 <body>
 
 <header class="barra">
   <div class="wrap">
-    <a class="marca" href="#inicio">data<span>path</span> · Laboratorio Claude</a>
+    <a class="marca" href="#inicio">Laboratorio Claude</a>
     <nav aria-label="Secciones">
       <a href="#preparacion">Preparación</a>
+      <a href="#negocio">El negocio</a>
       <a href="#teoria">Teoría</a>
       <a href="#receta">Constructor</a>
       <a href="#misiones">Misiones</a>
@@ -254,11 +290,10 @@ footer a{color:#fff}
   <div class="wrap">
     <div>
       <h1>Hoy construimos con Claude, piso por piso</h1>
-      <p class="bajada">Ocho misiones con casos de una inmobiliaria. Cada una te deja algo que funciona: una app, un Excel con fórmulas, un dashboard, una presentación. Al terminar cada misión, márcala y se encenderá un piso de la torre.</p>
+      <p class="bajada">Ocho misiones sobre los problemas reales de una inmobiliaria: evaluar un terreno, vender en preventa, controlar la obra, cumplir la entrega y atender la postventa. Cada misión te deja algo que funciona. Al terminarla, márcala y se encenderá un piso de la torre.</p>
       <div class="datos">
         <span class="chip">Sesión 2 · Modelos, planes y prompting efectivo</span>
-        <span class="chip">2 horas · 75 minutos de práctica</span>
-        <span class="chip">Finanzas · Legal · RRHH · Proyectos</span>
+        <span class="chip">8 misiones y un cuestionario</span>
       </div>
       <div class="acciones">
         <a class="btn btn-senal" href="#preparacion">Empezar la preparación</a>
@@ -276,31 +311,49 @@ footer a{color:#fff}
 <section class="bloque" id="preparacion">
   <div class="wrap">
     <h2>Antes de empezar</h2>
-    <p class="intro">Dos minutos de preparación ahorran diez de problemas. Tus marcas se guardan en este navegador.</p>
+    <p class="intro">Ten esto listo antes de la primera misión. Tus marcas se guardan en este navegador.</p>
     <div class="grid-2">
       <ul class="lista-check" id="checklist">
         <li><label><input type="checkbox" data-k="c1"><span>Abrí <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a> e inicié sesión con mi cuenta de trabajo.</span></label></li>
         <li><label><input type="checkbox" data-k="c2"><span>Encontré el selector de modelo junto a la caja de mensaje y veo Haiku, Sonnet y Opus.</span></label></li>
-        <li><label><input type="checkbox" data-k="c3"><span>Descargué los 3 archivos de práctica.</span></label></li>
+        <li><label><input type="checkbox" data-k="c3"><span>Descargué los 4 archivos de práctica.</span></label></li>
         <li><label><input type="checkbox" data-k="c4"><span>Sé que con <b>Shift + Enter</b> bajo de línea sin enviar el mensaje.</span></label></li>
         <li><label><input type="checkbox" data-k="c5"><span>Voy a abrir un chat nuevo por misión, salvo que la misión diga otra cosa.</span></label></li>
       </ul>
       <div>
         <div class="archivos">
-          <div class="archivo"><span class="tipo" style="background:#0F766E">PNG</span><span><b>cotizacion_ventanas.png</b><small>Foto de una cotización de ventanas. Misión 3</small></span><a href="materiales/cotizacion_ventanas.png" download>Descargar</a></div>
-          <div class="archivo"><span class="tipo" style="background:#B42318">PDF</span><span><b>contrato_arrendamiento_local_102.pdf</b><small>Contrato de un local comercial, 3 páginas. Misión 6</small></span><a href="materiales/contrato_arrendamiento_local_102.pdf" download>Descargar</a></div>
-          <div class="archivo"><span class="tipo" style="background:#1F7A3E">XLSX</span><span><b>presupuesto_obra_mirador.xlsx</b><small>Presupuesto contra ejecutado de una obra. Misiones 4 y 8</small></span><a href="materiales/presupuesto_obra_mirador.xlsx" download>Descargar</a></div>
+          <div class="archivo"><span class="tipo" style="background:#0F766E">PNG</span><span><b>cotizacion_ventanas.png</b><small>Foto de la cotización de un proveedor. Misión 3</small></span><a href="materiales/cotizacion_ventanas.png" download>Descargar</a></div>
+          <div class="archivo"><span class="tipo" style="background:#1F7A3E">XLSX</span><span><b>presupuesto_obra_mirador.xlsx</b><small>Presupuesto contra ejecutado de una obra. Misión 4</small></span><a href="materiales/presupuesto_obra_mirador.xlsx" download>Descargar</a></div>
+          <div class="archivo"><span class="tipo" style="background:#B42318">PDF</span><span><b>contrato_compraventa_dpto_802.pdf</b><small>Compraventa de un departamento en preventa. Misiones 6 y 7</small></span><a href="materiales/contrato_compraventa_dpto_802.pdf" download>Descargar</a></div>
+          <div class="archivo"><span class="tipo" style="background:#1F7A3E">XLSX</span><span><b>terrenos_candidatos.xlsx</b><small>Tres terrenos en evaluación y supuestos internos. Misión 8</small></span><a href="materiales/terrenos_candidatos.xlsx" download>Descargar</a></div>
         </div>
-        <div class="aviso"><span aria-hidden="true">⚠</span><span><b>Regla de oro.</b> Todo el material de hoy es ficticio. Con información real de la empresa, de clientes o de colaboradores, usa solo cuentas corporativas aprobadas.</span></div>
+        <div class="aviso"><span aria-hidden="true">⚠</span><span><b>Regla de oro.</b> Los archivos de práctica no contienen datos reales. Con información real de la empresa, de clientes o de colaboradores, usa solo las cuentas corporativas aprobadas.</span></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- TEORÍA -->
-<section class="bloque claro" id="teoria">
+<!-- EL NEGOCIO -->
+<section class="bloque claro" id="negocio">
   <div class="wrap">
-    <h2>La teoría en cinco minutos</h2>
+    <h2>El negocio de punta a punta</h2>
+    <p class="intro">Una inmobiliaria no solo vende departamentos. Compra terrenos, tramita licencias, financia, construye, entrega, inscribe, atiende la postventa y, cada vez más, alquila. Estos son los problemas de hoy en cada etapa y dónde los vas a practicar. Desliza para ver las siete etapas.</p>
+    <div class="cadena">
+      <div class="eslabon"><div class="cab"><span>1</span><b>Terrenos y evaluación</b></div><div class="cuerpo"><p class="dolor">Encontrar suelo que haga viable el proyecto.</p><p class="dato">El costo del suelo urbano habilitado es hoy la principal presión sobre la rentabilidad del sector. <a href="https://gestion.pe/economia/empresas/vivienda-en-lima-el-desafio-que-pone-presion-a-la-rentabilidad-del-sector-noticia/" target="_blank" rel="noopener">Gestión, con datos de CODIP</a></p><p class="practica">Misiones 1 y 8</p></div></div>
+      <div class="eslabon"><div class="cab"><span>2</span><b>Licencias y trámites</b></div><div class="cuerpo"><p class="dolor">Procesos lentos que encarecen el proyecto.</p><p class="dato">CODIP advierte trámites duplicados: ministerio, municipalidades y Fondo Mivivienda piden la misma información varias veces. <a href="https://gestion.pe/economia/empresas/vivienda-en-lima-el-desafio-que-pone-presion-a-la-rentabilidad-del-sector-noticia/" target="_blank" rel="noopener">Gestión</a></p><p class="practica">Misión 5</p></div></div>
+      <div class="eslabon"><div class="cab"><span>3</span><b>Preventa y ventas</b></div><div class="cuerpo"><p class="dolor">Vender rápido sin perder la confianza del comprador.</p><p class="dato">Más del 80% de las viviendas en Lima se compran en planos o en construcción. Las ventas crecieron 26% a septiembre de 2026. <a href="https://rpp.pe/economia/economia/ocho-de-cada-10-viviendas-en-lima-se-compran-en-planos-o-en-construccion-preventa-domina-el-mercado-inmobiliario-noticia-1686160" target="_blank" rel="noopener">RPP</a> · <a href="https://forbes.pe/economia-y-finanzas/2026-10-27/venta-de-viviendas-en-lima-y-callao-crece-26-que-zonas-concentran-la-demanda-inmobiliaria/" target="_blank" rel="noopener">Forbes Perú</a></p><p class="practica">Misiones 2 y 8</p></div></div>
+      <div class="eslabon"><div class="cab"><span>4</span><b>Obra y costos</b></div><div class="cuerpo"><p class="dolor">Controlar insumos y avance para no comerse el margen.</p><p class="dato">Para compensar costos, los departamentos se achicaron: de 71.8 m² en 2022 a 63.7 m² en promedio a mayo de 2026. <a href="https://gestion.pe/economia/empresas/vivienda-en-lima-el-desafio-que-pone-presion-a-la-rentabilidad-del-sector-noticia/" target="_blank" rel="noopener">Gestión</a></p><p class="practica">Misiones 3 y 4</p></div></div>
+      <div class="eslabon"><div class="cab"><span>5</span><b>Entrega e inscripción</b></div><div class="cuerpo"><p class="dolor">Cumplir el plazo prometido en preventa.</p><p class="dato">Indecopi ha ordenado a inmobiliarias pagar el alquiler de compradores por entregas tardías. Desde julio de 2026, Sunarp permite anotar proyectos desde la licencia. <a href="https://gestion.pe/economia/inmobiliarias-podrian-pagar-alquiler-de-compradores-por-no-entregar-departamento-a-tiempo-vivienda-compra-inmobiliaria-inmueble-compraventa-retraso-noticia/" target="_blank" rel="noopener">Gestión</a> · <a href="https://elperuano.pe/noticia/299935-proyectos-inmobiliarios-podran-anotarse-desde-la-licencia-municipal-conoce-el-nuevo-cambio" target="_blank" rel="noopener">El Peruano</a></p><p class="practica">Misiones 5, 6 y 7</p></div></div>
+      <div class="eslabon"><div class="cab"><span>6</span><b>Postventa</b></div><div class="cuerpo"><p class="dolor">Atender reclamos rápido antes de que escalen.</p><p class="dato">Cada reclamo mal atendido puede terminar en redes sociales o en una denuncia ante Indecopi. Clasificar y responder bien es la primera defensa.</p><p class="practica">Misiones 1 y 7</p></div></div>
+      <div class="eslabon"><div class="cab"><span>7</span><b>Renta y alquiler</b></div><div class="cuerpo"><p class="dolor">Un negocio que crece junto a la venta.</p><p class="dato">El alquiler promedio en Lima fue S/ 3,356 al mes en abril de 2026, con una rentabilidad bruta de 5.44%. <a href="https://www.infobae.com/peru/2026/05/21/barranco-y-san-isidro-tienen-los-precios-de-alquiler-mas-altos-de-lima-ambos-superan-los-s-4200-mensuales-en-promedio/" target="_blank" rel="noopener">Infobae, con datos de Urbania</a></p><p class="practica">Misiones 2 y 8</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TEORÍA -->
+<section class="bloque" id="teoria">
+  <div class="wrap">
+    <h2>La teoría en una vista</h2>
     <p class="intro">Claude es el asistente de IA Generativa de Anthropic. Tiene tres modelos con perfiles distintos, y elegir bien ahorra tiempo y límite de uso.</p>
     <div class="modelos">
       <article class="modelo" style="--c:var(--haiku)"><h3>Haiku</h3><p class="perfil">El asistente veloz</p><p>El más rápido y económico. Brilla en tareas cortas, repetitivas y de mucho volumen.</p><p class="ej">Clasificar 300 reclamos de postventa por tema y urgencia.</p></article>
@@ -313,13 +366,13 @@ footer a{color:#fff}
         <p style="color:#C6D0DF">Elige una tarea y mira la recomendación.</p>
         <label class="sr" for="tarea">Tarea</label>
         <select id="tarea">
-          <option value="">Elige una tarea de tu área</option>
-          <option value="haiku|Es repetitivo y de volumen. Haiku lo hace en segundos y casi igual de bien.">Etiquetar 200 movimientos bancarios por centro de costo</option>
+          <option value="">Elige una tarea del negocio</option>
+          <option value="haiku|Es repetitivo y de volumen. Haiku lo hace en segundos y casi igual de bien.">Etiquetar 200 leads del portal por proyecto y nivel de interés</option>
           <option value="sonnet|Redacción de calidad con un formato claro. Es el día a día de Sonnet.">Convertir las notas de la reunión de obra en un acta</option>
-          <option value="sonnet|Lectura cuidadosa de un solo documento con citas. Sonnet lo resuelve muy bien.">Revisar un contrato de arrendamiento y señalar riesgos</option>
-          <option value="opus|Varios documentos, supuestos y una recomendación con criterio. Aquí Opus marca la diferencia.">Comparar tres ofertas de terreno y recomendar cuál comprar</option>
-          <option value="haiku|Respuestas cortas y muchas. Haiku es ideal para un primer borrador masivo.">Responder 50 consultas de horarios de visita al piloto</option>
-          <option value="opus|Un modelo financiero con varios escenarios encadenados pide profundidad. Opus.">Armar los escenarios de flujo de caja de un proyecto nuevo</option>
+          <option value="sonnet|Lectura cuidadosa de un solo documento con citas. Sonnet lo resuelve muy bien.">Revisar una minuta de compraventa y señalar riesgos</option>
+          <option value="opus|Varios documentos, supuestos y una recomendación con criterio. Aquí Opus marca la diferencia.">Comparar tres terrenos y recomendar cuál comprar</option>
+          <option value="haiku|Respuestas cortas y muchas. Haiku es ideal para un primer borrador masivo.">Responder 50 consultas de horarios de visita al departamento piloto</option>
+          <option value="opus|Un flujo de caja con escenarios encadenados pide profundidad. Opus.">Armar los escenarios de flujo de caja de un proyecto nuevo</option>
         </select>
       </div>
       <div class="veredicto" id="veredicto"><p style="color:#AEB9CB;margin:0">La recomendación aparecerá aquí.</p></div>
@@ -343,14 +396,14 @@ footer a{color:#fff}
 </section>
 
 <!-- CONSTRUCTOR -->
-<section class="bloque" id="receta">
+<section class="bloque claro" id="receta">
   <div class="wrap">
     <h2>La receta del prompt</h2>
     <p class="intro">Imagina un practicante brillante que no conoce la empresa. Antes de empezar te preguntaría cinco cosas. Escríbelas aquí y mira cómo se arma tu prompt.</p>
     <div class="constructor">
       <div class="ingr">
         <div class="campo" style="--c:#3B4CCA"><label for="i-rol">Rol <small>¿Quién debe ser?</small></label><textarea id="i-rol" rows="1" placeholder="Actúa como ejecutivo de cobranzas de una inmobiliaria."></textarea></div>
-        <div class="campo" style="--c:#0F766E"><label for="i-ctx">Contexto <small>¿Qué debe saber?</small></label><textarea id="i-ctx" rows="2" placeholder="El cliente Carlos Ríos compró el departamento 504 y tiene 2 cuotas vencidas de S/ 2,850."></textarea></div>
+        <div class="campo" style="--c:#0F766E"><label for="i-ctx">Contexto <small>¿Qué debe saber?</small></label><textarea id="i-ctx" rows="2" placeholder="El cliente Carlos Ríos compró en preventa el departamento 504 y tiene 2 cuotas de la inicial vencidas."></textarea></div>
         <div class="campo" style="--c:#B88700"><label for="i-tar">Tarea <small>¿Qué debe hacer?</small></label><textarea id="i-tar" rows="1" placeholder="Escribe un correo de recordatorio de pago."></textarea></div>
         <div class="campo" style="--c:#C2410C"><label for="i-for">Formato <small>¿Cómo lo quiero?</small></label><textarea id="i-for" rows="1" placeholder="Máximo 120 palabras, con asunto y 3 formas de pago en viñetas."></textarea></div>
         <div class="campo" style="--c:#8A2C9E"><label for="i-reg">Reglas <small>¿Qué debe evitar?</small></label><textarea id="i-reg" rows="1" placeholder="Tono cordial y firme, sin amenazas legales. Si falta un dato, pregúntame."></textarea></div>
@@ -372,30 +425,30 @@ footer a{color:#fff}
 </section>
 
 <!-- MISIONES -->
-<section class="bloque claro" id="misiones">
+<section class="bloque" id="misiones">
   <div class="wrap">
     <h2>Las ocho misiones</h2>
-    <p class="intro">Van de menor a mayor dificultad. Cada misión dice qué modelo usar, cuánto tiempo tienes y qué te llevas. Si terminas antes, abre el reto extra.</p>
+    <p class="intro">Van de menor a mayor dificultad y recorren la cadena del negocio. La última une todo en un solo flujo: investigar, analizar, visualizar, presentar y defender una decisión.</p>
     <nav class="mapa" id="mapa" aria-label="Mapa de misiones">
-      <a href="#m1" data-m="1"><span class="n">Misión 1 · 10 min</span><b>Tres cerebros, tres encargos</b></a>
-      <a href="#m2" data-m="2"><span class="n">Misión 2 · 10 min</span><b>Crea una app sin código</b></a>
-      <a href="#m3" data-m="3"><span class="n">Misión 3 · 8 min</span><b>De foto a Excel con fórmulas</b></a>
-      <a href="#m4" data-m="4"><span class="n">Misión 4 · 10 min</span><b>Un dashboard en un prompt</b></a>
-      <a href="#m5" data-m="5"><span class="n">Misión 5 · 8 min</span><b>Investigación con fuentes</b></a>
-      <a href="#m6" data-m="6"><span class="n">Misión 6 · 10 min</span><b>El contrato bajo la lupa</b></a>
-      <a href="#m7" data-m="7"><span class="n">Misión 7 · 8 min</span><b>Ensayo con un cliente difícil</b></a>
-      <a href="#m8" data-m="8"><span class="n">Misión 8 · 6 min</span><b>Del análisis a la presentación</b></a>
+      <a href="#m1" data-m="1"><span class="n">Misión 1</span><b>Tres cerebros, tres encargos</b></a>
+      <a href="#m2" data-m="2"><span class="n">Misión 2</span><b>Crea una app sin código</b></a>
+      <a href="#m3" data-m="3"><span class="n">Misión 3</span><b>De foto a Excel con fórmulas</b></a>
+      <a href="#m4" data-m="4"><span class="n">Misión 4</span><b>Un dashboard de la obra</b></a>
+      <a href="#m5" data-m="5"><span class="n">Misión 5</span><b>Investigación con fuentes</b></a>
+      <a href="#m6" data-m="6"><span class="n">Misión 6</span><b>El contrato bajo la lupa</b></a>
+      <a href="#m7" data-m="7"><span class="n">Misión 7</span><b>Ensayo con una compradora molesta</b></a>
+      <a href="#m8" data-m="8"><span class="n">Misión final</span><b>Del dato a la decisión</b></a>
     </nav>
 
     <!-- M1 -->
     <article class="mision" id="m1" data-m="1">
-      <div class="mision-cab"><div class="numero">1</div><div><h3>Tres cerebros, tres encargos</h3><div class="etiquetas"><span class="et">Nivel 1</span><span class="et">10 min</span><span class="et haiku">Haiku</span><span class="et sonnet">Sonnet</span><span class="et opus">Opus</span></div></div></div>
+      <div class="mision-cab"><div class="numero">1</div><div><h3>Tres cerebros, tres encargos</h3><div class="etiquetas"><span class="et">Nivel 1</span><span class="et">Postventa y terrenos</span><span class="et haiku">Haiku</span><span class="et sonnet">Sonnet</span><span class="et opus">Opus</span></div></div></div>
       <div class="mision-cuerpo">
         <div class="lado">
           <p class="para"><b>Qué te llevas:</b> criterio para elegir el modelo correcto según el encargo, probado con tus propios ojos.</p>
           <h4>Paso a paso</h4>
           <ol class="pasos">
-            <li>Abre un chat nuevo, elige <b>Haiku</b> en el selector y envía el encargo A. Fíjate en cuántos segundos responde.</li>
+            <li>Abre un chat nuevo, elige <b>Haiku</b> en el selector y envía el encargo A. Fíjate en lo rápido que responde.</li>
             <li>Abre otro chat, elige <b>Sonnet</b> y envía el encargo B.</li>
             <li>Abre un tercer chat, elige <b>Opus</b>, activa el pensamiento extendido si ves la opción y envía el encargo C.</li>
             <li>En el chat de la reunión responde: ¿qué habría pasado si usabas Haiku para el encargo C?</li>
@@ -405,7 +458,7 @@ footer a{color:#fff}
             <div style="--c:var(--sonnet)"><b>B · Sonnet</b>Redacción con criterio</div>
             <div style="--c:var(--opus)"><b>C · Opus</b>Decisión con supuestos</div>
           </div>
-          <details class="ver"><summary>Qué deberías ver</summary><div>Haiku clasifica los 24 reclamos casi al instante. Sonnet escribe una respuesta empática que aplica la política sin prometer de más. Opus calcula una cabida, estima márgenes con supuestos explícitos y te devuelve preguntas que no se te habían ocurrido.</div></details>
+          <details class="ver"><summary>Qué deberías ver</summary><div>Haiku clasifica los 24 reclamos casi al instante. Sonnet escribe una respuesta empática que aplica la política sin prometer de más. Opus calcula una cabida, estima el margen con supuestos explícitos, cuestiona el dato del vendedor y te devuelve preguntas que no se te habían ocurrido.</div></details>
           <details class="pista"><summary>Pista si algo falla</summary><div>Si no ves Opus en el selector, revisa que estés en la cuenta del plan de la empresa. Si Haiku mezcla categorías, agrega un tercer ejemplo al prompt.</div></details>
           <details class="reto"><summary>Reto extra</summary><div>Envía el encargo C también a Sonnet y compara: ¿en qué se diferencian las preguntas de due diligence de cada modelo?</div></details>
         </div>
@@ -447,13 +500,13 @@ CORREO:
 "Es la tercera vez que reporto la humedad en la pared del dormitorio del 1204 y nadie viene. Pagué S/ 590,000 por este departamento. Si esta semana no lo solucionan, voy a publicar todo en redes y presentar un reclamo ante Indecopi. Ernesto Salas"
 
 NUESTRA POLÍTICA:
-- Garantía de 1 año en acabados y 10 años en estructura.
+- Garantía de 1 año en acabados, 2 años en instalaciones y 10 años en estructura.
 - Visita técnica en un máximo de 72 horas desde el reclamo.
 - El departamento se entregó hace 7 meses.
 
 FORMATO: correo de máximo 150 palabras, con asunto, una disculpa concreta, la fecha y hora propuesta para la visita y un contacto directo.
 REGLAS: no prometas montos ni plazos de reparación que no estén en la política. No culpes al propietario.</pre></div>
-          <div class="prompt" style="--c:var(--opus)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Encargo C · Opus</span><button class="copiar" type="button">Copiar</button></div><pre>Actúa como gerente de desarrollo inmobiliario. Nos ofrecen este terreno (datos ficticios):
+          <div class="prompt" style="--c:var(--opus)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Encargo C · Opus</span><button class="copiar" type="button">Copiar</button></div><pre>Actúa como gerente de desarrollo inmobiliario. Nos ofrecen este terreno:
 - Ubicación: avenida principal en Santiago de Surco, Lima.
 - Área: 1,200 m², frente de 30 m.
 - Zonificación: residencial de densidad media. El vendedor dice que se pueden construir 8 pisos.
@@ -475,10 +528,10 @@ Si un dato del vendedor debe verificarse, márcalo.</pre></div>
 
     <!-- M2 -->
     <article class="mision" id="m2" data-m="2">
-      <div class="mision-cab"><div class="numero">2</div><div><h3>Crea una app sin código</h3><div class="etiquetas"><span class="et">Nivel 2</span><span class="et">10 min</span><span class="et sonnet">Sonnet</span><span class="et">Artifacts</span></div></div></div>
+      <div class="mision-cab"><div class="numero">2</div><div><h3>Crea una app sin código</h3><div class="etiquetas"><span class="et">Nivel 2</span><span class="et">Preventa</span><span class="et sonnet">Sonnet</span><span class="et">Artifacts</span></div></div></div>
       <div class="mision-cuerpo">
         <div class="lado">
-          <p class="para"><b>Qué te llevas:</b> un simulador de cuota hipotecaria que funciona y que puedes compartir con tu equipo por link.</p>
+          <p class="para"><b>Qué te llevas:</b> un simulador de crédito hipotecario que funciona y que el equipo comercial puede usar con sus clientes.</p>
           <h4>Paso a paso</h4>
           <ol class="pasos">
             <li>Abre un chat nuevo con <b>Sonnet</b> y envía el prompt.</li>
@@ -488,14 +541,15 @@ Si un dato del vendedor debe verificarse, márcalo.</pre></div>
           </ol>
           <details class="ver"><summary>Qué deberías ver</summary><div>Una app con campos editables, la cuota mensual actualizándose al instante, un gráfico y la comparación de dos escenarios. No escribiste ni una línea de código.</div></details>
           <details class="pista"><summary>Pista si algo falla</summary><div>Si Claude responde con código en vez de mostrar la app, escribe: “Muéstramelo como artifact interactivo”. Si un número no cuadra, pídele que explique la fórmula que usó.</div></details>
-          <details class="reto"><summary>Reto extra por área</summary><div><b>Finanzas:</b> calculadora de rentabilidad de alquiler (renta, gastos, vacancia, retorno anual).<br><b>RRHH:</b> calculadora de costo total de un colaborador con beneficios de ley.<br><b>Proyectos:</b> estimador de m² vendibles según área de terreno y número de pisos.<br><b>Legal:</b> calculadora de penalidades por mora según días de atraso.</div></details>
+          <details class="reto"><summary>Otras apps para tu área</summary><div><b>Finanzas:</b> calculadora de rentabilidad de un departamento en alquiler (renta, gastos, vacancia, retorno anual).<br><b>Proyectos:</b> estimador de cabida: m² construidos y vendibles según área de terreno, ocupación y número de pisos.<br><b>Legal:</b> calculadora de penalidades por retraso en la entrega según días y monto pactado.<br><b>RRHH:</b> calculadora del costo total de un colaborador con beneficios de ley.</div></details>
         </div>
         <div class="lado">
-          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Prompt · Sonnet</span><button class="copiar" type="button">Copiar</button></div><pre>Crea un simulador interactivo de crédito hipotecario para que los asesores de ventas de una inmobiliaria en Lima lo usen con sus clientes.
+          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Prompt · Sonnet</span><button class="copiar" type="button">Copiar</button></div><pre>Crea un simulador interactivo de crédito hipotecario para que los asesores de ventas de una inmobiliaria en Lima lo usen con clientes que compran en preventa.
 
 Campos editables:
-- Precio del departamento en soles (por defecto S/ 450,000)
-- Cuota inicial en porcentaje (por defecto 20%)
+- Precio del departamento en soles (por defecto S/ 440,000)
+- Cuota inicial en porcentaje (por defecto 10%)
+- Bono o subsidio en soles, opcional (por defecto 0), que se resta del monto a financiar
 - Tasa efectiva anual (por defecto 9.5%)
 - Plazo en años, con un deslizador de 5 a 25 (por defecto 20)
 
@@ -513,7 +567,7 @@ Diseño limpio y profesional, todo en español, montos en soles con separador de
 
     <!-- M3 -->
     <article class="mision" id="m3" data-m="3">
-      <div class="mision-cab"><div class="numero">3</div><div><h3>De foto a Excel con fórmulas</h3><div class="etiquetas"><span class="et">Nivel 3</span><span class="et">8 min</span><span class="et sonnet">Sonnet</span><span class="et">Imagen</span><span class="et">Crear archivos</span></div></div></div>
+      <div class="mision-cab"><div class="numero">3</div><div><h3>De foto a Excel con fórmulas</h3><div class="etiquetas"><span class="et">Nivel 3</span><span class="et">Obra y compras</span><span class="et sonnet">Sonnet</span><span class="et">Imagen</span><span class="et">Crear archivos</span></div></div></div>
       <div class="mision-cuerpo">
         <div class="lado">
           <p class="para"><b>Qué te llevas:</b> un Excel descargable armado desde una foto, con fórmulas vivas y una hoja que verifica los números del proveedor.</p>
@@ -529,7 +583,7 @@ Diseño limpio y profesional, todo en español, montos en soles con separador de
           <details class="reto"><summary>Reto extra</summary><div>Pide un correo cordial al proveedor que explique la diferencia encontrada y solicite la cotización corregida, citando el número de cotización.</div></details>
         </div>
         <div class="lado">
-          <img src="materiales/cotizacion_ventanas.png" alt="Foto de la cotización ficticia de ventanas de aluminio" style="width:100%;max-height:260px;object-fit:contain;background:#6B6F76;border-radius:12px;margin-bottom:16px">
+          <img src="materiales/cotizacion_ventanas.png" alt="Foto de la cotización de ventanas de aluminio" style="width:100%;max-height:260px;object-fit:contain;background:#6B6F76;border-radius:12px;margin-bottom:16px">
           <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Prompt · Sonnet + imagen</span><button class="copiar" type="button">Copiar</button></div><pre>Actúa como analista de compras de una inmobiliaria. A partir de la foto de esta cotización, crea un archivo Excel descargable con dos hojas:
 
 1) "Partidas": Ítem, Descripción, Cantidad, Precio unitario y Total. El Total de cada fila, el Subtotal, el IGV de 18% y el Total final deben ser FÓRMULAS de Excel, no números escritos.
@@ -544,16 +598,16 @@ Después del archivo, explícame en 3 líneas si la cotización está bien calcu
 
     <!-- M4 -->
     <article class="mision" id="m4" data-m="4">
-      <div class="mision-cab"><div class="numero">4</div><div><h3>Un dashboard en un prompt</h3><div class="etiquetas"><span class="et">Nivel 3</span><span class="et">10 min</span><span class="et sonnet">Sonnet u Opus</span><span class="et">Excel</span><span class="et">Artifacts</span></div></div></div>
+      <div class="mision-cab"><div class="numero">4</div><div><h3>Un dashboard de la obra</h3><div class="etiquetas"><span class="et">Nivel 3</span><span class="et">Obra y costos</span><span class="et sonnet">Sonnet u Opus</span><span class="et">Excel</span><span class="et">Artifacts</span></div></div></div>
       <div class="mision-cuerpo">
         <div class="lado">
-          <p class="para"><b>Qué te llevas:</b> un tablero interactivo del avance de una obra, listo para mostrar en un comité. Guarda este chat: lo usarás en la misión 8.</p>
+          <p class="para"><b>Qué te llevas:</b> un tablero interactivo del avance y los costos de una obra, listo para mostrar en un comité.</p>
           <h4>Paso a paso</h4>
           <ol class="pasos">
             <li>Abre un chat nuevo y adjunta <b>presupuesto_obra_mirador.xlsx</b>.</li>
             <li>Pega el prompt y envíalo.</li>
             <li>Revisa el tablero: ¿qué partidas quedaron en rojo?</li>
-            <li>Pregunta en el mismo chat: “¿Por qué Ascensores no está en rojo si gastamos S/ 270,000 con 0% de avance?”</li>
+            <li>Pregunta en el mismo chat: “¿Por qué Ascensores no está en rojo si ya pagamos con 0% de avance?”</li>
           </ol>
           <details class="ver"><summary>Qué deberías ver</summary><div>Indicadores arriba, un gráfico por partida y otro mensual, y un semáforo. Un buen resultado distingue un adelanto a proveedor de un sobrecosto. Si no lo hizo, la pregunta del paso 4 lo corrige.</div></details>
           <details class="pista"><summary>Pista si algo falla</summary><div>Si los totales no te cuadran, pide: “Muéstrame en una tabla cómo calculaste cada indicador”. Claude puede ejecutar cálculos sobre el Excel, así que pídele que los haga con el archivo y no de memoria.</div></details>
@@ -576,36 +630,49 @@ Reglas: distingue un adelanto a proveedor de un sobrecosto, y explícalo con una
       <div class="completar"><button type="button" data-hecho="4">Marcar misión como hecha</button></div>
     </article>
 
-    <div class="pausa"><span class="reloj">10′</span><div><b style="font-size:20px">Break</b><p style="margin:4px 0 0;color:#C6D0DF">Mientras tanto, piensa en una tarea repetitiva de tu semana que le encargarías a Claude. La usarás en la tarea final.</p></div></div>
+    <div class="pausa"><span class="reloj" aria-hidden="true">☕</span><div><b style="font-size:20px">Pausa</b><p style="margin:4px 0 0;color:#C6D0DF">Mientras tanto, piensa en una tarea repetitiva de tu semana que le encargarías a Claude.</p></div></div>
 
     <!-- M5 -->
     <article class="mision" id="m5" data-m="5">
-      <div class="mision-cab"><div class="numero">5</div><div><h3>Investigación con fuentes que puedes verificar</h3><div class="etiquetas"><span class="et">Nivel 4</span><span class="et">8 min</span><span class="et sonnet">Sonnet</span><span class="et">Búsqueda web</span><span class="et">Research</span></div></div></div>
+      <div class="mision-cab"><div class="numero">5</div><div><h3>Investigación con fuentes que puedes verificar</h3><div class="etiquetas"><span class="et">Nivel 4</span><span class="et">Entrega y trámites</span><span class="et sonnet">Sonnet</span><span class="et">Búsqueda web</span><span class="et">Research</span></div></div></div>
       <div class="mision-cuerpo">
         <div class="lado">
-          <p class="para"><b>Qué te llevas:</b> pasar de “búscame info” a una investigación de nivel profesional, con fuentes fechadas y verificadas por ti.</p>
+          <p class="para"><b>Qué te llevas:</b> pasar de “búscame info” a una investigación profesional, con cada afirmación conectada a su fuente.</p>
           <h4>Paso a paso</h4>
           <ol class="pasos">
             <li>Abre un chat nuevo con <b>Sonnet</b>. Verifica que la búsqueda web esté activa en el menú de herramientas.</li>
-            <li>Envía el prompt.</li>
-            <li>Abre 2 de los enlaces que citó. ¿El dato está realmente en esa página y con esa fecha?</li>
+            <li>Envía el prompt de investigación.</li>
+            <li>Abre 2 enlaces de la sección Fuentes. ¿La afirmación numerada está realmente en esa página?</li>
             <li>Envía el prompt de verificación en el mismo chat.</li>
           </ol>
-          <details class="ver"><summary>Qué deberías ver</summary><div>Una tabla con cifras, fuente, fecha y enlace por cada dato. Donde no encontró un dato confiable, debe decirlo en vez de estimarlo. La verificación suele encontrar al menos un dato con fecha antigua o una fuente débil: por eso se verifica.</div></details>
-          <details class="pista"><summary>Pista si algo falla</summary><div>Si responde sin enlaces, escribe: “Busca en la web y cita cada dato con su enlace”. Si las fuentes son blogs, pide priorizar gremios, entidades públicas y medios especializados.</div></details>
-          <details class="reto"><summary>Reto extra con Research</summary><div>Activa el modo <b>Research</b> y pide: “Prepara un informe del mercado de oficinas prime en Lima en 2026: vacancia, precios de alquiler, nuevos proyectos y tendencias”. Research busca en decenas de fuentes durante varios minutos y entrega un informe con citas. Lánzalo y revísalo al final de la clase.</div></details>
+          <h4>Así debe verse la respuesta</h4>
+          <div class="maqueta">
+            <span class="tag">Ejemplo del formato, no de las cifras</span>
+            <p class="t">Desde julio de 2026, un proyecto puede anotarse en Sunarp con la licencia aprobada<sup>[1]</sup>. Indecopi ha ordenado pagar el alquiler a compradores por entregas tardías<sup>[2]</sup>.</p>
+            <p style="margin:0;font-weight:600">Fuentes</p>
+            <ol><li>Título del artículo · Medio o entidad · Fecha · Enlace</li><li>Título del artículo · Medio o entidad · Fecha · Enlace</li></ol>
+          </div>
+          <details class="ver"><summary>Qué deberías ver</summary><div>Cada afirmación lleva un número entre corchetes y al final hay una lista de Fuentes con título, medio, fecha y enlace. Donde no encontró un dato confiable, lo dice en vez de inventarlo. La verificación suele marcar al menos una fuente débil o antigua: por eso se verifica.</div></details>
+          <details class="pista"><summary>Pista si algo falla</summary><div>Si responde sin enlaces, escribe: “Busca en la web y cita cada afirmación con su número y su enlace”. Si cita blogs, pide priorizar normas oficiales, entidades públicas y medios especializados.</div></details>
+          <details class="reto"><summary>Reto extra con Research</summary><div>Activa el modo <b>Research</b> y pide: “Prepara un informe sobre cómo protegerse como inmobiliaria ante reclamos por retrasos de entrega en Perú: criterios de Indecopi, cláusulas recomendadas y buenas prácticas de comunicación, con fuentes”. Research consulta decenas de fuentes y entrega un informe citado. Lánzalo y revísalo al final.</div></details>
         </div>
         <div class="lado">
-          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Prompt · Sonnet + búsqueda web</span><button class="copiar" type="button">Copiar</button></div><pre>Actúa como analista de inteligencia de mercado inmobiliario. Busca en la web el precio promedio por m² de departamentos nuevos en Miraflores, San Isidro y Santiago de Surco, con la información más reciente de 2025 y 2026.
+          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Investigación · Sonnet + búsqueda web</span><button class="copiar" type="button">Copiar</button></div><pre>Actúa como analista legal y regulatorio de una inmobiliaria peruana. Busca en la web y responde:
 
-Entrega una tabla con: Distrito, Precio por m² (indica la moneda), Fuente, Fecha del dato y Enlace.
+1) ¿Qué cambió en 2026 en Sunarp para inscribir o anotar proyectos inmobiliarios y qué significa para una inmobiliaria que vende en preventa?
+2) ¿Qué ha resuelto Indecopi cuando una inmobiliaria entrega tarde un departamento vendido en planos? Incluye ejemplos de medidas ordenadas.
+3) ¿Qué propuestas existen para reducir los plazos de las licencias de edificación?
+
+Formato:
+- Un resumen de 5 líneas al inicio.
+- Una sección por pregunta.
+- Cada afirmación con un número entre corchetes, por ejemplo [1].
+- Al final, una sección "Fuentes" numerada con: título, medio o entidad, fecha de publicación y enlace.
 
 Reglas:
-- Prioriza gremios del sector, entidades públicas y medios especializados.
-- Si dos fuentes no coinciden, muestra ambas cifras.
-- Si no encuentras un dato confiable, escribe "Sin dato confiable". No estimes.
-- Al final, en 2 líneas, dime qué tan confiable consideras cada cifra y por qué.</pre></div>
-          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Verificación · mismo chat</span><button class="copiar" type="button">Copiar</button></div><pre>Revisa tu propia tabla como lo haría un auditor exigente. Para cada cifra, confirma que aparece textualmente en la fuente citada, con esa fecha. Marca con "Revisar" cualquier dato que no puedas confirmar y corrige lo que haga falta.</pre></div>
+- Prioriza normas oficiales (El Peruano, Sunarp, Indecopi, Ministerio de Vivienda) y medios especializados.
+- No afirmes nada que no esté en una fuente. Si no encuentras algo, escribe "Sin fuente confiable".</pre></div>
+          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Verificación · mismo chat</span><button class="copiar" type="button">Copiar</button></div><pre>Revisa tu respuesta como lo haría un auditor exigente. Arma una tabla con: N° de afirmación, Afirmación, Fuente citada, ¿La fuente lo dice textualmente? (Sí, Parcial o No) y Fecha de la fuente. Corrige o retira lo que no puedas confirmar.</pre></div>
         </div>
       </div>
       <div class="completar"><button type="button" data-hecho="5">Marcar misión como hecha</button></div>
@@ -613,41 +680,52 @@ Reglas:
 
     <!-- M6 -->
     <article class="mision" id="m6" data-m="6">
-      <div class="mision-cab"><div class="numero">6</div><div><h3>El contrato bajo la lupa</h3><div class="etiquetas"><span class="et">Nivel 4</span><span class="et">10 min</span><span class="et opus">Opus</span><span class="et">PDF</span><span class="et">Prompt avanzado</span></div></div></div>
+      <div class="mision-cab"><div class="numero">6</div><div><h3>El contrato bajo la lupa</h3><div class="etiquetas"><span class="et">Nivel 4</span><span class="et">Preventa y entrega</span><span class="et opus">Opus</span><span class="et">PDF</span><span class="et">Búsqueda web</span><span class="et">Prompt avanzado</span></div></div></div>
       <div class="mision-cuerpo">
         <div class="lado">
-          <p class="para"><b>Qué te llevas:</b> un prompt profesional con estructura, citas obligatorias y autorrevisión, que termina en una carta en Word lista para editar.</p>
+          <p class="para"><b>Qué te llevas:</b> un análisis de contrato donde cada riesgo cita su cláusula y cada criterio externo cita su fuente, más una propuesta de cambios en Word.</p>
           <h4>Paso a paso</h4>
           <ol class="pasos">
-            <li>Abre un chat nuevo con <b>Opus</b> y adjunta <b>contrato_arrendamiento_local_102.pdf</b>.</li>
+            <li>Abre un chat nuevo con <b>Opus</b>, activa la búsqueda web y adjunta <b>contrato_compraventa_dpto_802.pdf</b>.</li>
             <li>Pega el prompt. Fíjate en su estructura: cada bloque entre etiquetas es un ingrediente.</li>
-            <li>Haz la pregunta trampa: “¿Qué dice el contrato sobre el seguro contra incendios?”</li>
-            <li>Pide: “Ahora redacta la carta a la arrendadora proponiendo los 3 cambios, como archivo Word descargable”.</li>
+            <li>Haz la pregunta trampa: “¿Qué dice el contrato sobre pagarle el alquiler a la compradora si la entrega se retrasa?”</li>
+            <li>Sigue con lo que debería pasar después, en la caja verde.</li>
           </ol>
-          <details class="ver"><summary>Qué deberías ver</summary><div>Cada riesgo viene con el número de cláusula y una cita textual, así lo verificas en segundos. En la autorrevisión, Claude puede encontrar algo que no cuadra dentro del propio contrato. La pregunta trampa debe responderse con “No figura en el contrato”.</div></details>
+          <div class="despues">
+            <h4>Lo que debería pasar después</h4>
+            <ol>
+              <li>Verifica 3 citas abriendo el PDF en la cláusula indicada.</li>
+              <li>Pide: “Redacta una adenda con los 3 cambios propuestos, como archivo Word descargable”.</li>
+              <li>Pide: “Prepara 5 preguntas frecuentes para que el equipo comercial explique la cláusula de entrega a los compradores”.</li>
+              <li>El borrador va a revisión del equipo legal antes de usarse.</li>
+            </ol>
+          </div>
+          <details class="ver"><summary>Qué deberías ver</summary><div>Una tabla donde cada riesgo trae su número de cláusula y una cita textual. Los criterios de Indecopi vienen con su fuente numerada y su enlace. En la revisión de coherencia, Claude debería encontrar algo que no cuadra dentro del propio contrato. La pregunta trampa se responde con “No figura en el contrato”.</div></details>
           <details class="pista"><summary>Pista si algo falla</summary><div>Si una cita no aparece en el PDF, dile: “No encuentro esa frase en la cláusula que mencionas. Muéstrame el texto exacto o retíralo”.</div></details>
-          <details class="reto"><summary>Reto extra</summary><div>Pide una tabla con todas las penalidades del contrato y cuánto costaría cada una en soles en el peor caso del primer año.</div></details>
+          <details class="reto"><summary>Reto extra</summary><div>Pide la misma tabla de riesgos, pero desde la posición de la inmobiliaria: ¿qué cláusulas la exponen a un reclamo ante Indecopi y cómo redactarlas mejor?</div></details>
         </div>
         <div class="lado">
-          <div class="prompt" style="--c:var(--opus)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Prompt · Opus + PDF</span><button class="copiar" type="button">Copiar</button></div><pre>&lt;rol&gt;
-Eres abogado corporativo y asesoras a LA ARRENDATARIA (Café Molienda E.I.R.L.).
+          <div class="prompt" style="--c:var(--opus)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Prompt · Opus + PDF + búsqueda web</span><button class="copiar" type="button">Copiar</button></div><pre>&lt;rol&gt;
+Eres abogado especialista en derecho inmobiliario y protección al consumidor en Perú. Asesoras a LA COMPRADORA del contrato adjunto.
 &lt;/rol&gt;
 
+&lt;contexto&gt;
+Es un contrato de compraventa de un departamento en preventa. La compradora está preocupada porque la obra va atrasada.
+&lt;/contexto&gt;
+
 &lt;tarea&gt;
-Analiza el contrato adjunto antes de la firma.
+1. Resume en 5 viñetas: partes, precio, forma de pago, plazo de entrega y penalidades.
+2. Arma una tabla de riesgos con: Cláusula (número), Cita textual (máximo 20 palabras), Riesgo para la compradora, Gravedad (Alta, Media o Baja) y Propuesta de cambio.
+3. Busca en la web cómo ha resuelto Indecopi casos de entrega tardía de departamentos y explica cómo se relacionan con las cláusulas de entrega, fuerza mayor y penalidad.
+4. Propón los 3 cambios que negociarías primero.
 &lt;/tarea&gt;
 
-&lt;formato&gt;
-1. Resumen en 5 viñetas: partes, plazo, renta, garantía y penalidades.
-2. Tabla de riesgos con: Cláusula (número), Cita textual (máximo 20 palabras), Riesgo para mi cliente, Gravedad (Alta, Media o Baja) y Propuesta de cambio.
-3. Los 3 cambios que negociarías primero y por qué.
-&lt;/formato&gt;
-
 &lt;reglas&gt;
-- Toda afirmación debe apoyarse en una cita textual del contrato.
-- Si algo no figura en el documento, escribe "No figura en el contrato".
-- Antes de responder, revisa la coherencia interna del contrato: plazos, fechas y montos.
-- Al terminar, relee tu tabla y elimina cualquier afirmación que no puedas respaldar con una cita.
+- Toda afirmación sobre el contrato lleva su cita textual y su número de cláusula.
+- Toda afirmación sobre Indecopi lleva un número entre corchetes y, al final, una sección "Fuentes" con título, medio, fecha y enlace.
+- Si algo no figura en el contrato, escribe "No figura en el contrato".
+- Antes de responder, revisa la coherencia interna del contrato: fechas, plazos y montos.
+- Al terminar, relee tu tabla y elimina lo que no puedas respaldar.
 &lt;/reglas&gt;</pre></div>
         </div>
       </div>
@@ -656,31 +734,31 @@ Analiza el contrato adjunto antes de la firma.
 
     <!-- M7 -->
     <article class="mision" id="m7" data-m="7">
-      <div class="mision-cab"><div class="numero">7</div><div><h3>Ensayo con un cliente difícil</h3><div class="etiquetas"><span class="et">Nivel 5</span><span class="et">8 min</span><span class="et sonnet">Sonnet</span><span class="et">Juego de roles</span></div></div></div>
+      <div class="mision-cab"><div class="numero">7</div><div><h3>Ensayo con una compradora molesta</h3><div class="etiquetas"><span class="et">Nivel 5</span><span class="et">Entrega y postventa</span><span class="et sonnet">Sonnet</span><span class="et">Juego de roles</span></div></div></div>
       <div class="mision-cuerpo">
         <div class="lado">
           <p class="para"><b>Qué te llevas:</b> un sparring para practicar conversaciones difíciles, que además te evalúa con una rúbrica y te da consejos.</p>
           <h4>Paso a paso</h4>
           <ol class="pasos">
-            <li>Abre un chat nuevo con <b>Sonnet</b> y envía el prompt de tu área.</li>
+            <li>Abre un chat nuevo con <b>Sonnet</b>, adjunta el mismo contrato de la misión 6 y envía el prompt.</li>
             <li>Responde como lo harías en la vida real. Mantén la conversación de 4 a 6 turnos.</li>
-            <li>Prueba una vez responder con una excusa y observa cómo reacciona.</li>
+            <li>Prueba una vez escudarte en la cláusula de prórroga y observa cómo reacciona Rosa.</li>
             <li>Escribe <b>FIN</b> y lee tu evaluación.</li>
           </ol>
-          <details class="ver"><summary>Qué deberías ver</summary><div>Un personaje creíble que sube el tono ante excusas y lo baja ante soluciones concretas. Al escribir FIN, una tabla con tu puntaje en cada criterio y un consejo concreto para mejorar.</div></details>
+          <details class="ver"><summary>Qué deberías ver</summary><div>Una compradora creíble que conoce su contrato, sube el tono ante excusas legales y lo baja ante soluciones concretas. Al escribir FIN, una tabla con tu puntaje en cada criterio, una frase tuya como evidencia y un consejo concreto.</div></details>
           <details class="pista"><summary>Pista si algo falla</summary><div>Si Claude sale del personaje antes de tiempo, escribe: “Sigue en el personaje hasta que escriba FIN”.</div></details>
-          <details class="reto"><summary>Otros personajes por área</summary><div><b>RRHH:</b> “Actúa como un colaborador con buen desempeño que pide un aumento del 25% y amenaza con irse a la competencia”.<br><b>Legal:</b> “Actúa como el abogado de un proveedor que se niega a pagar una penalidad por retraso”.<br><b>Finanzas:</b> “Actúa como un cliente con 3 cuotas vencidas que pide refinanciar sin intereses”.<br>Copia el mismo bloque de reglas y de evaluación del prompt principal.</div></details>
+          <details class="reto"><summary>Otros personajes para tu área</summary><div><b>Finanzas:</b> “Actúa como un comprador con 3 cuotas de la inicial vencidas que pide refinanciar sin intereses”.<br><b>Legal:</b> “Actúa como el abogado de un contratista que se niega a pagar una penalidad por retraso en la obra”.<br><b>RRHH:</b> “Actúa como un jefe de obra con buen desempeño que pide un aumento del 25% y amenaza con irse a la competencia”.<br><b>Proyectos:</b> “Actúa como la presidenta de la junta de propietarios que reclama por fallas en las áreas comunes”.<br>Copia el mismo bloque de reglas y de evaluación del prompt principal.</div></details>
         </div>
         <div class="lado">
-          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Prompt · Sonnet</span><button class="copiar" type="button">Copiar</button></div><pre>Vamos a hacer un ensayo. Actúa como Rosa Medina, compradora del departamento 802 del proyecto Residencial Mirador de Surco. La entrega estaba prometida para julio y ya vamos 4 meses de retraso. Rosa está pagando alquiler mientras espera y está muy molesta. Yo soy el representante de la inmobiliaria.
+          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Prompt · Sonnet + contrato</span><button class="copiar" type="button">Copiar</button></div><pre>Vamos a hacer un ensayo. Actúa como Rosa Medina, la compradora del contrato adjunto. Le prometieron la entrega del departamento 802 para julio y ya van 4 meses de retraso. Está pagando alquiler mientras espera, leyó su contrato y sabe que Indecopi ha ordenado a otras inmobiliarias pagar el alquiler de compradores afectados. Yo soy el representante de la inmobiliaria.
 
 Reglas del personaje:
 - Responde en 2 o 3 líneas, como hablaría una persona real.
-- Si respondo con excusas o con información vaga, sube el tono.
+- Si respondo con excusas o me escudo en cláusulas del contrato, sube el tono.
 - Si ofrezco soluciones concretas, con fechas y compensaciones posibles, baja el tono poco a poco.
 - No salgas del personaje hasta que yo escriba FIN.
 
-Cuando escriba FIN, sal del personaje y evalúame en una tabla del 1 al 5 en: Empatía, Claridad, Solución concreta, Tono profesional y Manejo de objeciones. Para cada criterio cita una frase mía como evidencia y termina con el consejo más importante para mejorar.
+Cuando escriba FIN, sal del personaje y evalúame en una tabla del 1 al 5 en: Empatía, Claridad, Solución concreta, Tono profesional y Manejo de objeciones. Para cada criterio cita una frase mía como evidencia. Termina con el riesgo legal o reputacional que dejé abierto y el consejo más importante para mejorar.
 
 Empieza tú, con el primer mensaje de Rosa.</pre></div>
         </div>
@@ -688,42 +766,107 @@ Empieza tú, con el primer mensaje de Rosa.</pre></div>
       <div class="completar"><button type="button" data-hecho="7">Marcar misión como hecha</button></div>
     </article>
 
-    <!-- M8 -->
-    <article class="mision" id="m8" data-m="8">
-      <div class="mision-cab"><div class="numero">8</div><div><h3>Del análisis a la presentación</h3><div class="etiquetas"><span class="et">Nivel 6</span><span class="et">6 min</span><span class="et sonnet">Sonnet</span><span class="et">Crear archivos</span></div></div></div>
-      <div class="mision-cuerpo">
+    <!-- M8 FINAL -->
+    <article class="mision final" id="m8" data-m="8">
+      <div class="mision-cab"><div class="numero">★</div><div><h3>Misión final: del dato a la decisión</h3><div class="etiquetas"><span class="et">Nivel 6</span><span class="et">Terrenos, preventa y renta</span><span class="et opus">Opus</span><span class="et">Búsqueda web o Research</span><span class="et">Excel</span><span class="et">Artifacts</span><span class="et">Crear archivos</span></div></div></div>
+      <div class="lado" style="padding-bottom:6px">
+        <p class="para"><b>El caso:</b> el comité de inversiones debe elegir dónde lanzar el próximo proyecto. Hay tres terrenos en evaluación: Jesús María, Ate y Chorrillos. Vas a hacer el trabajo de un analista completo en <b>un solo chat</b>: investigar el mercado, analizar los terrenos, visualizar, presentar y defender tu recomendación ante un directorio exigente.</p>
+        <p class="para" style="margin:0"><b>Por qué en un solo chat:</b> cada etapa usa lo que produjo la anterior. No tendrás que volver a explicar nada.</p>
+      </div>
+      <div class="etapas" aria-hidden="true"><div><i>1</i>Investiga</div><div><i>2</i>Analiza</div><div><i>3</i>Visualiza</div><div><i>4</i>Presenta</div><div><i>5</i>Defiende</div></div>
+
+      <div class="etapa">
         <div class="lado">
-          <p class="para"><b>Qué te llevas:</b> el flujo completo de un analista en minutos: datos, análisis, dashboard y presentación para el comité.</p>
-          <h4>Paso a paso</h4>
-          <ol class="pasos">
-            <li>Vuelve al chat de la <b>misión 4</b>, el del dashboard.</li>
-            <li>Envía el prompt en ese mismo chat.</li>
-            <li>Descarga el PowerPoint y ábrelo.</li>
-            <li>Pide un ajuste: “En la slide 3 usa un gráfico en vez de la tabla”.</li>
-          </ol>
-          <details class="ver"><summary>Qué deberías ver</summary><div>Una presentación de 5 slides que usa los mismos números del dashboard, sin que tengas que volver a explicar nada. Ese es el poder de trabajar en el mismo chat: el contexto ya está ahí.</div></details>
-          <details class="pista"><summary>Pista si algo falla</summary><div>Si perdiste el chat de la misión 4, abre uno nuevo, adjunta el Excel y agrega al inicio: “Primero analiza este presupuesto contra ejecutado”.</div></details>
-          <details class="reto"><summary>Reto extra</summary><div>Pide las notas del orador para cada slide, de máximo 60 palabras, para que cualquier persona del equipo pueda presentarla.</div></details>
+          <h4><i>1</i>Investiga el mercado</h4>
+          <p>Abre un chat nuevo con <b>Opus</b> y activa la búsqueda web. Si tienes tiempo, usa <b>Research</b> para un informe más profundo.</p>
+          <details class="ver"><summary>Qué deberías ver</summary><div>Una tabla por distrito con precio por m², ticket promedio, velocidad de venta, alquiler y rentabilidad, cada dato con su número de fuente, más la lista de Fuentes al final.</div></details>
         </div>
         <div class="lado">
-          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Prompt · en el chat de la misión 4</span><button class="copiar" type="button">Copiar</button></div><pre>Con el análisis que acabamos de hacer, crea una presentación en PowerPoint descargable de 5 slides para el comité de proyecto:
+          <div class="prompt" style="--c:var(--opus)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Etapa 1 · Opus + búsqueda web</span><button class="copiar" type="button">Copiar</button></div><pre>Actúa como analista de inteligencia de mercado inmobiliario en Lima. Vamos a evaluar dónde lanzar un proyecto de vivienda. Investiga en la web, con la información más reciente de 2026, para Jesús María, Ate y Chorrillos:
+- Precio promedio por m² de departamentos nuevos (indica moneda)
+- Ticket o precio promedio por unidad
+- Velocidad de venta o absorción de la zona
+- Alquiler promedio y rentabilidad bruta
+- Tendencias de demanda: metrajes, número de dormitorios, peso de la vivienda social
 
-1. Portada: "Residencial Mirador de Surco, Torre B · Avance al 31 de octubre".
-2. Resumen ejecutivo: 3 mensajes clave con sus cifras.
-3. Partidas con desviación: solo las que estén en ámbar o rojo, con su causa.
-4. Ejecución mensual: programado contra real.
-5. Decisiones que pedimos al comité: 3 propuestas concretas.
-
-Estilo sobrio y profesional, una idea por slide, máximo 30 palabras por slide, cifras en soles. Usa solo los números del análisis.</pre></div>
+Entrega una tabla por distrito. Cada dato con un número de fuente entre corchetes. Al final, una sección "Fuentes" con título, medio o entidad, fecha y enlace. Si no encuentras un dato para un distrito, escribe "Sin fuente confiable" y no lo estimes.</pre></div>
         </div>
       </div>
-      <div class="completar"><button type="button" data-hecho="8">Marcar misión como hecha</button></div>
+
+      <div class="etapa">
+        <div class="lado">
+          <h4><i>2</i>Analiza los terrenos</h4>
+          <p>En el <b>mismo chat</b>, adjunta <b>terrenos_candidatos.xlsx</b> y envía el prompt.</p>
+          <details class="ver"><summary>Qué deberías ver</summary><div>Una cabida, unos ingresos y un margen por terreno, con supuestos visibles. Una matriz ponderada que no solo mira el margen. Claude debería notar los riesgos que vienen en las observaciones del equipo de terrenos, como la factibilidad en trámite o la oposición vecinal.</div></details>
+        </div>
+        <div class="lado">
+          <div class="prompt" style="--c:var(--opus)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Etapa 2 · mismo chat + Excel</span><button class="copiar" type="button">Copiar</button></div><pre>Ahora actúa como gerente de desarrollo inmobiliario. Adjunto el Excel con los 3 terrenos y nuestros supuestos internos.
+
+Para cada terreno calcula, usando los precios de mercado que investigaste y los supuestos del Excel:
+1) Cabida: m² construidos, m² vendibles y número estimado de departamentos.
+2) Ingresos estimados, costo total (terreno más construcción) y margen bruto.
+3) Una sensibilidad: ¿qué pasa con el margen si el precio de venta baja 10%?
+
+Luego arma una matriz de evaluación ponderada con: Margen (30%), Demanda de la zona (25%), Riesgos del terreno (20%), Velocidad de venta (15%) y Potencial de alquiler (10%). Puntúa del 1 al 5 y explica cada puntaje en una línea.
+
+Reglas: calcula con los datos del archivo, muestra tus supuestos en una tabla y marca como "Verificar" todo dato del vendedor que deba confirmarse.</pre></div>
+        </div>
+      </div>
+
+      <div class="etapa">
+        <div class="lado">
+          <h4><i>3</i>Visualiza</h4>
+          <p>Convierte el análisis en un tablero que el comité pueda explorar.</p>
+          <details class="ver"><summary>Qué deberías ver</summary><div>Un dashboard interactivo con la comparación de los tres terrenos, la matriz y un control para probar la sensibilidad del precio.</div></details>
+        </div>
+        <div class="lado">
+          <div class="prompt" style="--c:var(--opus)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Etapa 3 · mismo chat</span><button class="copiar" type="button">Copiar</button></div><pre>Crea un dashboard interactivo para el comité de inversiones con:
+- Una tarjeta por terreno con margen, número de departamentos y puntaje total.
+- Un gráfico de barras que compare ingresos, costo y margen de los 3 terrenos.
+- La matriz de evaluación con colores por puntaje.
+- Un deslizador que cambie el precio de venta entre -15% y +10% y actualice los márgenes.
+Usa solo los números de nuestro análisis.</pre></div>
+        </div>
+      </div>
+
+      <div class="etapa">
+        <div class="lado">
+          <h4><i>4</i>Presenta</h4>
+          <p>Pasa del tablero a una presentación que puedas llevar al comité.</p>
+          <details class="ver"><summary>Qué deberías ver</summary><div>Un PowerPoint descargable de 6 slides con los mismos números del análisis y las fuentes de mercado en la slide correspondiente.</div></details>
+        </div>
+        <div class="lado">
+          <div class="prompt" style="--c:var(--opus)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Etapa 4 · mismo chat</span><button class="copiar" type="button">Copiar</button></div><pre>Con todo lo anterior, crea una presentación en PowerPoint descargable de 6 slides para el comité de inversiones:
+1. La decisión que pedimos, en una frase.
+2. El mercado: lo que dicen los datos por distrito, con sus fuentes al pie.
+3. Los 3 terrenos comparados.
+4. La matriz de evaluación y el ganador.
+5. Riesgos del terreno recomendado y cómo mitigarlos.
+6. Próximos pasos y qué necesitamos aprobar hoy.
+Estilo sobrio, una idea por slide, máximo 35 palabras por slide, y notas del orador en cada una.</pre></div>
+        </div>
+      </div>
+
+      <div class="etapa">
+        <div class="lado">
+          <h4><i>5</i>Defiende tu recomendación</h4>
+          <p>Claude se convierte en el directorio. Responde sus preguntas como lo harías en la sala.</p>
+          <details class="ver"><summary>Qué deberías ver</summary><div>Preguntas incómodas pero justas, basadas en los puntos débiles de tu propio análisis. Al final, una evaluación de qué tan sólida fue tu defensa y qué deberías reforzar antes del comité real.</div></details>
+          <details class="reto"><summary>Reto extra</summary><div>Pide un correo de 120 palabras al gerente general con la recomendación, el monto de inversión y la presentación adjunta.</div></details>
+        </div>
+        <div class="lado">
+          <div class="prompt" style="--c:var(--opus)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Etapa 5 · mismo chat</span><button class="copiar" type="button">Copiar</button></div><pre>Ahora actúa como el directorio de la empresa: exigente, con experiencia en el sector y escéptico. Hazme 5 preguntas difíciles sobre mi recomendación, una por una, basadas en los puntos débiles de nuestro análisis. Espera mi respuesta antes de pasar a la siguiente.
+
+Cuando termine la quinta, sal del rol y evalúa mi defensa: qué respuestas convencieron, cuáles no y qué dato o análisis debería traer al comité real.</pre></div>
+        </div>
+      </div>
+      <div class="completar"><button type="button" data-hecho="8">Marcar misión final como hecha</button></div>
     </article>
   </div>
 </section>
 
 <!-- CUESTIONARIO -->
-<section class="bloque" id="cuestionario">
+<section class="bloque claro" id="cuestionario">
   <div class="wrap">
     <h2>Cuestionario: la azotea de la torre</h2>
     <p class="intro">Seis preguntas para comprobar lo aprendido. Al responder verás si acertaste y por qué. Si apruebas, se ilumina la azotea.</p>
@@ -737,26 +880,27 @@ Estilo sobrio y profesional, una idea por slide, máximo 30 palabras por slide, 
 </section>
 
 <!-- PLANTILLAS -->
-<section class="bloque claro" id="plantillas">
+<section class="bloque" id="plantillas">
   <div class="wrap">
-    <h2>Plantillas para llevarte</h2>
-    <p class="intro">Copia la de tu área, completa los corchetes y úsala en tu cuenta de trabajo. Es el punto de partida de la tarea para la sesión 3.</p>
+    <h2>Plantillas de buenas prácticas</h2>
+    <p class="intro">Copia la que te sirva, completa los corchetes y úsala en tu cuenta de trabajo. Todas siguen la receta del prompt.</p>
     <div class="pestanas" role="tablist" id="pestanas">
       <button role="tab" aria-selected="true" data-p="fin">Finanzas</button>
       <button role="tab" aria-selected="false" data-p="leg">Legal</button>
       <button role="tab" aria-selected="false" data-p="rrhh">RRHH</button>
       <button role="tab" aria-selected="false" data-p="pro">Proyectos</button>
+      <button role="tab" aria-selected="false" data-p="inv">Investigación con fuentes</button>
     </div>
     <div class="prompt" id="plantilla"><div class="prompt-cab"><span class="punto" style="background:var(--senal)"></span><span class="quien" id="plantillaTitulo">Finanzas</span><button class="copiar" type="button">Copiar</button></div><pre id="plantillaTexto"></pre></div>
-    <div class="aviso" style="background:var(--senal-suave);border-color:var(--senal)"><span aria-hidden="true">✎</span><span><b style="color:var(--tinta)">Tarea para la sesión 3.</b> Elige una tarea repetitiva de tu semana, escribe su prompt con los 5 ingredientes y pruébalo con datos ficticios o anonimizados. En la próxima sesión lo convertiremos en un Proyecto para no repetirlo en cada chat.</span></div>
+    <div class="aviso" style="background:var(--senal-suave);border-color:var(--senal)"><span aria-hidden="true">✎</span><span><b style="color:var(--tinta)">Para la próxima sesión.</b> Elige una tarea repetitiva de tu semana, escribe su prompt con una de estas plantillas y pruébalo con datos anonimizados. Lo convertiremos en un Proyecto para no repetirlo en cada chat.</span></div>
   </div>
 </section>
 </main>
 
 <footer>
   <div class="wrap">
-    <p>Programa de IA Generativa con Claude · Sesión 2 · Material de práctica ficticio, creado para el taller.</p>
-    <p>Instructor: Joel Espinoza · <a href="https://www.datapath.ai" target="_blank" rel="noopener">datapath.ai</a> · Planes y precios: <a href="https://claude.com/pricing" target="_blank" rel="noopener">claude.com/pricing</a></p>
+    <p>Sesión 2 · Laboratorio Claude · Instructor: Joel Espinoza</p>
+    <p>Datos del sector: <a href="https://forbes.pe/economia-y-finanzas/2026-10-27/venta-de-viviendas-en-lima-y-callao-crece-26-que-zonas-concentran-la-demanda-inmobiliaria/" target="_blank" rel="noopener">Forbes Perú</a> · <a href="https://gestion.pe/economia/empresas/vivienda-en-lima-el-desafio-que-pone-presion-a-la-rentabilidad-del-sector-noticia/" target="_blank" rel="noopener">Gestión</a> · <a href="https://rpp.pe/economia/economia/ocho-de-cada-10-viviendas-en-lima-se-compran-en-planos-o-en-construccion-preventa-domina-el-mercado-inmobiliario-noticia-1686160" target="_blank" rel="noopener">RPP</a> · <a href="https://elperuano.pe/noticia/299935-proyectos-inmobiliarios-podran-anotarse-desde-la-licencia-municipal-conoce-el-nuevo-cambio" target="_blank" rel="noopener">El Peruano</a> · <a href="https://www.infobae.com/peru/2026/05/21/barranco-y-san-isidro-tienen-los-precios-de-alquiler-mas-altos-de-lima-ambos-superan-los-s-4200-mensuales-en-promedio/" target="_blank" rel="noopener">Infobae</a> · Planes: <a href="https://claude.com/pricing" target="_blank" rel="noopener">claude.com/pricing</a></p>
   </div>
 </footer>
 
@@ -796,7 +940,7 @@ Estilo sobrio y profesional, una idea por slide, máximo 30 palabras por slide, 
     var y=base-i*alto;var g=el("g",{"class":"piso",tabindex:"0",role:"link","aria-label":i<9?"Misión "+i:"Cuestionario"});
     g.appendChild(el("rect",{"class":"cuerpo",x:x0,y:y,width:ancho,height:alto-4,rx:i<9?2:8}));
     if(i<9){for(var v=0;v<4;v++){g.appendChild(el("rect",{"class":"ventana",x:x0+96+v*24,y:y+12,width:16,height:16,rx:2}))}}
-    var tx=el("text",{x:x0+14,y:y+26});tx.textContent=i<9?"Piso "+i:"Azotea · Quiz";g.appendChild(tx);
+    var tx=el("text",{x:x0+14,y:y+26});tx.textContent=i<8?"Piso "+i:(i===8?"Piso 8 · Final":"Azotea · Quiz");g.appendChild(tx);
     (function(n){function ir(){location.hash=n<9?"#m"+n:"#cuestionario"}g.addEventListener("click",ir);g.addEventListener("keydown",function(ev){if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();ir()}})})(i);
     svg.appendChild(g);pisos[i]=g;
   }
@@ -807,7 +951,7 @@ Estilo sobrio y profesional, una idea por slide, máximo 30 palabras por slide, 
       var h=!!estado.misiones[m];if(h)n++;
       pisos[m].classList.toggle("hecho",h);
       var art=document.querySelector('.mision[data-m="'+m+'"]');art.classList.toggle("hecho",h);
-      art.querySelector(".completar button").textContent=h?"Misión hecha ✓ (clic para desmarcar)":"Marcar misión como hecha";
+      art.querySelector(".completar button").textContent=h?"Hecha ✓ (clic para desmarcar)":(m===8?"Marcar misión final como hecha":"Marcar misión como hecha");
       document.querySelector('#mapa a[data-m="'+m+'"]').classList.toggle("hecho",h);
     }
     pisos[9].classList.toggle("hecho",!!(estado.quiz&&estado.quiz>=4));
@@ -817,7 +961,7 @@ Estilo sobrio y profesional, una idea por slide, máximo 30 palabras por slide, 
   document.addEventListener("click",function(e){
     var b=e.target.closest("[data-hecho]");if(!b)return;var m=b.getAttribute("data-hecho");
     estado.misiones[m]=!estado.misiones[m];guardar();pintar();
-    if(estado.misiones[m])toast("Piso "+m+" construido");
+    if(estado.misiones[m])toast(m==="8"?"Misión final completada":"Piso "+m+" construido");
   });
 
   /* Checklist */
@@ -859,7 +1003,7 @@ Estilo sobrio y profesional, una idea por slide, máximo 30 palabras por slide, 
   var preguntas=[
     {p:"Cada semana tu área recibe 500 consultas de clientes que hay que clasificar por tema. ¿Qué modelo conviene?",o:["Opus, porque es el más inteligente","Haiku, porque es rápido y la tarea es repetitiva","Sonnet, porque siempre es la mejor opción","Cualquiera da igual"],c:1,e:"Clasificar mucho volumen con un criterio claro es el terreno de Haiku: casi la misma calidad, mucho más rápido y con menos consumo del límite de uso. Si quieres más precisión, agrega dos ejemplos al prompt."},
     {p:"Este prompt: “Actúa como abogado. Revisa el contrato adjunto y dime los riesgos.” ¿Qué ingredientes le faltan?",o:["Rol y tarea","Contexto, formato y reglas","Solo el rol","No le falta nada"],c:1,e:"Tiene rol (abogado) y tarea (revisar riesgos). Le falta contexto (a quién asesoras), formato (tabla, viñetas, extensión) y reglas (citar cláusulas, decir “No figura” si algo no está)."},
-    {p:"Claude afirma que el contrato incluye un seguro contra incendios, pero tú no lo encuentras. ¿Qué haces?",o:["Confío, porque Claude leyó todo el PDF","Le pido que cite el número de cláusula y el texto exacto, y si no puede, lo descarto","Lo vuelvo a preguntar hasta que me diga que sí","Cambio a Haiku para que responda más rápido"],c:1,e:"Pedir la cita textual convierte una afirmación en algo verificable en segundos. Si no hay cita, no hay dato. Es la mejor defensa contra las alucinaciones."},
+    {p:"Claude afirma que el contrato obliga a la inmobiliaria a pagar el alquiler si se retrasa la entrega, pero tú no encuentras esa cláusula. ¿Qué haces?",o:["Confío, porque Claude leyó todo el PDF","Le pido que cite el número de cláusula y el texto exacto, y si no puede, lo descarto","Lo vuelvo a preguntar hasta que me diga que sí","Cambio a Haiku para que responda más rápido"],c:1,e:"Pedir la cita textual convierte una afirmación en algo verificable en segundos. Si no hay cita, no hay dato. Es la mejor defensa contra las alucinaciones."},
     {p:"Tu equipo quiere usar Claude con contratos y datos reales de clientes. ¿Qué tipo de plan corresponde?",o:["La cuenta gratuita personal de cada uno","Un plan personal Pro pagado con la tarjeta de cada persona","Un plan de organización (Team o Enterprise) aprobado por la empresa","Cualquier plan, siempre que se borre el chat después"],c:2,e:"Los planes Team y Enterprise tienen administración central y, por defecto, no usan las conversaciones para entrenar modelos. En los planes personales esa opción viene activada y la persona debe desactivarla."},
     {p:"Quieres darle a los asesores de ventas un simulador de cuota hipotecaria que puedan usar con sus clientes. ¿Qué le pides a Claude?",o:["Una tabla con 50 escenarios ya calculados","Un artifact interactivo con campos editables, que se pueda compartir por link","Que te dicte la fórmula para hacerlo a mano","Un documento Word con la explicación"],c:1,e:"Un artifact es una pequeña aplicación que Claude construye en el chat: tiene campos, botones y gráficos, y se puede publicar para compartirla. Lo hiciste en la misión 2."},
     {p:"Claude te entregó un primer borrador que no te convence del todo. ¿Qué es lo más efectivo?",o:["Borrar el chat y empezar de cero con el mismo prompt","Seguir en el mismo chat con pedidos concretos: más corto, otro tono, agrega este dato","Copiar el borrador a Word y corregirlo todo a mano","Cambiar de modelo hasta que salga perfecto"],c:1,e:"Iterar en el mismo chat aprovecha todo el contexto que ya tiene Claude. Pedidos cortos y concretos mejoran el borrador mucho más rápido que empezar de nuevo."}
@@ -902,6 +1046,7 @@ Estilo sobrio y profesional, una idea por slide, máximo 30 palabras por slide, 
     fin:["Finanzas","Actúa como analista financiero de una inmobiliaria. Te adjunto [archivo]. Calcula [indicador] por [proyecto o mes] y señala las variaciones mayores a [porcentaje].\n\nEntrega: una tabla, un gráfico y un resumen de 5 líneas para [destinatario].\n\nReglas: calcula con los datos del archivo, muestra tus cálculos y no asumas datos que no estén en el archivo."],
     leg:["Legal","Actúa como abogado corporativo y asesora a [parte]. Revisa el [tipo de documento] adjunto.\n\nEntrega una tabla con: Cláusula, Cita textual, Riesgo, Gravedad y Propuesta de cambio.\n\nReglas: toda afirmación con su cita textual. Si algo no figura, escribe \"No figura en el documento\". Revisa la coherencia de plazos, fechas y montos."],
     rrhh:["RRHH","Actúa como especialista de [selección, capacitación o clima laboral] de una inmobiliaria. Con estos datos: [datos], prepara [entregable] para [público].\n\nFormato: [extensión, viñetas o tabla].\n\nReglas: lenguaje inclusivo, tono [cercano o formal]. No incluyas requisitos de edad, sexo ni estado civil. Si te falta un dato, márcalo entre corchetes."],
+    inv:["Investigación con fuentes","Actúa como analista de [mercado, regulación o competencia] del sector inmobiliario en Perú. Busca en la web y responde: [pregunta].\n\nFormato: un resumen de 5 líneas, luego el detalle. Cada afirmación con un número entre corchetes, por ejemplo [1]. Al final, una sección \"Fuentes\" numerada con título, medio o entidad, fecha y enlace.\n\nReglas: prioriza fuentes oficiales y medios especializados. No afirmes nada sin fuente. Si no encuentras algo, escribe \"Sin fuente confiable\"."],
     pro:["Proyectos","Actúa como jefe de proyecto inmobiliario. Con estas notas o archivos: [material], prepara [acta, informe o correo] con estas secciones: [secciones].\n\nReglas: marca como \"Por definir\" cualquier responsable o fecha que no figure. Cierra con los 3 riesgos principales, su semáforo (verde, ámbar o rojo) y una acción de mitigación para cada uno."]
   };
   function mostrar(k){
