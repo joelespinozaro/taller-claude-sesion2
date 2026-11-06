@@ -357,6 +357,23 @@ details.reto summary{color:var(--indigo-osc)}
 .btn-sig,.btn-rei{font:700 14px var(--sans);padding:9px 14px;border-radius:var(--r-s);cursor:pointer;border:2px solid var(--carbon)}
 .btn-sig{background:var(--carbon);color:#fff}.btn-rei{background:var(--blanco);color:var(--carbon)}
 .btn-sig:disabled{opacity:.4;cursor:default}
+.cartera{background:var(--blanco);border:1px solid var(--borde-2);border-radius:var(--r-m);padding:16px;align-self:start}
+.cartera .corte{display:block;font-size:14px;font-weight:700;color:var(--titulo);margin-bottom:12px}
+.cartera .corte input{width:100%;accent-color:var(--coral)}
+.cartera .corte output{float:right;color:var(--coral-osc);font-weight:900}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.kpis div{background:var(--carbon);border-radius:var(--r-s);padding:10px}
+.kpis small{display:block;color:#C9CDD3;font-size:12.5px;line-height:1.3}
+.kpis b{display:block;color:var(--coral);font-size:20px;font-weight:900;margin-top:2px}
+.tog-s{margin-bottom:10px}.tog-s button{font-size:13.5px;padding:6px 12px}
+.contratos{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.contratos li{display:grid;grid-template-columns:12px 1fr auto;gap:10px;align-items:center;border:1px solid var(--borde-2);border-radius:var(--r-s);padding:8px 10px;font-size:14px}
+.contratos li i{width:12px;height:12px;border-radius:50%}
+.contratos li b{display:block;color:var(--titulo);font-size:14px}
+.contratos li small{color:var(--suave);font-size:12.5px}
+.contratos li em{font-style:normal;font-weight:700;font-size:13px;text-align:right}
+.contratos li.vacio{display:block;color:var(--suave)}
+@media (max-width:420px){.kpis b{font-size:15px;white-space:nowrap}.kpis{gap:6px}.kpis div{padding:8px}.contratos li{grid-template-columns:12px 1fr}.contratos li em{grid-column:2;text-align:left}}
 .ingreso{font-size:26px;font-weight:900;color:#6FD6D1;line-height:1.1}
 
 /* M3 hoja */
@@ -647,7 +664,7 @@ footer a{color:#fff}
     <p class="intro">Van de menor a mayor dificultad y recorren la cadena del negocio. La última une todo en un solo flujo: investigar, analizar, visualizar, presentar y defender una decisión.</p>
     <nav class="mapa" id="mapa" aria-label="Mapa de misiones">
       <a href="#m1" data-m="1"><span class="n">Misión 1</span><b>Tres modelos para tareas distintas</b></a>
-      <a href="#m2" data-m="2"><span class="n">Misión 2</span><b>Crea una app: Claude te entrevista</b></a>
+      <a href="#m2" data-m="2"><span class="n">Misión 2</span><b>Crea una app interna con entrevista</b></a>
       <a href="#m3" data-m="3"><span class="n">Misión 3</span><b>De foto a Excel con fórmulas</b></a>
       <a href="#m4" data-m="4"><span class="n">Misión 4</span><b>Un dashboard de la obra</b></a>
       <a href="#m5" data-m="5"><span class="n">Misión 5</span><b>Investigación con fuentes</b></a>
@@ -768,7 +785,7 @@ Si un dato del vendedor debe verificarse, márcalo.</pre></div>
 
     <!-- M2 -->
     <article class="mision" id="m2" data-m="2">
-      <div class="mision-cab"><div class="numero">2</div><div><h3>Crea una app: Claude te entrevista primero</h3><div class="etiquetas"><span class="et">Nivel 2</span><span class="et">Preventa</span><span class="et sonnet">Sonnet</span><span class="et">Artifacts</span><span class="et">Entrevista</span></div></div></div>
+      <div class="mision-cab"><div class="numero">2</div><div><h3>Crea una app interna: Claude te entrevista primero</h3><div class="etiquetas"><span class="et">Nivel 2</span><span class="et">Renta y contratos</span><span class="et sonnet">Sonnet</span><span class="et">Artifacts</span><span class="et">Entrevista</span></div></div></div>
       <div class="viz" id="viz2">
   <div class="viz-cab"><h4>De la idea a la app en seis pasos</h4><span>Cuando no sabes bien qué pedir, deja que Claude te pregunte.</span></div>
   <div class="flujo2" role="list">
@@ -786,30 +803,27 @@ Si un dato del vendedor debe verificarse, márcalo.</pre></div>
       <div class="burbujas" id="burbujas" aria-live="polite"></div>
       <div class="ent-acc"><button type="button" class="btn-sig" id="ent-sig">Siguiente pregunta</button><button type="button" class="btn-rei" id="ent-rei">Reiniciar</button></div>
     </div>
-  <div class="sim">
-    <div>
-      <p class="ent-tit" style="margin-bottom:12px">Y esta es la app que puede salir. Pruébala</p>
-      <label>Precio del departamento <output id="o-precio"></output><input type="range" id="s-precio" min="200000" max="900000" step="10000" value="440000"></label>
-      <label>Cuota inicial <output id="o-ini"></output><input type="range" id="s-ini" min="10" max="40" step="1" value="10"></label>
-      <label>Tasa efectiva anual <output id="o-tea"></output><input type="range" id="s-tea" min="6" max="14" step="0.1" value="9.5"></label>
-      <label>Plazo <output id="o-plazo"></output><input type="range" id="s-plazo" min="5" max="25" step="1" value="20"></label>
+  <div class="cartera">
+    <p class="ent-tit">Y esta es la app que puede salir. Mueve la fecha de corte</p>
+    <label class="corte">Fecha de corte <output id="o-corte"></output><input type="range" id="s-corte" min="0" max="240" step="5" value="0"></label>
+    <div class="kpis">
+      <div><small>Renta mensual</small><b id="k-renta"></b></div>
+      <div><small>Vencen en 90 días</small><b id="k-vence"></b></div>
+      <div><small>Reajustes este mes</small><b id="k-reaj"></b></div>
     </div>
-    <div class="cuota">
-      <small>Cuota mensual estimada</small>
-      <span class="grande" id="o-cuota">S/ 0</span>
-      <small id="o-fin"></small>
-      <div class="reparto" aria-hidden="true"><i id="r-cap" style="background:var(--teal)"></i><i id="r-int" style="background:var(--coral)"></i></div>
-      <small><span style="color:#6FD6D1">■</span> Capital &nbsp; <span style="color:var(--coral)">■</span> Intereses en todo el crédito</small>
-      <small style="margin-top:8px">Ingreso familiar mínimo sugerido</small>
-      <span class="ingreso" id="o-ingreso">S/ 0</span>
-      <small>Si la cuota no debe pasar el 30% del ingreso. Simulación referencial de este demo.</small>
+    <div class="tog tog-s" role="group" aria-label="Filtro">
+      <button type="button" aria-pressed="true" data-f="todos">Todos</button>
+      <button type="button" aria-pressed="false" data-f="vence">Por vencer</button>
+      <button type="button" aria-pressed="false" data-f="reaj">Con reajuste</button>
     </div>
+    <ul class="contratos" id="contratos"></ul>
+    <p class="nota" style="margin:6px 0 0">Contratos inventados para el demo.</p>
   </div>
   </div>
 </div>
       <div class="mision-cuerpo">
         <div class="lado">
-          <p class="para"><b>Qué te llevas:</b> una herramienta para el equipo comercial diseñada como lo haría un analista: primero entender la necesidad, después construir.</p>
+          <p class="para"><b>Qué te llevas:</b> una herramienta interna para que no se pase ningún vencimiento, renovación ni reajuste de renta de los contratos de arrendamiento, diseñada como lo haría un analista: primero entender el proceso, después construir.</p>
           <h4>Paso a paso</h4>
           <ol class="pasos">
             <li>Abre un chat nuevo con <b>Sonnet</b> y envía el prompt 1. Responde cada pregunta de Claude con tus palabras.</li>
@@ -817,19 +831,19 @@ Si un dato del vendedor debe verificarse, márcalo.</pre></div>
             <li>Envía el prompt 2. Claude construye la app en un panel al costado. Pruébala.</li>
             <li>Pide una mejora con el prompt 3 y, si tu cuenta lo permite, comparte el link en el chat de la reunión.</li>
           </ol>
-          <details class="pista"><summary>Respuestas de apoyo para la entrevista</summary><div>Úsalas si no sabes qué responder:<br><b>Quién la usa:</b> los asesores de ventas, en la sala de ventas o por videollamada, frente al cliente.<br><b>Datos que tiene:</b> precio del departamento, cuota inicial, bono o subsidio si aplica, tasa del banco y plazo.<br><b>Qué decisión apoya:</b> si al cliente le alcanza. Necesito la cuota mensual y el ingreso familiar mínimo, si la cuota no debe pasar el 30% del ingreso.<br><b>Qué debe mostrar:</b> la cuota en grande, cuánto se paga en intereses, un gráfico y dos escenarios lado a lado.<br><b>Formato:</b> simple y limpio, para mostrar en una laptop o tablet.</div></details>
-          <details class="ver"><summary>Qué deberías ver</summary><div>Claude hace preguntas de una en una, como un analista. Luego resume todo en una ficha y espera tu OK. La app final hace exactamente lo que acordaron, incluido lo que tú no habías pensado al inicio. La lección: cuando no sabes bien qué pedir, deja que Claude te pregunte.</div></details>
-          <details class="pista"><summary>Pista si algo falla</summary><div>Si Claude empieza a construir sin preguntar, escribe: “Espera, primero hazme las preguntas una por una”. Si responde con código en vez de mostrar la app, escribe: “Muéstramelo como artifact interactivo”.</div></details>
-          <details class="reto"><summary>Otras apps para tu área</summary><div><b>Finanzas:</b> calculadora de rentabilidad de un departamento en alquiler (renta, gastos, vacancia, retorno anual).<br><b>Proyectos:</b> estimador de cabida: m² construidos y vendibles según área de terreno, ocupación y número de pisos.<br><b>Legal:</b> calculadora de penalidades por retraso en la entrega según días y monto pactado.<br><b>RRHH:</b> calculadora del costo total de un colaborador con beneficios de ley.</div></details>
+          <details class="pista"><summary>Respuestas de apoyo para la entrevista</summary><div>Úsalas si no sabes qué responder:<br><b>Quién la usa:</b> el área comercial para las renovaciones, Legal para cartas y adendas, Finanzas para cobranza y reajustes, y la gerencia para el resumen.<br><b>Datos de cada contrato:</b> inmueble, tipo (oficina, local o nave industrial), inquilino, renta mensual y moneda, fecha de inicio y de fin, porcentaje y mes de reajuste, y garantía.<br><b>Alertas:</b> vencimientos a 90, 60 y 30 días, y los reajustes de renta del mes.<br><b>Indicadores para la gerencia:</b> renta mensual total, contratos por vencer en el trimestre y ocupación.<br><b>Formato:</b> tarjetas de resumen arriba y una tabla con semáforo.</div></details>
+          <details class="ver"><summary>Qué deberías ver</summary><div>Claude pregunta de una en una, como un analista de procesos, y suele proponer cosas que no habías pensado, como la alerta de la garantía o quién recibe cada aviso. Luego resume todo en una ficha y espera tu OK. La app final hace lo que acordaron y trae contratos de ejemplo para probarla. La lección: cuando no sabes bien qué pedir, deja que Claude te pregunte.</div></details>
+          <details class="pista"><summary>Pista si algo falla</summary><div>Si Claude empieza a construir sin preguntar, escribe: “Espera, primero hazme las preguntas una por una”. Si responde con código en vez de mostrar la app, escribe: “Muéstramelo como artifact interactivo”. Si no puede guardar los contratos que agregas, pídele que los mantenga mientras la página esté abierta.</div></details>
+          <details class="reto"><summary>Otras apps internas con la misma dinámica</summary><div><b>Finanzas:</b> control de cobranza de rentas por inquilino, con días de mora y semáforo.<br><b>Legal:</b> biblioteca de cláusulas de arrendamiento con su riesgo y la redacción recomendada.<br><b>Mantenimiento:</b> comparador de propuestas de proveedores para una licitación, por ejemplo techos industriales o pistas asfaltadas.<br><b>RRHH:</b> plan de inducción de 30 días para un nuevo colaborador.</div></details>
         </div>
         <div class="lado">
-          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Prompt 1 · La entrevista</span><button class="copiar" type="button">Copiar</button></div><pre>Quiero crear una herramienta interactiva para el equipo comercial de una inmobiliaria en Lima que vende departamentos en preventa. Todavía no tengo claro todo lo que necesita.
+          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Prompt 1 · La entrevista</span><button class="copiar" type="button">Copiar</button></div><pre>Quiero crear una herramienta interna para una empresa que alquila oficinas, locales comerciales y naves industriales en Lima. Hoy controlamos los contratos de arrendamiento en hojas sueltas y a veces se nos pasa un vencimiento o un reajuste de renta.
 
-Actúa como analista de producto. Antes de construir nada, entrevístame: hazme preguntas una por una, máximo 6, para entender quién la usará, qué datos tiene a la mano, qué cálculos necesita, qué debe mostrar y en qué formato.
+Actúa como analista de procesos. Antes de construir nada, entrevístame: hazme preguntas una por una, máximo 6, para entender quién la usará, qué datos tenemos de cada contrato, qué alertas necesitamos, qué indicadores quiere ver la gerencia y en qué formato.
 
-Cuando tengas suficiente información, resume lo que entendiste en una ficha de requisitos con: usuarios, datos de entrada, cálculos, resultados y diseño. Espera mi confirmación antes de construir.</pre></div>
-          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Prompt 2 · Construir · mismo chat</span><button class="copiar" type="button">Copiar</button></div><pre>Confirmo la ficha. Ahora construye la herramienta como un artifact interactivo, todo en español, con montos en soles y separador de miles. Debajo de cada resultado explica en una línea la fórmula que usaste y agrega una nota de que es una simulación referencial.</pre></div>
-          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Prompt 3 · Mejorar · mismo chat</span><button class="copiar" type="button">Copiar</button></div><pre>Agrega el seguro de desgravamen de 0.05% mensual sobre el saldo y muéstralo dentro de la cuota. Luego dime qué otra mejora le harías tú para que el asesor venda mejor.</pre></div>
+Cuando tengas suficiente información, resume lo que entendiste en una ficha de requisitos con: usuarios, datos de entrada, reglas de alerta, indicadores y diseño. Espera mi confirmación antes de construir.</pre></div>
+          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Prompt 2 · Construir · mismo chat</span><button class="copiar" type="button">Copiar</button></div><pre>Confirmo la ficha. Ahora construye la herramienta como un artifact interactivo, todo en español. Cárgala con 8 contratos de ejemplo inventados (oficinas, locales y naves industriales en distintos distritos de Lima) para poder probarla. Debe permitir agregar y editar contratos, y explicar en una línea cada regla de alerta.</pre></div>
+          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Prompt 3 · Mejorar · mismo chat</span><button class="copiar" type="button">Copiar</button></div><pre>Agrega un botón que genere el borrador de la carta de aviso de renovación para el contrato seleccionado. Luego dime qué otra mejora harías para que Legal y Finanzas la usen cada semana.</pre></div>
         </div>
       </div>
       <div class="completar"><button type="button" data-hecho="2">Marcar misión como hecha</button></div>
@@ -1460,39 +1474,57 @@ Cuando termine la quinta, sal del rol y evalúa mi defensa: qué respuestas conv
   var pasos=$$("#viz2 .pf");
   function marcaPaso(k){pasos.forEach(function(p,i){p.classList.toggle("hot",i===k)})}
   var guion=[
-    ["tu","Tú","Quiero una herramienta para el equipo comercial que vende en preventa."],
-    ["cl","Claude","¿Quién la va a usar y en qué momento?"],
-    ["tu","Tú","Los asesores, en la sala de ventas, frente al cliente."],
-    ["cl","Claude","¿Qué datos tendrá el asesor a la mano?"],
-    ["tu","Tú","Precio, cuota inicial, tasa del banco y plazo. A veces un bono."],
-    ["cl","Claude","¿Qué decisión debe ayudar a tomar?"],
-    ["tu","Tú","Si al cliente le alcanza: la cuota y el ingreso que necesita."],
-    ["ficha","Ficha de requisitos","Usuarios: asesores · Entradas: precio, inicial, bono, tasa, plazo · Resultados: cuota, ingreso mínimo, intereses, 2 escenarios. ¿Confirmas?"],
+    ["tu","Tú","Quiero una herramienta para controlar nuestros contratos de arrendamiento."],
+    ["cl","Claude","¿Qué problema concreto quieres evitar?"],
+    ["tu","Tú","Que se nos pase un vencimiento o un reajuste de renta."],
+    ["cl","Claude","¿Qué datos tienes de cada contrato?"],
+    ["tu","Tú","Inmueble, inquilino, renta, inicio, fin, reajuste anual y garantía."],
+    ["cl","Claude","¿Con cuánta anticipación necesitas el aviso y quién lo recibe?"],
+    ["tu","Tú","90 días antes, para el área comercial y Legal."],
+    ["ficha","Ficha de requisitos","Usuarios: comercial, Legal, Finanzas · Datos: inmueble, inquilino, renta, fechas, reajuste, garantía · Alertas a 90, 60 y 30 días · Indicadores: renta total, por vencer, reajustes del mes. ¿Confirmas?"],
     ["tu","Tú","Confirmo. Constrúyela."]
   ];
   var paso=0;
   function burbuja(i){var g=guion[i],d=document.createElement("div");d.className="bur "+g[0];d.innerHTML="<small>"+g[1]+"</small>"+g[2];$("#burbujas").appendChild(d)}
   function entSig(){
     if(paso>=guion.length)return;
-    burbuja(paso);
-    paso++;
+    burbuja(paso);paso++;
     if(paso<guion.length&&guion[paso][0]!=="tu"){burbuja(paso);paso++}
-    var k=paso<=1?0:(paso<8?1:(paso<9?2:3));marcaPaso(k);
+    marcaPaso(paso<=1?0:(paso<8?1:(paso<9?2:3)));
     $("#ent-sig").disabled=paso>=guion.length;
     $("#ent-sig").textContent=paso>=guion.length?"Listo: ahora construye":"Siguiente respuesta";
   }
   function entRei(){$("#burbujas").innerHTML="";paso=0;$("#ent-sig").disabled=false;$("#ent-sig").textContent="Empezar la entrevista";marcaPaso(0)}
   $("#ent-sig").addEventListener("click",entSig);$("#ent-rei").addEventListener("click",entRei);entRei();
+
+  var contratos=[
+    {i:"Nave industrial",d:"Lurín",q:"Logística Andina",r:48000,f:"2027-01-15",m:1},
+    {i:"Oficina piso 8",d:"San Isidro",q:"Estudio Contable Ríos",r:18500,f:"2026-12-10",m:12},
+    {i:"Almacén",d:"Callao",q:"Importadora del Puerto",r:32000,f:"2027-06-30",m:11},
+    {i:"Local comercial",d:"Surco",q:"Botica Vida Sana",r:12800,f:"2026-11-28",m:3},
+    {i:"Nave industrial",d:"Chilca",q:"Metalmecánica del Sur",r:55000,f:"2028-03-31",m:4},
+    {i:"Oficina piso 3",d:"Miraflores",q:"Agencia Norte",r:9600,f:"2027-02-20",m:2}
+  ];
+  var meses=["ene","feb","mar","abr","may","jun","jul","ago","set","oct","nov","dic"],filtro="todos",base=new Date(2026,10,1);
+  function fecha(d){return d.getDate()+" "+meses[d.getMonth()]+" "+d.getFullYear()}
   function m2(){
-    var P=+$("#s-precio").value,I=+$("#s-ini").value,T=+$("#s-tea").value,N=+$("#s-plazo").value;
-    $("#o-precio").textContent=soles(P);$("#o-ini").textContent=I+"%";$("#o-tea").textContent=T.toFixed(1)+"%";$("#o-plazo").textContent=N+" años";
-    var M=P*(1-I/100),r=Math.pow(1+T/100,1/12)-1,n=N*12,c=M*r/(1-Math.pow(1+r,-n)),tot=c*n,int=tot-M;
-    $("#o-cuota").textContent=soles(c);
-    $("#o-fin").textContent="Financias "+soles(M)+" · Intereses totales "+soles(int);
-    $("#r-cap").style.width=(M/tot*100)+"%";$("#r-int").style.width=(int/tot*100)+"%";
-    $("#o-ingreso").textContent=soles(c/0.30);
+    var corte=new Date(base.getTime()+(+$("#s-corte").value)*864e5);
+    $("#o-corte").textContent=fecha(corte);
+    var renta=0,vence=0,reaj=0,html="";
+    contratos.forEach(function(c){
+      var fin=new Date(c.f+"T00:00:00"),dias=Math.round((fin-corte)/864e5),rj=(c.m===corte.getMonth()+1);
+      var est,col;
+      if(dias<0){est="Vencido";col="#9CA3AF"}else{renta+=c.r;if(dias<=30){est="Vence en "+dias+" días";col="#E5484D"}else if(dias<=90){est="Vence en "+dias+" días";col="#F2A71B"}else{est="Vigente";col="#0E9F9A"}}
+      if(dias>=0&&dias<=90)vence++;if(rj&&dias>=0)reaj++;
+      var ver=filtro==="todos"||(filtro==="vence"&&dias>=0&&dias<=90)||(filtro==="reaj"&&rj&&dias>=0);
+      if(ver)html+='<li><i style="background:'+col+'"></i><span><b>'+c.i+' · '+c.d+'</b><small>'+c.q+' · S/ '+c.r.toLocaleString("en-US")+' al mes</small></span><em style="color:'+(col==="#9CA3AF"?"#6B7280":col)+'">'+est+(rj&&dias>=0?'<br><small>Reajuste este mes</small>':'')+'</em></li>';
+    });
+    $("#contratos").innerHTML=html||'<li class="vacio">Ningún contrato cumple el filtro en esta fecha.</li>';
+    $("#k-renta").textContent="S/ "+renta.toLocaleString("en-US");$("#k-vence").textContent=vence;$("#k-reaj").textContent=reaj;
   }
-  ["#s-precio","#s-ini","#s-tea","#s-plazo"].forEach(function(s){$(s).addEventListener("input",m2)});m2();
+  $("#s-corte").addEventListener("input",m2);
+  $$("#viz2 .tog-s button").forEach(function(b){b.addEventListener("click",function(){filtro=b.dataset.f;$$("#viz2 .tog-s button").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});m2()})});
+  m2();
 
   /* M3 */
   $$("#viz3 .tog button").forEach(function(b){b.addEventListener("click",function(){
