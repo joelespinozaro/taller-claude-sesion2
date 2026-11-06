@@ -323,6 +323,42 @@ details.reto summary{color:var(--indigo-osc)}
 .reparto{display:flex;height:14px;border-radius:7px;overflow:hidden;margin-top:10px}
 .reparto i{display:block;height:100%}
 
+/* M2 flujo con íconos y entrevista */
+.flujo2{display:grid;grid-template-columns:repeat(6,1fr);gap:0;margin-bottom:8px}
+.pf{text-align:center;position:relative;padding:4px 4px 0}
+.pf .ic{width:60px;height:60px;margin:0 auto 8px;border-radius:50%;display:grid;place-items:center;position:relative;z-index:1;transition:transform .3s,box-shadow .3s}
+.pf .ic svg{width:30px;height:30px;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pf.tu .ic{background:var(--coral)}.pf.tu .ic svg{stroke:var(--carbon)}
+.pf.cl .ic{background:var(--carbon)}.pf.cl .ic svg{stroke:var(--coral)}
+.pf.hot .ic{transform:scale(1.12);box-shadow:0 0 0 6px rgba(255,124,85,.25)}
+.pf b{display:block;font-size:15px;line-height:1.25;color:var(--titulo)}
+.pf small{font-size:13px;color:var(--suave)}
+.pf:not(:last-child)::after{content:"";position:absolute;top:33px;left:calc(50% + 32px);right:calc(-50% + 32px);height:3px;background:var(--borde)}
+.leyenda-f{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--suave);margin:6px 0 18px}
+.leyenda-f .lt{width:14px;height:14px;border-radius:50%;display:inline-block}
+.leyenda-f .lt.tu{background:var(--coral)}.leyenda-f .lt.cl{background:var(--carbon);margin-left:14px}
+@media (max-width:700px){.flujo2{grid-template-columns:repeat(3,1fr);row-gap:16px}.pf:nth-child(3)::after{display:none}.pf small{display:none}.pf .ic{width:50px;height:50px}.pf .ic svg{width:26px;height:26px}.pf:not(:last-child)::after{top:28px;left:calc(50% + 27px);right:calc(-50% + 27px)}}
+.dos-col{display:grid;grid-template-columns:1.1fr 1fr;gap:16px}
+@media (max-width:860px){.dos-col{grid-template-columns:1fr}}
+.dos-col>*{min-width:0}
+.dos-col .sim{grid-template-columns:1fr;align-self:start}
+.entrevista{background:var(--blanco);border:1px solid var(--borde-2);border-radius:var(--r-m);padding:16px;display:flex;flex-direction:column;gap:10px}
+.ent-tit{font-weight:900;color:var(--titulo);margin:0;font-size:15px}
+.burbujas{display:flex;flex-direction:column;gap:8px;min-height:250px}
+.bur{max-width:88%;padding:10px 14px;border-radius:14px;font-size:15px;line-height:1.45}
+.bur small{display:block;font-weight:900;font-size:12px;margin-bottom:2px;letter-spacing:.04em}
+.bur.cl{background:var(--carbon);color:#F3F4F6;border-bottom-left-radius:4px;align-self:flex-start}
+.bur.cl small{color:var(--coral)}
+.bur.tu{background:var(--coral-suave);color:var(--titulo);border-bottom-right-radius:4px;align-self:flex-end}
+.bur.tu small{color:var(--coral-osc)}
+.bur.ficha{background:var(--teal-suave);color:var(--titulo);border:2px solid var(--teal);align-self:stretch;max-width:100%}
+.bur.ficha small{color:var(--teal-osc)}
+.ent-acc{display:flex;gap:8px;flex-wrap:wrap}
+.btn-sig,.btn-rei{font:700 14px var(--sans);padding:9px 14px;border-radius:var(--r-s);cursor:pointer;border:2px solid var(--carbon)}
+.btn-sig{background:var(--carbon);color:#fff}.btn-rei{background:var(--blanco);color:var(--carbon)}
+.btn-sig:disabled{opacity:.4;cursor:default}
+.ingreso{font-size:26px;font-weight:900;color:#6FD6D1;line-height:1.1}
+
 /* M3 hoja */
 .foto-hoja{display:grid;grid-template-columns:150px auto 1fr;align-items:center;gap:14px}
 @media (max-width:700px){.foto-hoja{grid-template-columns:1fr}.foto-hoja .flecha{transform:rotate(90deg);justify-self:center}}
@@ -610,8 +646,8 @@ footer a{color:#fff}
     <h2>Las ocho misiones</h2>
     <p class="intro">Van de menor a mayor dificultad y recorren la cadena del negocio. La última une todo en un solo flujo: investigar, analizar, visualizar, presentar y defender una decisión.</p>
     <nav class="mapa" id="mapa" aria-label="Mapa de misiones">
-      <a href="#m1" data-m="1"><span class="n">Misión 1</span><b>Tres cerebros, tres encargos</b></a>
-      <a href="#m2" data-m="2"><span class="n">Misión 2</span><b>Crea una app sin código</b></a>
+      <a href="#m1" data-m="1"><span class="n">Misión 1</span><b>Tres modelos para tareas distintas</b></a>
+      <a href="#m2" data-m="2"><span class="n">Misión 2</span><b>Crea una app: Claude te entrevista</b></a>
       <a href="#m3" data-m="3"><span class="n">Misión 3</span><b>De foto a Excel con fórmulas</b></a>
       <a href="#m4" data-m="4"><span class="n">Misión 4</span><b>Un dashboard de la obra</b></a>
       <a href="#m5" data-m="5"><span class="n">Misión 5</span><b>Investigación con fuentes</b></a>
@@ -622,9 +658,9 @@ footer a{color:#fff}
 
     <!-- M1 -->
     <article class="mision" id="m1" data-m="1">
-      <div class="mision-cab"><div class="numero">1</div><div><h3>Tres cerebros, tres encargos</h3><div class="etiquetas"><span class="et">Nivel 1</span><span class="et">Postventa y terrenos</span><span class="et haiku">Haiku</span><span class="et sonnet">Sonnet</span><span class="et opus">Opus</span></div></div></div>
+      <div class="mision-cab"><div class="numero">1</div><div><h3>Tres modelos para tareas distintas</h3><div class="etiquetas"><span class="et">Nivel 1</span><span class="et">Postventa y terrenos</span><span class="et haiku">Haiku</span><span class="et sonnet">Sonnet</span><span class="et opus">Opus</span></div></div></div>
       <div class="viz" id="viz1">
-  <div class="viz-cab"><h4>¿Qué cerebro para qué encargo?</h4><span>Elige un encargo y mira qué modelo encaja mejor.</span></div>
+  <div class="viz-cab"><h4>¿Qué modelo para qué tarea?</h4><span>Elige una tarea y mira qué modelo encaja mejor.</span></div>
   <div class="tog" role="group" aria-label="Encargos">
     <button type="button" aria-pressed="true" data-e="a">A · Clasificar 24 reclamos</button>
     <button type="button" aria-pressed="false" data-e="b">B · Responder al propietario</button>
@@ -732,19 +768,27 @@ Si un dato del vendedor debe verificarse, márcalo.</pre></div>
 
     <!-- M2 -->
     <article class="mision" id="m2" data-m="2">
-      <div class="mision-cab"><div class="numero">2</div><div><h3>Crea una app sin código</h3><div class="etiquetas"><span class="et">Nivel 2</span><span class="et">Preventa</span><span class="et sonnet">Sonnet</span><span class="et">Artifacts</span></div></div></div>
+      <div class="mision-cab"><div class="numero">2</div><div><h3>Crea una app: Claude te entrevista primero</h3><div class="etiquetas"><span class="et">Nivel 2</span><span class="et">Preventa</span><span class="et sonnet">Sonnet</span><span class="et">Artifacts</span><span class="et">Entrevista</span></div></div></div>
       <div class="viz" id="viz2">
-  <div class="viz-cab"><h4>Así nace una app sin código</h4><span>Pruébala: esto es lo que vas a construir.</span></div>
-  <div class="flujo">
-    <div class="paso-f hot"><div class="ic">✍️</div><b>Describes</b><small>qué debe hacer</small></div>
-    <div class="paso-f"><div class="ic">⚙️</div><b>Claude construye</b><small>la app en un panel</small></div>
-    <div class="paso-f"><div class="ic">🖱️</div><b>Pruebas</b><small>mueves los valores</small></div>
-    <div class="paso-f"><div class="ic">🔁</div><b>Pides mejoras</b><small>en el mismo chat</small></div>
-    <div class="paso-f"><div class="ic">🔗</div><b>Compartes</b><small>con un link</small></div>
+  <div class="viz-cab"><h4>De la idea a la app en seis pasos</h4><span>Cuando no sabes bien qué pedir, deja que Claude te pregunte.</span></div>
+  <div class="flujo2" role="list">
+    <div class="pf tu" role="listitem"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/></svg></span><b>Cuentas la idea</b><small>en dos líneas</small></div>
+    <div class="pf cl" role="listitem"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M10 10a2 2 0 1 1 3 1.7c-.6.4-1 .8-1 1.3M12 16h.01"/></svg></span><b>Te pregunta</b><small>una cosa a la vez</small></div>
+    <div class="pf cl" role="listitem"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9zM9 13l2 2 4-4"/></svg></span><b>Arma la ficha</b><small>y espera tu OK</small></div>
+    <div class="pf cl" role="listitem"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3M13 6l-2 12"/></svg></span><b>Construye</b><small>la app en un panel</small></div>
+    <div class="pf tu" role="listitem"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></span><b>Pruebas y mejoras</b><small>en el mismo chat</small></div>
+    <div class="pf tu" role="listitem"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></span><b>Compartes</b><small>con un link</small></div>
   </div>
-  <p class="lazo">Pruebas y mejoras se repiten las veces que quieras</p>
+  <p class="leyenda-f"><span class="lt tu"></span>Lo haces tú <span class="lt cl"></span>Lo hace Claude</p>
+  <div class="dos-col">
+    <div class="entrevista">
+      <p class="ent-tit">Así se ve la entrevista</p>
+      <div class="burbujas" id="burbujas" aria-live="polite"></div>
+      <div class="ent-acc"><button type="button" class="btn-sig" id="ent-sig">Siguiente pregunta</button><button type="button" class="btn-rei" id="ent-rei">Reiniciar</button></div>
+    </div>
   <div class="sim">
     <div>
+      <p class="ent-tit" style="margin-bottom:12px">Y esta es la app que puede salir. Pruébala</p>
       <label>Precio del departamento <output id="o-precio"></output><input type="range" id="s-precio" min="200000" max="900000" step="10000" value="440000"></label>
       <label>Cuota inicial <output id="o-ini"></output><input type="range" id="s-ini" min="10" max="40" step="1" value="10"></label>
       <label>Tasa efectiva anual <output id="o-tea"></output><input type="range" id="s-tea" min="6" max="14" step="0.1" value="9.5"></label>
@@ -756,41 +800,36 @@ Si un dato del vendedor debe verificarse, márcalo.</pre></div>
       <small id="o-fin"></small>
       <div class="reparto" aria-hidden="true"><i id="r-cap" style="background:var(--teal)"></i><i id="r-int" style="background:var(--coral)"></i></div>
       <small><span style="color:#6FD6D1">■</span> Capital &nbsp; <span style="color:var(--coral)">■</span> Intereses en todo el crédito</small>
-      <small style="margin-top:6px">Simulación referencial de este demo.</small>
+      <small style="margin-top:8px">Ingreso familiar mínimo sugerido</small>
+      <span class="ingreso" id="o-ingreso">S/ 0</span>
+      <small>Si la cuota no debe pasar el 30% del ingreso. Simulación referencial de este demo.</small>
     </div>
+  </div>
   </div>
 </div>
       <div class="mision-cuerpo">
         <div class="lado">
-          <p class="para"><b>Qué te llevas:</b> un simulador de crédito hipotecario que funciona y que el equipo comercial puede usar con sus clientes.</p>
+          <p class="para"><b>Qué te llevas:</b> una herramienta para el equipo comercial diseñada como lo haría un analista: primero entender la necesidad, después construir.</p>
           <h4>Paso a paso</h4>
           <ol class="pasos">
-            <li>Abre un chat nuevo con <b>Sonnet</b> y envía el prompt.</li>
-            <li>Claude construye la app en un panel al costado. Pruébala: mueve el precio y el plazo.</li>
-            <li>En el mismo chat pide una mejora: “Agrega el seguro de desgravamen de 0.05% mensual sobre el saldo”.</li>
-            <li>Si tu cuenta lo permite, publica el artifact y comparte el link en el chat de la reunión.</li>
+            <li>Abre un chat nuevo con <b>Sonnet</b> y envía el prompt 1. Responde cada pregunta de Claude con tus palabras.</li>
+            <li>Lee la ficha de requisitos. Si algo no es así, corrígelo antes de confirmar.</li>
+            <li>Envía el prompt 2. Claude construye la app en un panel al costado. Pruébala.</li>
+            <li>Pide una mejora con el prompt 3 y, si tu cuenta lo permite, comparte el link en el chat de la reunión.</li>
           </ol>
-          <details class="ver"><summary>Qué deberías ver</summary><div>Una app con campos editables, la cuota mensual actualizándose al instante, un gráfico y la comparación de dos escenarios. No escribiste ni una línea de código.</div></details>
-          <details class="pista"><summary>Pista si algo falla</summary><div>Si Claude responde con código en vez de mostrar la app, escribe: “Muéstramelo como artifact interactivo”. Si un número no cuadra, pídele que explique la fórmula que usó.</div></details>
+          <details class="pista"><summary>Respuestas de apoyo para la entrevista</summary><div>Úsalas si no sabes qué responder:<br><b>Quién la usa:</b> los asesores de ventas, en la sala de ventas o por videollamada, frente al cliente.<br><b>Datos que tiene:</b> precio del departamento, cuota inicial, bono o subsidio si aplica, tasa del banco y plazo.<br><b>Qué decisión apoya:</b> si al cliente le alcanza. Necesito la cuota mensual y el ingreso familiar mínimo, si la cuota no debe pasar el 30% del ingreso.<br><b>Qué debe mostrar:</b> la cuota en grande, cuánto se paga en intereses, un gráfico y dos escenarios lado a lado.<br><b>Formato:</b> simple y limpio, para mostrar en una laptop o tablet.</div></details>
+          <details class="ver"><summary>Qué deberías ver</summary><div>Claude hace preguntas de una en una, como un analista. Luego resume todo en una ficha y espera tu OK. La app final hace exactamente lo que acordaron, incluido lo que tú no habías pensado al inicio. La lección: cuando no sabes bien qué pedir, deja que Claude te pregunte.</div></details>
+          <details class="pista"><summary>Pista si algo falla</summary><div>Si Claude empieza a construir sin preguntar, escribe: “Espera, primero hazme las preguntas una por una”. Si responde con código en vez de mostrar la app, escribe: “Muéstramelo como artifact interactivo”.</div></details>
           <details class="reto"><summary>Otras apps para tu área</summary><div><b>Finanzas:</b> calculadora de rentabilidad de un departamento en alquiler (renta, gastos, vacancia, retorno anual).<br><b>Proyectos:</b> estimador de cabida: m² construidos y vendibles según área de terreno, ocupación y número de pisos.<br><b>Legal:</b> calculadora de penalidades por retraso en la entrega según días y monto pactado.<br><b>RRHH:</b> calculadora del costo total de un colaborador con beneficios de ley.</div></details>
         </div>
         <div class="lado">
-          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Prompt · Sonnet</span><button class="copiar" type="button">Copiar</button></div><pre>Crea un simulador interactivo de crédito hipotecario para que los asesores de ventas de una inmobiliaria en Lima lo usen con clientes que compran en preventa.
+          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Prompt 1 · La entrevista</span><button class="copiar" type="button">Copiar</button></div><pre>Quiero crear una herramienta interactiva para el equipo comercial de una inmobiliaria en Lima que vende departamentos en preventa. Todavía no tengo claro todo lo que necesita.
 
-Campos editables:
-- Precio del departamento en soles (por defecto S/ 440,000)
-- Cuota inicial en porcentaje (por defecto 10%)
-- Bono o subsidio en soles, opcional (por defecto 0), que se resta del monto a financiar
-- Tasa efectiva anual (por defecto 9.5%)
-- Plazo en años, con un deslizador de 5 a 25 (por defecto 20)
+Actúa como analista de producto. Antes de construir nada, entrevístame: hazme preguntas una por una, máximo 6, para entender quién la usará, qué datos tiene a la mano, qué cálculos necesita, qué debe mostrar y en qué formato.
 
-Debe mostrar:
-- La cuota mensual en grande
-- El monto financiado y el total de intereses
-- Un gráfico de cómo se reparte cada cuota entre capital e intereses a lo largo del tiempo
-- Un botón para guardar el escenario y compararlo lado a lado con otro
-
-Diseño limpio y profesional, todo en español, montos en soles con separador de miles. Convierte la tasa efectiva anual a mensual con la fórmula correcta y muestra una nota que diga que es una simulación referencial.</pre></div>
+Cuando tengas suficiente información, resume lo que entendiste en una ficha de requisitos con: usuarios, datos de entrada, cálculos, resultados y diseño. Espera mi confirmación antes de construir.</pre></div>
+          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Prompt 2 · Construir · mismo chat</span><button class="copiar" type="button">Copiar</button></div><pre>Confirmo la ficha. Ahora construye la herramienta como un artifact interactivo, todo en español, con montos en soles y separador de miles. Debajo de cada resultado explica en una línea la fórmula que usaste y agrega una nota de que es una simulación referencial.</pre></div>
+          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Prompt 3 · Mejorar · mismo chat</span><button class="copiar" type="button">Copiar</button></div><pre>Agrega el seguro de desgravamen de 0.05% mensual sobre el saldo y muéstralo dentro de la cuota. Luego dime qué otra mejora le harías tú para que el asesor venda mejor.</pre></div>
         </div>
       </div>
       <div class="completar"><button type="button" data-hecho="2">Marcar misión como hecha</button></div>
@@ -1418,8 +1457,32 @@ Cuando termine la quinta, sal del rol y evalúa mi defensa: qué respuestas conv
   m1("a");
 
   /* M2 */
-  var pasos=$$("#viz2 .paso-f"),ip=0;
-  setInterval(function(){if(document.hidden)return;pasos.forEach(function(p,i){p.classList.toggle("hot",i===ip)});ip=(ip+1)%pasos.length},1600);
+  var pasos=$$("#viz2 .pf");
+  function marcaPaso(k){pasos.forEach(function(p,i){p.classList.toggle("hot",i===k)})}
+  var guion=[
+    ["tu","Tú","Quiero una herramienta para el equipo comercial que vende en preventa."],
+    ["cl","Claude","¿Quién la va a usar y en qué momento?"],
+    ["tu","Tú","Los asesores, en la sala de ventas, frente al cliente."],
+    ["cl","Claude","¿Qué datos tendrá el asesor a la mano?"],
+    ["tu","Tú","Precio, cuota inicial, tasa del banco y plazo. A veces un bono."],
+    ["cl","Claude","¿Qué decisión debe ayudar a tomar?"],
+    ["tu","Tú","Si al cliente le alcanza: la cuota y el ingreso que necesita."],
+    ["ficha","Ficha de requisitos","Usuarios: asesores · Entradas: precio, inicial, bono, tasa, plazo · Resultados: cuota, ingreso mínimo, intereses, 2 escenarios. ¿Confirmas?"],
+    ["tu","Tú","Confirmo. Constrúyela."]
+  ];
+  var paso=0;
+  function burbuja(i){var g=guion[i],d=document.createElement("div");d.className="bur "+g[0];d.innerHTML="<small>"+g[1]+"</small>"+g[2];$("#burbujas").appendChild(d)}
+  function entSig(){
+    if(paso>=guion.length)return;
+    burbuja(paso);
+    paso++;
+    if(paso<guion.length&&guion[paso][0]!=="tu"){burbuja(paso);paso++}
+    var k=paso<=1?0:(paso<8?1:(paso<9?2:3));marcaPaso(k);
+    $("#ent-sig").disabled=paso>=guion.length;
+    $("#ent-sig").textContent=paso>=guion.length?"Listo: ahora construye":"Siguiente respuesta";
+  }
+  function entRei(){$("#burbujas").innerHTML="";paso=0;$("#ent-sig").disabled=false;$("#ent-sig").textContent="Empezar la entrevista";marcaPaso(0)}
+  $("#ent-sig").addEventListener("click",entSig);$("#ent-rei").addEventListener("click",entRei);entRei();
   function m2(){
     var P=+$("#s-precio").value,I=+$("#s-ini").value,T=+$("#s-tea").value,N=+$("#s-plazo").value;
     $("#o-precio").textContent=soles(P);$("#o-ini").textContent=I+"%";$("#o-tea").textContent=T.toFixed(1)+"%";$("#o-plazo").textContent=N+" años";
@@ -1427,6 +1490,7 @@ Cuando termine la quinta, sal del rol y evalúa mi defensa: qué respuestas conv
     $("#o-cuota").textContent=soles(c);
     $("#o-fin").textContent="Financias "+soles(M)+" · Intereses totales "+soles(int);
     $("#r-cap").style.width=(M/tot*100)+"%";$("#r-int").style.width=(int/tot*100)+"%";
+    $("#o-ingreso").textContent=soles(c/0.30);
   }
   ["#s-precio","#s-ini","#s-tea","#s-plazo"].forEach(function(s){$(s).addEventListener("input",m2)});m2();
 
