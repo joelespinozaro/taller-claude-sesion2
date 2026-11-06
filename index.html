@@ -1,0 +1,918 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Laboratorio Claude · Sesión 2</title>
+<meta name="description" content="Guía interactiva del laboratorio de la Sesión 2: modelos, planes y prompting efectivo con Claude, con casos del sector inmobiliario.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..900&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --concreto:#E9ECE6;
+  --papel:#FAFAF6;
+  --tinta:#1B2A41;
+  --tinta-suave:#43526A;
+  --linea:#C9CFC6;
+  --senal:#F2B705;
+  --senal-suave:#FFF3C4;
+  --verifica:#0F766E;
+  --verifica-suave:#DDF1EE;
+  --alerta:#B42318;
+  --alerta-suave:#FDE7E4;
+  --datapath:#E8613C;
+  --haiku:#0F766E;
+  --sonnet:#3B4CCA;
+  --opus:#8A2C9E;
+  --r-s:6px;
+  --r-m:12px;
+  --sombra:0 1px 0 rgba(27,42,65,.08), 0 8px 24px -12px rgba(27,42,65,.25);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--concreto);color:var(--tinta);font:400 17px/1.6 "IBM Plex Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:"Archivo",system-ui,sans-serif;font-stretch:112%;line-height:1.12;margin:0;color:var(--tinta)}
+p{margin:0 0 .8em}
+a{color:var(--sonnet)}
+:focus-visible{outline:3px solid var(--senal);outline-offset:2px;border-radius:4px}
+code,pre,.mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+
+/* Barra superior */
+.barra{position:sticky;top:0;z-index:20;background:var(--tinta);color:#E8EDF5}
+.barra .wrap{display:flex;align-items:center;gap:20px;height:56px}
+.marca{font-family:"Archivo",system-ui,sans-serif;font-stretch:118%;font-weight:800;font-size:17px;color:#fff;text-decoration:none;white-space:nowrap}
+.marca span{color:var(--datapath)}
+.barra nav{display:flex;gap:4px;margin-left:auto;overflow-x:auto}
+.barra nav a{color:#C6D0DF;text-decoration:none;font-size:14px;padding:6px 10px;border-radius:var(--r-s);white-space:nowrap}
+.barra nav a:hover{background:rgba(255,255,255,.08);color:#fff}
+.avance{display:flex;align-items:center;gap:10px;font-size:14px;white-space:nowrap}
+.avance .riel{width:120px;height:8px;background:rgba(255,255,255,.15);border-radius:4px;overflow:hidden}
+.avance .riel i{display:block;height:100%;width:0;background:var(--senal);transition:width .4s}
+@media (max-width:860px){.barra nav{display:none}.avance{margin-left:auto}}
+
+/* Portada */
+.portada{background:var(--tinta);color:#E8EDF5;position:relative;overflow:hidden}
+.portada::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:32px 32px;pointer-events:none}
+.portada .wrap{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:48px;padding-top:64px;padding-bottom:72px;align-items:center}
+.portada h1{color:#fff;font-size:clamp(40px,6vw,74px);font-weight:850;letter-spacing:-.01em}
+.portada .bajada{font-size:20px;line-height:1.5;color:#C6D0DF;max-width:34em;margin-top:20px}
+.portada .datos{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.chip{display:inline-flex;align-items:center;gap:8px;font-size:14px;padding:6px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.2);color:#E8EDF5}
+.acciones{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.btn{display:inline-flex;align-items:center;gap:8px;font:600 16px "IBM Plex Sans",system-ui,sans-serif;padding:12px 20px;border-radius:var(--r-s);border:2px solid transparent;cursor:pointer;text-decoration:none;transition:transform .15s,background .15s}
+.btn:active{transform:translateY(1px)}
+.btn-senal{background:var(--senal);color:var(--tinta)}
+.btn-senal:hover{background:#FFC928}
+.btn-borde{border-color:rgba(255,255,255,.35);color:#fff;background:transparent}
+.btn-borde:hover{background:rgba(255,255,255,.08)}
+.btn-tinta{background:var(--tinta);color:#fff}
+.btn-tinta:hover{background:#26395A}
+
+/* La torre */
+.torre{justify-self:center;width:100%;max-width:360px}
+.torre svg{width:100%;height:auto;display:block}
+.piso rect.cuerpo{fill:#24375A;stroke:#5A6B88;stroke-width:1.5;transition:fill .5s}
+.piso text{font:600 13px "IBM Plex Sans",system-ui,sans-serif;fill:#AEB9CB}
+.piso .ventana{fill:#33486E;transition:fill .5s}
+.piso.hecho rect.cuerpo{fill:#2E4470}
+.piso.hecho .ventana{fill:var(--senal)}
+.piso.hecho text{fill:#fff}
+.piso{cursor:pointer}
+.piso:hover rect.cuerpo{stroke:var(--senal)}
+.torre .leyenda{font-size:14px;color:#AEB9CB;text-align:center;margin-top:12px}
+@media (max-width:860px){.portada .wrap{grid-template-columns:1fr}.torre{max-width:280px}}
+
+/* Secciones */
+section.bloque{padding:72px 0;scroll-margin-top:56px}
+@media (max-width:520px){.marca{font-size:15px}.avance .riel{display:none}.barra .wrap{gap:10px}}
+.bloque h2{font-size:clamp(30px,3.6vw,44px);font-weight:800;margin-bottom:12px}
+.bloque .intro{font-size:19px;color:var(--tinta-suave);max-width:40em;margin-bottom:36px}
+.claro{background:var(--papel)}
+
+/* Antes de empezar */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media (max-width:860px){.grid-2{grid-template-columns:1fr}}
+.lista-check{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
+.lista-check label{display:flex;gap:14px;align-items:flex-start;background:#fff;border:1px solid var(--linea);border-radius:var(--r-m);padding:14px 16px;cursor:pointer}
+.lista-check input{width:22px;height:22px;accent-color:var(--verifica);margin-top:2px;flex:none}
+.lista-check input:checked + span{color:var(--tinta-suave);text-decoration:line-through}
+.archivos{display:flex;flex-direction:column;gap:10px}
+.archivo{display:grid;grid-template-columns:52px 1fr auto;gap:14px;align-items:center;background:#fff;border:1px solid var(--linea);border-radius:var(--r-m);padding:12px 14px}
+.archivo .tipo{width:52px;height:52px;border-radius:var(--r-s);display:grid;place-items:center;font:700 13px "IBM Plex Mono",ui-monospace,monospace;color:#fff}
+.archivo b{display:block}
+.archivo small{color:var(--tinta-suave);font-size:14px}
+.archivo a{font-weight:600;font-size:15px;text-decoration:none;padding:8px 12px;border-radius:var(--r-s);background:var(--concreto);color:var(--tinta)}
+.archivo a:hover{background:var(--senal-suave)}
+.aviso{display:flex;gap:14px;align-items:flex-start;background:var(--alerta-suave);border-left:5px solid var(--alerta);border-radius:var(--r-s);padding:16px 18px;margin-top:24px}
+.aviso b{color:var(--alerta)}
+
+/* Teoría */
+.modelos{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px}
+@media (max-width:860px){.modelos{grid-template-columns:1fr}}
+.modelo{background:#fff;border-radius:var(--r-m);padding:22px;border-top:6px solid var(--c);box-shadow:var(--sombra)}
+.modelo h3{font-size:28px;color:var(--c)}
+.modelo .perfil{font-weight:600;margin:4px 0 10px}
+.modelo .ej{font-size:15px;background:var(--concreto);border-radius:var(--r-s);padding:10px 12px;margin-top:12px}
+.elegidor{background:var(--tinta);color:#E8EDF5;border-radius:var(--r-m);padding:24px;display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}
+@media (max-width:860px){.elegidor{grid-template-columns:1fr}}
+.elegidor h3{color:#fff;font-size:22px;margin-bottom:8px}
+.elegidor select{width:100%;font:500 16px "IBM Plex Sans",system-ui,sans-serif;padding:12px;border-radius:var(--r-s);border:none;background:#fff;color:var(--tinta)}
+.veredicto{border-radius:var(--r-m);padding:18px 20px;background:rgba(255,255,255,.06);min-height:110px}
+.veredicto .nombre{font-family:"Archivo",system-ui,sans-serif;font-stretch:115%;font-size:30px;font-weight:800}
+.tabla{width:100%;border-collapse:collapse;background:#fff;border-radius:var(--r-m);overflow:hidden;box-shadow:var(--sombra);font-size:16px}
+.tabla th{text-align:left;background:var(--tinta);color:#fff;font-weight:600;padding:12px 14px}
+.tabla td{padding:12px 14px;border-top:1px solid var(--concreto);vertical-align:top}
+.tabla tr.org td{background:#FBF6E4}
+.scroll-x{overflow-x:auto}
+.nota{font-size:14px;color:var(--tinta-suave);margin-top:10px}
+
+/* Constructor de prompts */
+.constructor{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:20px}
+@media (max-width:960px){.constructor{grid-template-columns:1fr}}
+.ingr{display:flex;flex-direction:column;gap:12px}
+.campo{background:#fff;border-radius:var(--r-m);padding:12px 14px;border-left:6px solid var(--c)}
+.campo label{display:flex;justify-content:space-between;gap:8px;font-weight:600;font-size:15px;margin-bottom:6px}
+.campo label small{font-weight:400;color:var(--tinta-suave)}
+.campo textarea{width:100%;font:400 15px/1.45 "IBM Plex Sans",system-ui,sans-serif;border:1px solid var(--linea);border-radius:var(--r-s);padding:8px 10px;resize:vertical;min-height:44px;color:var(--tinta);background:var(--papel)}
+.vista{position:sticky;top:76px;align-self:start;background:var(--tinta);border-radius:var(--r-m);padding:20px;color:#E8EDF5}
+.vista h3{color:#fff;font-size:20px;margin-bottom:12px}
+.vista pre{white-space:pre-wrap;word-wrap:break-word;font-size:14.5px;line-height:1.55;margin:0;min-height:180px}
+.vista pre .r{color:#9DB4FF}.vista pre .c{color:#7EE0D2}.vista pre .t{color:#FFD45C}.vista pre .f{color:#F7B3A3}.vista pre .g{color:#E2C6F0}
+.medidor{display:flex;gap:6px;margin:14px 0}
+.medidor i{flex:1;height:8px;border-radius:4px;background:rgba(255,255,255,.15);transition:background .3s}
+.medidor i.on{background:var(--senal)}
+.vista .fila{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+/* Misiones */
+.mapa{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:48px}
+@media (max-width:860px){.mapa{grid-template-columns:repeat(2,1fr)}}
+.mapa a{display:block;background:#fff;border:1px solid var(--linea);border-radius:var(--r-m);padding:14px;text-decoration:none;color:var(--tinta)}
+.mapa a:hover{border-color:var(--tinta)}
+.mapa a .n{font:800 14px "Archivo",system-ui,sans-serif;font-stretch:115%;color:var(--tinta-suave)}
+.mapa a b{display:block;font-size:16px;line-height:1.3;margin-top:4px}
+.mapa a.hecho{background:var(--senal-suave);border-color:var(--senal)}
+.mapa a.hecho .n::after{content:"  ✓ hecha";color:var(--verifica)}
+.pausa{display:flex;gap:20px;align-items:center;background:var(--tinta);color:#fff;border-radius:var(--r-m);padding:22px 26px;margin:8px 0 40px}
+.pausa .reloj{font-family:"Archivo",system-ui,sans-serif;font-stretch:120%;font-weight:900;font-size:44px;color:var(--senal);line-height:1}
+
+.mision{background:#fff;border-radius:16px;box-shadow:var(--sombra);margin-bottom:40px;overflow:hidden;scroll-margin-top:72px}
+.mision-cab{display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center;padding:26px 28px;border-bottom:1px solid var(--concreto)}
+.numero{width:76px;height:76px;border-radius:var(--r-m);background:var(--tinta);color:var(--senal);display:grid;place-items:center;font:900 38px "Archivo",system-ui,sans-serif;font-stretch:120%}
+.mision.hecho .numero{background:var(--senal);color:var(--tinta)}
+.mision-cab h3{font-size:clamp(24px,2.6vw,32px);font-weight:800}
+.etiquetas{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.et{font-size:13.5px;font-weight:500;padding:3px 10px;border-radius:999px;background:var(--concreto);color:var(--tinta)}
+.et.haiku{background:#DDF1EE;color:var(--haiku)}.et.sonnet{background:#E4E7FB;color:var(--sonnet)}.et.opus{background:#F3E3F6;color:var(--opus)}
+.mision-cuerpo{display:grid;grid-template-columns:1fr 1.25fr;gap:0}
+@media (max-width:960px){.mision-cuerpo{grid-template-columns:1fr}}
+.lado{padding:26px 28px}
+.lado + .lado{background:#F6F7F3;border-left:1px solid var(--concreto)}
+@media (max-width:960px){.lado + .lado{border-left:none;border-top:1px solid var(--concreto)}}
+.lado h4{font-size:18px;margin:0 0 10px;font-weight:700}
+.para{font-size:17px;margin-bottom:18px}
+.para b{color:var(--verifica)}
+ol.pasos{padding-left:0;margin:0 0 18px;list-style:none;counter-reset:p}
+ol.pasos li{counter-increment:p;position:relative;padding:0 0 12px 40px}
+ol.pasos li::before{content:counter(p);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:50%;background:var(--tinta);color:#fff;font:700 14px "IBM Plex Sans",system-ui,sans-serif;display:grid;place-items:center}
+
+.prompt{background:var(--tinta);border-radius:var(--r-m);margin:0 0 16px;overflow:hidden}
+.prompt-cab{display:flex;align-items:center;gap:10px;padding:10px 12px 10px 16px;background:#14203A;color:#C6D0DF;font-size:14px}
+.prompt-cab .quien{font-weight:600;color:#fff}
+.prompt-cab .punto{width:10px;height:10px;border-radius:50%;background:var(--c,#C6D0DF)}
+.copiar{margin-left:auto;font:600 14px "IBM Plex Sans",system-ui,sans-serif;background:var(--senal);color:var(--tinta);border:none;border-radius:var(--r-s);padding:7px 12px;cursor:pointer}
+.copiar.ok{background:#7EE0D2}
+.prompt pre{margin:0;padding:16px 18px;color:#E8EDF5;font-size:14.5px;line-height:1.6;white-space:pre-wrap;word-wrap:break-word;max-height:420px;overflow:auto}
+
+details{background:#fff;border:1px solid var(--linea);border-radius:var(--r-m);margin-bottom:10px}
+details summary{cursor:pointer;padding:12px 16px;font-weight:600;list-style:none;display:flex;align-items:center;gap:10px}
+details summary::-webkit-details-marker{display:none}
+details summary::before{content:"+";width:22px;height:22px;border-radius:50%;background:var(--concreto);display:grid;place-items:center;font-weight:700}
+details[open] summary::before{content:"−"}
+details > div{padding:0 16px 14px 48px;font-size:16px}
+details.ver summary{color:var(--verifica)}
+details.pista summary{color:#8A5A00}
+details.reto summary{color:var(--opus)}
+.completar{display:flex;justify-content:flex-end;padding:16px 28px;border-top:1px solid var(--concreto);background:#fff}
+.completar button{font:600 16px "IBM Plex Sans",system-ui,sans-serif;padding:11px 18px;border-radius:var(--r-s);border:2px solid var(--tinta);background:#fff;color:var(--tinta);cursor:pointer}
+.mision.hecho .completar button{background:var(--verifica);border-color:var(--verifica);color:#fff}
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+@media (max-width:700px){.trio{grid-template-columns:1fr}}
+.trio div{background:#fff;border:1px solid var(--linea);border-radius:var(--r-s);padding:10px 12px;font-size:15px;border-top:4px solid var(--c)}
+.trio b{display:block;color:var(--c)}
+
+/* Cuestionario */
+.quiz{max-width:820px}
+.pregunta{background:#fff;border-radius:var(--r-m);padding:22px 24px;margin-bottom:16px;box-shadow:var(--sombra)}
+.pregunta h3{font-size:20px;font-weight:700;font-stretch:105%;margin-bottom:14px;line-height:1.3}
+.pregunta h3 span{color:var(--tinta-suave);font-weight:600;margin-right:6px}
+.opciones{display:flex;flex-direction:column;gap:8px}
+.opciones button{text-align:left;font:400 16px/1.4 "IBM Plex Sans",system-ui,sans-serif;padding:12px 14px;border-radius:var(--r-s);border:1px solid var(--linea);background:var(--papel);color:var(--tinta);cursor:pointer}
+.opciones button:hover:not(:disabled){border-color:var(--tinta)}
+.opciones button.bien{background:var(--verifica-suave);border-color:var(--verifica);font-weight:600}
+.opciones button.mal{background:var(--alerta-suave);border-color:var(--alerta)}
+.opciones button:disabled{cursor:default}
+.explica{display:none;margin-top:12px;padding:12px 14px;border-radius:var(--r-s);background:var(--concreto);font-size:15.5px}
+.pregunta.respondida .explica{display:block}
+.resultado{background:var(--tinta);color:#fff;border-radius:var(--r-m);padding:26px;display:flex;flex-wrap:wrap;gap:24px;align-items:center}
+.resultado .nota-grande{font-family:"Archivo",system-ui,sans-serif;font-stretch:120%;font-weight:900;font-size:64px;color:var(--senal);line-height:1}
+.resultado p{margin:0;color:#C6D0DF;max-width:32em}
+
+/* Plantillas */
+.pestanas{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.pestanas button{font:600 15px "IBM Plex Sans",system-ui,sans-serif;padding:9px 16px;border-radius:999px;border:1px solid var(--linea);background:#fff;color:var(--tinta);cursor:pointer}
+.pestanas button[aria-selected="true"]{background:var(--tinta);color:#fff;border-color:var(--tinta)}
+
+footer{background:var(--tinta);color:#AEB9CB;padding:36px 0;font-size:14px}
+footer a{color:#fff}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(120%);background:var(--tinta);color:#fff;padding:12px 18px;border-radius:var(--r-s);box-shadow:var(--sombra);transition:transform .25s;z-index:50;font-weight:500}
+.toast.ver{transform:translateX(-50%) translateY(0)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+
+<header class="barra">
+  <div class="wrap">
+    <a class="marca" href="#inicio">data<span>path</span> · Laboratorio Claude</a>
+    <nav aria-label="Secciones">
+      <a href="#preparacion">Preparación</a>
+      <a href="#teoria">Teoría</a>
+      <a href="#receta">Constructor</a>
+      <a href="#misiones">Misiones</a>
+      <a href="#cuestionario">Cuestionario</a>
+      <a href="#plantillas">Plantillas</a>
+    </nav>
+    <div class="avance" aria-live="polite"><span id="avanceTexto">0/8 misiones</span><span class="riel"><i id="avanceBarra"></i></span></div>
+  </div>
+</header>
+
+<main id="inicio">
+<section class="portada">
+  <div class="wrap">
+    <div>
+      <h1>Hoy construimos con Claude, piso por piso</h1>
+      <p class="bajada">Ocho misiones con casos de una inmobiliaria. Cada una te deja algo que funciona: una app, un Excel con fórmulas, un dashboard, una presentación. Al terminar cada misión, márcala y se encenderá un piso de la torre.</p>
+      <div class="datos">
+        <span class="chip">Sesión 2 · Modelos, planes y prompting efectivo</span>
+        <span class="chip">2 horas · 75 minutos de práctica</span>
+        <span class="chip">Finanzas · Legal · RRHH · Proyectos</span>
+      </div>
+      <div class="acciones">
+        <a class="btn btn-senal" href="#preparacion">Empezar la preparación</a>
+        <a class="btn btn-borde" href="#misiones">Ir a las misiones</a>
+      </div>
+    </div>
+    <div class="torre">
+      <svg id="torreSvg" viewBox="0 0 300 470" role="img" aria-label="Torre de avance: un piso por misión completada y la azotea para el cuestionario"></svg>
+      <p class="leyenda">Haz clic en un piso para ir a su misión</p>
+    </div>
+  </div>
+</section>
+
+<!-- PREPARACIÓN -->
+<section class="bloque" id="preparacion">
+  <div class="wrap">
+    <h2>Antes de empezar</h2>
+    <p class="intro">Dos minutos de preparación ahorran diez de problemas. Tus marcas se guardan en este navegador.</p>
+    <div class="grid-2">
+      <ul class="lista-check" id="checklist">
+        <li><label><input type="checkbox" data-k="c1"><span>Abrí <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a> e inicié sesión con mi cuenta de trabajo.</span></label></li>
+        <li><label><input type="checkbox" data-k="c2"><span>Encontré el selector de modelo junto a la caja de mensaje y veo Haiku, Sonnet y Opus.</span></label></li>
+        <li><label><input type="checkbox" data-k="c3"><span>Descargué los 3 archivos de práctica.</span></label></li>
+        <li><label><input type="checkbox" data-k="c4"><span>Sé que con <b>Shift + Enter</b> bajo de línea sin enviar el mensaje.</span></label></li>
+        <li><label><input type="checkbox" data-k="c5"><span>Voy a abrir un chat nuevo por misión, salvo que la misión diga otra cosa.</span></label></li>
+      </ul>
+      <div>
+        <div class="archivos">
+          <div class="archivo"><span class="tipo" style="background:#0F766E">PNG</span><span><b>cotizacion_ventanas.png</b><small>Foto de una cotización de ventanas. Misión 3</small></span><a href="materiales/cotizacion_ventanas.png" download>Descargar</a></div>
+          <div class="archivo"><span class="tipo" style="background:#B42318">PDF</span><span><b>contrato_arrendamiento_local_102.pdf</b><small>Contrato de un local comercial, 3 páginas. Misión 6</small></span><a href="materiales/contrato_arrendamiento_local_102.pdf" download>Descargar</a></div>
+          <div class="archivo"><span class="tipo" style="background:#1F7A3E">XLSX</span><span><b>presupuesto_obra_mirador.xlsx</b><small>Presupuesto contra ejecutado de una obra. Misiones 4 y 8</small></span><a href="materiales/presupuesto_obra_mirador.xlsx" download>Descargar</a></div>
+        </div>
+        <div class="aviso"><span aria-hidden="true">⚠</span><span><b>Regla de oro.</b> Todo el material de hoy es ficticio. Con información real de la empresa, de clientes o de colaboradores, usa solo cuentas corporativas aprobadas.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEORÍA -->
+<section class="bloque claro" id="teoria">
+  <div class="wrap">
+    <h2>La teoría en cinco minutos</h2>
+    <p class="intro">Claude es el asistente de IA Generativa de Anthropic. Tiene tres modelos con perfiles distintos, y elegir bien ahorra tiempo y límite de uso.</p>
+    <div class="modelos">
+      <article class="modelo" style="--c:var(--haiku)"><h3>Haiku</h3><p class="perfil">El asistente veloz</p><p>El más rápido y económico. Brilla en tareas cortas, repetitivas y de mucho volumen.</p><p class="ej">Clasificar 300 reclamos de postventa por tema y urgencia.</p></article>
+      <article class="modelo" style="--c:var(--sonnet)"><h3>Sonnet</h3><p class="perfil">El analista senior</p><p>Equilibrio entre calidad y velocidad. Es el modelo para el trabajo de todos los días.</p><p class="ej">Responder a un propietario molesto con la política de garantías a la mano.</p></article>
+      <article class="modelo" style="--c:var(--opus)"><h3>Opus</h3><p class="perfil">El socio experto</p><p>El más profundo. Para decisiones con varios supuestos, cálculos encadenados y criterio.</p><p class="ej">Evaluar si conviene comprar un terreno y qué preguntar antes de ofertar.</p></article>
+    </div>
+    <div class="elegidor">
+      <div>
+        <h3>¿Qué modelo usarías?</h3>
+        <p style="color:#C6D0DF">Elige una tarea y mira la recomendación.</p>
+        <label class="sr" for="tarea">Tarea</label>
+        <select id="tarea">
+          <option value="">Elige una tarea de tu área</option>
+          <option value="haiku|Es repetitivo y de volumen. Haiku lo hace en segundos y casi igual de bien.">Etiquetar 200 movimientos bancarios por centro de costo</option>
+          <option value="sonnet|Redacción de calidad con un formato claro. Es el día a día de Sonnet.">Convertir las notas de la reunión de obra en un acta</option>
+          <option value="sonnet|Lectura cuidadosa de un solo documento con citas. Sonnet lo resuelve muy bien.">Revisar un contrato de arrendamiento y señalar riesgos</option>
+          <option value="opus|Varios documentos, supuestos y una recomendación con criterio. Aquí Opus marca la diferencia.">Comparar tres ofertas de terreno y recomendar cuál comprar</option>
+          <option value="haiku|Respuestas cortas y muchas. Haiku es ideal para un primer borrador masivo.">Responder 50 consultas de horarios de visita al piloto</option>
+          <option value="opus|Un modelo financiero con varios escenarios encadenados pide profundidad. Opus.">Armar los escenarios de flujo de caja de un proyecto nuevo</option>
+        </select>
+      </div>
+      <div class="veredicto" id="veredicto"><p style="color:#AEB9CB;margin:0">La recomendación aparecerá aquí.</p></div>
+    </div>
+    <p class="nota">Regla práctica: empieza con Sonnet, sube a Opus si no basta y baja a Haiku si la tarea es repetitiva. Por encima existe Fable, el modelo tope de Anthropic, en planes de mayor nivel.</p>
+
+    <h3 style="font-size:26px;margin:40px 0 14px">Los planes</h3>
+    <div class="scroll-x">
+    <table class="tabla">
+      <tr><th>Plan</th><th>Precio (USD, sin impuestos)</th><th>Lo principal</th></tr>
+      <tr><td><b>Free</b></td><td>Gratis</td><td>Sonnet y Haiku, uso limitado, hasta 5 proyectos</td></tr>
+      <tr><td><b>Pro</b></td><td>20 al mes (17 con pago anual)</td><td>Opus, más uso, proyectos ilimitados, Research</td></tr>
+      <tr><td><b>Max</b></td><td>100 al mes</td><td>5 veces el uso de Pro, incluye Fable con límites</td></tr>
+      <tr><td><b>Ultra</b></td><td>200 al mes</td><td>10 veces el uso semanal de Pro</td></tr>
+      <tr class="org"><td><b>Team</b></td><td>25 por persona (20 con pago anual)</td><td>De 2 a 150 personas, administración central, SSO, sin entrenamiento con tus datos por defecto</td></tr>
+      <tr class="org"><td><b>Enterprise</b></td><td>20 por persona, anual, más el uso</td><td>Desde 20 personas, auditoría, control de retención de datos</td></tr>
+    </table>
+    </div>
+    <p class="nota">Fuente: <a href="https://claude.com/pricing" target="_blank" rel="noopener">claude.com/pricing</a>, consultado en noviembre de 2026. El uso se mide en ventanas de 5 horas y límites semanales. Opus consume más límite por mensaje que Sonnet.</p>
+  </div>
+</section>
+
+<!-- CONSTRUCTOR -->
+<section class="bloque" id="receta">
+  <div class="wrap">
+    <h2>La receta del prompt</h2>
+    <p class="intro">Imagina un practicante brillante que no conoce la empresa. Antes de empezar te preguntaría cinco cosas. Escríbelas aquí y mira cómo se arma tu prompt.</p>
+    <div class="constructor">
+      <div class="ingr">
+        <div class="campo" style="--c:#3B4CCA"><label for="i-rol">Rol <small>¿Quién debe ser?</small></label><textarea id="i-rol" rows="1" placeholder="Actúa como ejecutivo de cobranzas de una inmobiliaria."></textarea></div>
+        <div class="campo" style="--c:#0F766E"><label for="i-ctx">Contexto <small>¿Qué debe saber?</small></label><textarea id="i-ctx" rows="2" placeholder="El cliente Carlos Ríos compró el departamento 504 y tiene 2 cuotas vencidas de S/ 2,850."></textarea></div>
+        <div class="campo" style="--c:#B88700"><label for="i-tar">Tarea <small>¿Qué debe hacer?</small></label><textarea id="i-tar" rows="1" placeholder="Escribe un correo de recordatorio de pago."></textarea></div>
+        <div class="campo" style="--c:#C2410C"><label for="i-for">Formato <small>¿Cómo lo quiero?</small></label><textarea id="i-for" rows="1" placeholder="Máximo 120 palabras, con asunto y 3 formas de pago en viñetas."></textarea></div>
+        <div class="campo" style="--c:#8A2C9E"><label for="i-reg">Reglas <small>¿Qué debe evitar?</small></label><textarea id="i-reg" rows="1" placeholder="Tono cordial y firme, sin amenazas legales. Si falta un dato, pregúntame."></textarea></div>
+      </div>
+      <div class="vista">
+        <h3>Tu prompt</h3>
+        <div class="medidor" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+        <p id="medidorTexto" style="font-size:14px;color:#C6D0DF;margin:0 0 12px">0 de 5 ingredientes</p>
+        <pre id="vistaPrompt"><span style="color:#7F8BA0">Empieza a escribir en los campos de la izquierda.</span></pre>
+        <div class="fila" style="margin-top:16px">
+          <button class="btn btn-senal" id="copiarReceta" type="button">Copiar mi prompt</button>
+          <button class="btn btn-borde" id="ejemploReceta" type="button">Ver un ejemplo</button>
+          <button class="btn btn-borde" id="limpiarReceta" type="button">Limpiar</button>
+        </div>
+      </div>
+    </div>
+    <p class="nota" style="margin-top:18px">Ingrediente extra: uno o dos ejemplos de lo que esperas enseñan tu criterio mejor que un párrafo de instrucciones. Lo usarás en la misión 1.</p>
+  </div>
+</section>
+
+<!-- MISIONES -->
+<section class="bloque claro" id="misiones">
+  <div class="wrap">
+    <h2>Las ocho misiones</h2>
+    <p class="intro">Van de menor a mayor dificultad. Cada misión dice qué modelo usar, cuánto tiempo tienes y qué te llevas. Si terminas antes, abre el reto extra.</p>
+    <nav class="mapa" id="mapa" aria-label="Mapa de misiones">
+      <a href="#m1" data-m="1"><span class="n">Misión 1 · 10 min</span><b>Tres cerebros, tres encargos</b></a>
+      <a href="#m2" data-m="2"><span class="n">Misión 2 · 10 min</span><b>Crea una app sin código</b></a>
+      <a href="#m3" data-m="3"><span class="n">Misión 3 · 8 min</span><b>De foto a Excel con fórmulas</b></a>
+      <a href="#m4" data-m="4"><span class="n">Misión 4 · 10 min</span><b>Un dashboard en un prompt</b></a>
+      <a href="#m5" data-m="5"><span class="n">Misión 5 · 8 min</span><b>Investigación con fuentes</b></a>
+      <a href="#m6" data-m="6"><span class="n">Misión 6 · 10 min</span><b>El contrato bajo la lupa</b></a>
+      <a href="#m7" data-m="7"><span class="n">Misión 7 · 8 min</span><b>Ensayo con un cliente difícil</b></a>
+      <a href="#m8" data-m="8"><span class="n">Misión 8 · 6 min</span><b>Del análisis a la presentación</b></a>
+    </nav>
+
+    <!-- M1 -->
+    <article class="mision" id="m1" data-m="1">
+      <div class="mision-cab"><div class="numero">1</div><div><h3>Tres cerebros, tres encargos</h3><div class="etiquetas"><span class="et">Nivel 1</span><span class="et">10 min</span><span class="et haiku">Haiku</span><span class="et sonnet">Sonnet</span><span class="et opus">Opus</span></div></div></div>
+      <div class="mision-cuerpo">
+        <div class="lado">
+          <p class="para"><b>Qué te llevas:</b> criterio para elegir el modelo correcto según el encargo, probado con tus propios ojos.</p>
+          <h4>Paso a paso</h4>
+          <ol class="pasos">
+            <li>Abre un chat nuevo, elige <b>Haiku</b> en el selector y envía el encargo A. Fíjate en cuántos segundos responde.</li>
+            <li>Abre otro chat, elige <b>Sonnet</b> y envía el encargo B.</li>
+            <li>Abre un tercer chat, elige <b>Opus</b>, activa el pensamiento extendido si ves la opción y envía el encargo C.</li>
+            <li>En el chat de la reunión responde: ¿qué habría pasado si usabas Haiku para el encargo C?</li>
+          </ol>
+          <div class="trio">
+            <div style="--c:var(--haiku)"><b>A · Haiku</b>Volumen y rapidez</div>
+            <div style="--c:var(--sonnet)"><b>B · Sonnet</b>Redacción con criterio</div>
+            <div style="--c:var(--opus)"><b>C · Opus</b>Decisión con supuestos</div>
+          </div>
+          <details class="ver"><summary>Qué deberías ver</summary><div>Haiku clasifica los 24 reclamos casi al instante. Sonnet escribe una respuesta empática que aplica la política sin prometer de más. Opus calcula una cabida, estima márgenes con supuestos explícitos y te devuelve preguntas que no se te habían ocurrido.</div></details>
+          <details class="pista"><summary>Pista si algo falla</summary><div>Si no ves Opus en el selector, revisa que estés en la cuenta del plan de la empresa. Si Haiku mezcla categorías, agrega un tercer ejemplo al prompt.</div></details>
+          <details class="reto"><summary>Reto extra</summary><div>Envía el encargo C también a Sonnet y compara: ¿en qué se diferencian las preguntas de due diligence de cada modelo?</div></details>
+        </div>
+        <div class="lado">
+          <div class="prompt" style="--c:var(--haiku)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Encargo A · Haiku</span><button class="copiar" type="button">Copiar</button></div><pre>Clasifica cada reclamo de postventa en una categoría (Humedad, Eléctrico, Sanitario, Carpintería, Acabados, Áreas comunes) y una urgencia (Alta, Media, Baja). Devuelve una tabla con N°, Departamento, Categoría y Urgencia. Al final, cuenta cuántos hay por categoría.
+
+Ejemplos de cómo clasifico:
+- "Sale agua por el tablero eléctrico" = Eléctrico, Alta
+- "Una mayólica del baño está rajada" = Acabados, Baja
+
+RECLAMOS:
+1. Dpto 302: mancha de humedad en la pared del dormitorio.
+2. Dpto 1104: el tomacorriente de la cocina echa chispas.
+3. Dpto 507: la puerta del clóset no cierra.
+4. Dpto 801: el inodoro pierde agua constantemente.
+5. Dpto 213: el ascensor se detiene entre pisos.
+6. Dpto 906: la pintura del techo se está descascarando.
+7. Dpto 1201: no hay agua caliente en la ducha.
+8. Dpto 405: la chapa de la puerta principal está trabada.
+9. Dpto 610: se va la luz cada vez que uso la terma.
+10. Dpto 1002: filtración en el techo del baño desde el piso de arriba.
+11. Dpto 115: el portón del estacionamiento no abre con el control.
+12. Dpto 708: el piso laminado se está levantando.
+13. Dpto 1303: el desagüe del lavadero está atorado.
+14. Dpto 222: las luces del pasadizo del piso 2 no encienden.
+15. Dpto 517: la ventana de la sala no corre bien.
+16. Dpto 903: hongos en la esquina de la terraza.
+17. Dpto 1110: el intercomunicador no funciona.
+18. Dpto 304: el zócalo del dormitorio se despegó.
+19. Dpto 612: olor a desagüe en el baño de visitas.
+20. Dpto 1405: la piscina de la azotea tiene el agua turbia.
+21. Dpto 808: el interruptor del dormitorio está flojo.
+22. Dpto 1007: la puerta del baño se hinchó y no cierra.
+23. Dpto 401: gotea el caño de la cocina.
+24. Dpto 1202: humedad y olor a moho detrás del ropero.</pre></div>
+          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Encargo B · Sonnet</span><button class="copiar" type="button">Copiar</button></div><pre>Actúa como jefe de postventa de una inmobiliaria. Responde este correo de un propietario molesto.
+
+CORREO:
+"Es la tercera vez que reporto la humedad en la pared del dormitorio del 1204 y nadie viene. Pagué S/ 590,000 por este departamento. Si esta semana no lo solucionan, voy a publicar todo en redes y presentar un reclamo ante Indecopi. Ernesto Salas"
+
+NUESTRA POLÍTICA:
+- Garantía de 1 año en acabados y 10 años en estructura.
+- Visita técnica en un máximo de 72 horas desde el reclamo.
+- El departamento se entregó hace 7 meses.
+
+FORMATO: correo de máximo 150 palabras, con asunto, una disculpa concreta, la fecha y hora propuesta para la visita y un contacto directo.
+REGLAS: no prometas montos ni plazos de reparación que no estén en la política. No culpes al propietario.</pre></div>
+          <div class="prompt" style="--c:var(--opus)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Encargo C · Opus</span><button class="copiar" type="button">Copiar</button></div><pre>Actúa como gerente de desarrollo inmobiliario. Nos ofrecen este terreno (datos ficticios):
+- Ubicación: avenida principal en Santiago de Surco, Lima.
+- Área: 1,200 m², frente de 30 m.
+- Zonificación: residencial de densidad media. El vendedor dice que se pueden construir 8 pisos.
+- Precio pedido: US$ 2,880,000 (US$ 2,400 por m² de terreno).
+- Precio de venta esperado de los departamentos: US$ 2,300 por m² vendible.
+- Costo de construcción estimado: US$ 750 por m² construido.
+
+Necesito:
+1) Una cabida estimada (m² construidos, m² vendibles, número de departamentos), con tus supuestos explícitos.
+2) Un margen bruto aproximado y qué supuesto lo mueve más.
+3) Los 5 riesgos principales.
+4) Las 8 preguntas de due diligence que haría antes de ofertar.
+5) Tu recomendación en 3 líneas: ¿ofertamos, negociamos o descartamos?
+Si un dato del vendedor debe verificarse, márcalo.</pre></div>
+        </div>
+      </div>
+      <div class="completar"><button type="button" data-hecho="1">Marcar misión como hecha</button></div>
+    </article>
+
+    <!-- M2 -->
+    <article class="mision" id="m2" data-m="2">
+      <div class="mision-cab"><div class="numero">2</div><div><h3>Crea una app sin código</h3><div class="etiquetas"><span class="et">Nivel 2</span><span class="et">10 min</span><span class="et sonnet">Sonnet</span><span class="et">Artifacts</span></div></div></div>
+      <div class="mision-cuerpo">
+        <div class="lado">
+          <p class="para"><b>Qué te llevas:</b> un simulador de cuota hipotecaria que funciona y que puedes compartir con tu equipo por link.</p>
+          <h4>Paso a paso</h4>
+          <ol class="pasos">
+            <li>Abre un chat nuevo con <b>Sonnet</b> y envía el prompt.</li>
+            <li>Claude construye la app en un panel al costado. Pruébala: mueve el precio y el plazo.</li>
+            <li>En el mismo chat pide una mejora: “Agrega el seguro de desgravamen de 0.05% mensual sobre el saldo”.</li>
+            <li>Si tu cuenta lo permite, publica el artifact y comparte el link en el chat de la reunión.</li>
+          </ol>
+          <details class="ver"><summary>Qué deberías ver</summary><div>Una app con campos editables, la cuota mensual actualizándose al instante, un gráfico y la comparación de dos escenarios. No escribiste ni una línea de código.</div></details>
+          <details class="pista"><summary>Pista si algo falla</summary><div>Si Claude responde con código en vez de mostrar la app, escribe: “Muéstramelo como artifact interactivo”. Si un número no cuadra, pídele que explique la fórmula que usó.</div></details>
+          <details class="reto"><summary>Reto extra por área</summary><div><b>Finanzas:</b> calculadora de rentabilidad de alquiler (renta, gastos, vacancia, retorno anual).<br><b>RRHH:</b> calculadora de costo total de un colaborador con beneficios de ley.<br><b>Proyectos:</b> estimador de m² vendibles según área de terreno y número de pisos.<br><b>Legal:</b> calculadora de penalidades por mora según días de atraso.</div></details>
+        </div>
+        <div class="lado">
+          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Prompt · Sonnet</span><button class="copiar" type="button">Copiar</button></div><pre>Crea un simulador interactivo de crédito hipotecario para que los asesores de ventas de una inmobiliaria en Lima lo usen con sus clientes.
+
+Campos editables:
+- Precio del departamento en soles (por defecto S/ 450,000)
+- Cuota inicial en porcentaje (por defecto 20%)
+- Tasa efectiva anual (por defecto 9.5%)
+- Plazo en años, con un deslizador de 5 a 25 (por defecto 20)
+
+Debe mostrar:
+- La cuota mensual en grande
+- El monto financiado y el total de intereses
+- Un gráfico de cómo se reparte cada cuota entre capital e intereses a lo largo del tiempo
+- Un botón para guardar el escenario y compararlo lado a lado con otro
+
+Diseño limpio y profesional, todo en español, montos en soles con separador de miles. Convierte la tasa efectiva anual a mensual con la fórmula correcta y muestra una nota que diga que es una simulación referencial.</pre></div>
+        </div>
+      </div>
+      <div class="completar"><button type="button" data-hecho="2">Marcar misión como hecha</button></div>
+    </article>
+
+    <!-- M3 -->
+    <article class="mision" id="m3" data-m="3">
+      <div class="mision-cab"><div class="numero">3</div><div><h3>De foto a Excel con fórmulas</h3><div class="etiquetas"><span class="et">Nivel 3</span><span class="et">8 min</span><span class="et sonnet">Sonnet</span><span class="et">Imagen</span><span class="et">Crear archivos</span></div></div></div>
+      <div class="mision-cuerpo">
+        <div class="lado">
+          <p class="para"><b>Qué te llevas:</b> un Excel descargable armado desde una foto, con fórmulas vivas y una hoja que verifica los números del proveedor.</p>
+          <h4>Paso a paso</h4>
+          <ol class="pasos">
+            <li>Abre un chat nuevo con <b>Sonnet</b>, haz clic en <b>+</b> y adjunta <b>cotizacion_ventanas.png</b>.</li>
+            <li>Pega el prompt y envíalo.</li>
+            <li>Descarga el Excel y ábrelo. Haz clic en una celda de Total: ¿es un número fijo o una fórmula?</li>
+            <li>Lee la hoja Verificación. ¿El proveedor sumó bien?</li>
+          </ol>
+          <details class="ver"><summary>Qué deberías ver</summary><div>Un archivo con dos hojas. Las celdas de total contienen fórmulas, no números pegados. La hoja Verificación compara lo que dice el documento con lo que da el cálculo y resalta cualquier diferencia.</div></details>
+          <details class="pista"><summary>Pista si algo falla</summary><div>Si no aparece el archivo para descargar, escribe: “Genera el archivo .xlsx para descargar”. Si leyó mal algún número de la foto, corrígelo en el chat y pide regenerar.</div></details>
+          <details class="reto"><summary>Reto extra</summary><div>Pide un correo cordial al proveedor que explique la diferencia encontrada y solicite la cotización corregida, citando el número de cotización.</div></details>
+        </div>
+        <div class="lado">
+          <img src="materiales/cotizacion_ventanas.png" alt="Foto de la cotización ficticia de ventanas de aluminio" style="width:100%;max-height:260px;object-fit:contain;background:#6B6F76;border-radius:12px;margin-bottom:16px">
+          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Prompt · Sonnet + imagen</span><button class="copiar" type="button">Copiar</button></div><pre>Actúa como analista de compras de una inmobiliaria. A partir de la foto de esta cotización, crea un archivo Excel descargable con dos hojas:
+
+1) "Partidas": Ítem, Descripción, Cantidad, Precio unitario y Total. El Total de cada fila, el Subtotal, el IGV de 18% y el Total final deben ser FÓRMULAS de Excel, no números escritos.
+
+2) "Verificación": compara el subtotal, el IGV y el total que figuran en el documento con los que resultan de las fórmulas. Muestra la diferencia en soles y resalta en rojo cualquier fila donde no coincidan.
+
+Después del archivo, explícame en 3 líneas si la cotización está bien calculada.</pre></div>
+        </div>
+      </div>
+      <div class="completar"><button type="button" data-hecho="3">Marcar misión como hecha</button></div>
+    </article>
+
+    <!-- M4 -->
+    <article class="mision" id="m4" data-m="4">
+      <div class="mision-cab"><div class="numero">4</div><div><h3>Un dashboard en un prompt</h3><div class="etiquetas"><span class="et">Nivel 3</span><span class="et">10 min</span><span class="et sonnet">Sonnet u Opus</span><span class="et">Excel</span><span class="et">Artifacts</span></div></div></div>
+      <div class="mision-cuerpo">
+        <div class="lado">
+          <p class="para"><b>Qué te llevas:</b> un tablero interactivo del avance de una obra, listo para mostrar en un comité. Guarda este chat: lo usarás en la misión 8.</p>
+          <h4>Paso a paso</h4>
+          <ol class="pasos">
+            <li>Abre un chat nuevo y adjunta <b>presupuesto_obra_mirador.xlsx</b>.</li>
+            <li>Pega el prompt y envíalo.</li>
+            <li>Revisa el tablero: ¿qué partidas quedaron en rojo?</li>
+            <li>Pregunta en el mismo chat: “¿Por qué Ascensores no está en rojo si gastamos S/ 270,000 con 0% de avance?”</li>
+          </ol>
+          <details class="ver"><summary>Qué deberías ver</summary><div>Indicadores arriba, un gráfico por partida y otro mensual, y un semáforo. Un buen resultado distingue un adelanto a proveedor de un sobrecosto. Si no lo hizo, la pregunta del paso 4 lo corrige.</div></details>
+          <details class="pista"><summary>Pista si algo falla</summary><div>Si los totales no te cuadran, pide: “Muéstrame en una tabla cómo calculaste cada indicador”. Claude puede ejecutar cálculos sobre el Excel, así que pídele que los haga con el archivo y no de memoria.</div></details>
+          <details class="reto"><summary>Reto extra</summary><div>Pide un escenario: “Si el acero sube 8% más, ¿cómo cambia el costo final estimado de Estructuras?” y que lo agregue como una pestaña del tablero.</div></details>
+        </div>
+        <div class="lado">
+          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Prompt · Sonnet + Excel</span><button class="copiar" type="button">Copiar</button></div><pre>Actúa como analista de control de gestión de proyectos inmobiliarios. Con el Excel adjunto, crea un dashboard interactivo para el comité de proyecto.
+
+Calcula para cada partida el "valor ganado" (presupuesto por avance físico) y compáralo con lo ejecutado.
+
+El dashboard debe tener:
+- Arriba, 4 indicadores: presupuesto total, ejecutado a la fecha, porcentaje ejecutado y desviación contra valor ganado.
+- Un gráfico de barras por partida: presupuesto, ejecutado y valor ganado.
+- Un gráfico de líneas mensual: programado contra real.
+- Un semáforo por partida: verde si el gasto va acorde al avance, ámbar si se excede hasta 5%, rojo si se excede más de 5%.
+
+Reglas: distingue un adelanto a proveedor de un sobrecosto, y explícalo con una nota. Calcula con los datos del archivo, no estimes. Montos en soles.</pre></div>
+        </div>
+      </div>
+      <div class="completar"><button type="button" data-hecho="4">Marcar misión como hecha</button></div>
+    </article>
+
+    <div class="pausa"><span class="reloj">10′</span><div><b style="font-size:20px">Break</b><p style="margin:4px 0 0;color:#C6D0DF">Mientras tanto, piensa en una tarea repetitiva de tu semana que le encargarías a Claude. La usarás en la tarea final.</p></div></div>
+
+    <!-- M5 -->
+    <article class="mision" id="m5" data-m="5">
+      <div class="mision-cab"><div class="numero">5</div><div><h3>Investigación con fuentes que puedes verificar</h3><div class="etiquetas"><span class="et">Nivel 4</span><span class="et">8 min</span><span class="et sonnet">Sonnet</span><span class="et">Búsqueda web</span><span class="et">Research</span></div></div></div>
+      <div class="mision-cuerpo">
+        <div class="lado">
+          <p class="para"><b>Qué te llevas:</b> pasar de “búscame info” a una investigación de nivel profesional, con fuentes fechadas y verificadas por ti.</p>
+          <h4>Paso a paso</h4>
+          <ol class="pasos">
+            <li>Abre un chat nuevo con <b>Sonnet</b>. Verifica que la búsqueda web esté activa en el menú de herramientas.</li>
+            <li>Envía el prompt.</li>
+            <li>Abre 2 de los enlaces que citó. ¿El dato está realmente en esa página y con esa fecha?</li>
+            <li>Envía el prompt de verificación en el mismo chat.</li>
+          </ol>
+          <details class="ver"><summary>Qué deberías ver</summary><div>Una tabla con cifras, fuente, fecha y enlace por cada dato. Donde no encontró un dato confiable, debe decirlo en vez de estimarlo. La verificación suele encontrar al menos un dato con fecha antigua o una fuente débil: por eso se verifica.</div></details>
+          <details class="pista"><summary>Pista si algo falla</summary><div>Si responde sin enlaces, escribe: “Busca en la web y cita cada dato con su enlace”. Si las fuentes son blogs, pide priorizar gremios, entidades públicas y medios especializados.</div></details>
+          <details class="reto"><summary>Reto extra con Research</summary><div>Activa el modo <b>Research</b> y pide: “Prepara un informe del mercado de oficinas prime en Lima en 2026: vacancia, precios de alquiler, nuevos proyectos y tendencias”. Research busca en decenas de fuentes durante varios minutos y entrega un informe con citas. Lánzalo y revísalo al final de la clase.</div></details>
+        </div>
+        <div class="lado">
+          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Prompt · Sonnet + búsqueda web</span><button class="copiar" type="button">Copiar</button></div><pre>Actúa como analista de inteligencia de mercado inmobiliario. Busca en la web el precio promedio por m² de departamentos nuevos en Miraflores, San Isidro y Santiago de Surco, con la información más reciente de 2025 y 2026.
+
+Entrega una tabla con: Distrito, Precio por m² (indica la moneda), Fuente, Fecha del dato y Enlace.
+
+Reglas:
+- Prioriza gremios del sector, entidades públicas y medios especializados.
+- Si dos fuentes no coinciden, muestra ambas cifras.
+- Si no encuentras un dato confiable, escribe "Sin dato confiable". No estimes.
+- Al final, en 2 líneas, dime qué tan confiable consideras cada cifra y por qué.</pre></div>
+          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Verificación · mismo chat</span><button class="copiar" type="button">Copiar</button></div><pre>Revisa tu propia tabla como lo haría un auditor exigente. Para cada cifra, confirma que aparece textualmente en la fuente citada, con esa fecha. Marca con "Revisar" cualquier dato que no puedas confirmar y corrige lo que haga falta.</pre></div>
+        </div>
+      </div>
+      <div class="completar"><button type="button" data-hecho="5">Marcar misión como hecha</button></div>
+    </article>
+
+    <!-- M6 -->
+    <article class="mision" id="m6" data-m="6">
+      <div class="mision-cab"><div class="numero">6</div><div><h3>El contrato bajo la lupa</h3><div class="etiquetas"><span class="et">Nivel 4</span><span class="et">10 min</span><span class="et opus">Opus</span><span class="et">PDF</span><span class="et">Prompt avanzado</span></div></div></div>
+      <div class="mision-cuerpo">
+        <div class="lado">
+          <p class="para"><b>Qué te llevas:</b> un prompt profesional con estructura, citas obligatorias y autorrevisión, que termina en una carta en Word lista para editar.</p>
+          <h4>Paso a paso</h4>
+          <ol class="pasos">
+            <li>Abre un chat nuevo con <b>Opus</b> y adjunta <b>contrato_arrendamiento_local_102.pdf</b>.</li>
+            <li>Pega el prompt. Fíjate en su estructura: cada bloque entre etiquetas es un ingrediente.</li>
+            <li>Haz la pregunta trampa: “¿Qué dice el contrato sobre el seguro contra incendios?”</li>
+            <li>Pide: “Ahora redacta la carta a la arrendadora proponiendo los 3 cambios, como archivo Word descargable”.</li>
+          </ol>
+          <details class="ver"><summary>Qué deberías ver</summary><div>Cada riesgo viene con el número de cláusula y una cita textual, así lo verificas en segundos. En la autorrevisión, Claude puede encontrar algo que no cuadra dentro del propio contrato. La pregunta trampa debe responderse con “No figura en el contrato”.</div></details>
+          <details class="pista"><summary>Pista si algo falla</summary><div>Si una cita no aparece en el PDF, dile: “No encuentro esa frase en la cláusula que mencionas. Muéstrame el texto exacto o retíralo”.</div></details>
+          <details class="reto"><summary>Reto extra</summary><div>Pide una tabla con todas las penalidades del contrato y cuánto costaría cada una en soles en el peor caso del primer año.</div></details>
+        </div>
+        <div class="lado">
+          <div class="prompt" style="--c:var(--opus)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Prompt · Opus + PDF</span><button class="copiar" type="button">Copiar</button></div><pre>&lt;rol&gt;
+Eres abogado corporativo y asesoras a LA ARRENDATARIA (Café Molienda E.I.R.L.).
+&lt;/rol&gt;
+
+&lt;tarea&gt;
+Analiza el contrato adjunto antes de la firma.
+&lt;/tarea&gt;
+
+&lt;formato&gt;
+1. Resumen en 5 viñetas: partes, plazo, renta, garantía y penalidades.
+2. Tabla de riesgos con: Cláusula (número), Cita textual (máximo 20 palabras), Riesgo para mi cliente, Gravedad (Alta, Media o Baja) y Propuesta de cambio.
+3. Los 3 cambios que negociarías primero y por qué.
+&lt;/formato&gt;
+
+&lt;reglas&gt;
+- Toda afirmación debe apoyarse en una cita textual del contrato.
+- Si algo no figura en el documento, escribe "No figura en el contrato".
+- Antes de responder, revisa la coherencia interna del contrato: plazos, fechas y montos.
+- Al terminar, relee tu tabla y elimina cualquier afirmación que no puedas respaldar con una cita.
+&lt;/reglas&gt;</pre></div>
+        </div>
+      </div>
+      <div class="completar"><button type="button" data-hecho="6">Marcar misión como hecha</button></div>
+    </article>
+
+    <!-- M7 -->
+    <article class="mision" id="m7" data-m="7">
+      <div class="mision-cab"><div class="numero">7</div><div><h3>Ensayo con un cliente difícil</h3><div class="etiquetas"><span class="et">Nivel 5</span><span class="et">8 min</span><span class="et sonnet">Sonnet</span><span class="et">Juego de roles</span></div></div></div>
+      <div class="mision-cuerpo">
+        <div class="lado">
+          <p class="para"><b>Qué te llevas:</b> un sparring para practicar conversaciones difíciles, que además te evalúa con una rúbrica y te da consejos.</p>
+          <h4>Paso a paso</h4>
+          <ol class="pasos">
+            <li>Abre un chat nuevo con <b>Sonnet</b> y envía el prompt de tu área.</li>
+            <li>Responde como lo harías en la vida real. Mantén la conversación de 4 a 6 turnos.</li>
+            <li>Prueba una vez responder con una excusa y observa cómo reacciona.</li>
+            <li>Escribe <b>FIN</b> y lee tu evaluación.</li>
+          </ol>
+          <details class="ver"><summary>Qué deberías ver</summary><div>Un personaje creíble que sube el tono ante excusas y lo baja ante soluciones concretas. Al escribir FIN, una tabla con tu puntaje en cada criterio y un consejo concreto para mejorar.</div></details>
+          <details class="pista"><summary>Pista si algo falla</summary><div>Si Claude sale del personaje antes de tiempo, escribe: “Sigue en el personaje hasta que escriba FIN”.</div></details>
+          <details class="reto"><summary>Otros personajes por área</summary><div><b>RRHH:</b> “Actúa como un colaborador con buen desempeño que pide un aumento del 25% y amenaza con irse a la competencia”.<br><b>Legal:</b> “Actúa como el abogado de un proveedor que se niega a pagar una penalidad por retraso”.<br><b>Finanzas:</b> “Actúa como un cliente con 3 cuotas vencidas que pide refinanciar sin intereses”.<br>Copia el mismo bloque de reglas y de evaluación del prompt principal.</div></details>
+        </div>
+        <div class="lado">
+          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Prompt · Sonnet</span><button class="copiar" type="button">Copiar</button></div><pre>Vamos a hacer un ensayo. Actúa como Rosa Medina, compradora del departamento 802 del proyecto Residencial Mirador de Surco. La entrega estaba prometida para julio y ya vamos 4 meses de retraso. Rosa está pagando alquiler mientras espera y está muy molesta. Yo soy el representante de la inmobiliaria.
+
+Reglas del personaje:
+- Responde en 2 o 3 líneas, como hablaría una persona real.
+- Si respondo con excusas o con información vaga, sube el tono.
+- Si ofrezco soluciones concretas, con fechas y compensaciones posibles, baja el tono poco a poco.
+- No salgas del personaje hasta que yo escriba FIN.
+
+Cuando escriba FIN, sal del personaje y evalúame en una tabla del 1 al 5 en: Empatía, Claridad, Solución concreta, Tono profesional y Manejo de objeciones. Para cada criterio cita una frase mía como evidencia y termina con el consejo más importante para mejorar.
+
+Empieza tú, con el primer mensaje de Rosa.</pre></div>
+        </div>
+      </div>
+      <div class="completar"><button type="button" data-hecho="7">Marcar misión como hecha</button></div>
+    </article>
+
+    <!-- M8 -->
+    <article class="mision" id="m8" data-m="8">
+      <div class="mision-cab"><div class="numero">8</div><div><h3>Del análisis a la presentación</h3><div class="etiquetas"><span class="et">Nivel 6</span><span class="et">6 min</span><span class="et sonnet">Sonnet</span><span class="et">Crear archivos</span></div></div></div>
+      <div class="mision-cuerpo">
+        <div class="lado">
+          <p class="para"><b>Qué te llevas:</b> el flujo completo de un analista en minutos: datos, análisis, dashboard y presentación para el comité.</p>
+          <h4>Paso a paso</h4>
+          <ol class="pasos">
+            <li>Vuelve al chat de la <b>misión 4</b>, el del dashboard.</li>
+            <li>Envía el prompt en ese mismo chat.</li>
+            <li>Descarga el PowerPoint y ábrelo.</li>
+            <li>Pide un ajuste: “En la slide 3 usa un gráfico en vez de la tabla”.</li>
+          </ol>
+          <details class="ver"><summary>Qué deberías ver</summary><div>Una presentación de 5 slides que usa los mismos números del dashboard, sin que tengas que volver a explicar nada. Ese es el poder de trabajar en el mismo chat: el contexto ya está ahí.</div></details>
+          <details class="pista"><summary>Pista si algo falla</summary><div>Si perdiste el chat de la misión 4, abre uno nuevo, adjunta el Excel y agrega al inicio: “Primero analiza este presupuesto contra ejecutado”.</div></details>
+          <details class="reto"><summary>Reto extra</summary><div>Pide las notas del orador para cada slide, de máximo 60 palabras, para que cualquier persona del equipo pueda presentarla.</div></details>
+        </div>
+        <div class="lado">
+          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Prompt · en el chat de la misión 4</span><button class="copiar" type="button">Copiar</button></div><pre>Con el análisis que acabamos de hacer, crea una presentación en PowerPoint descargable de 5 slides para el comité de proyecto:
+
+1. Portada: "Residencial Mirador de Surco, Torre B · Avance al 31 de octubre".
+2. Resumen ejecutivo: 3 mensajes clave con sus cifras.
+3. Partidas con desviación: solo las que estén en ámbar o rojo, con su causa.
+4. Ejecución mensual: programado contra real.
+5. Decisiones que pedimos al comité: 3 propuestas concretas.
+
+Estilo sobrio y profesional, una idea por slide, máximo 30 palabras por slide, cifras en soles. Usa solo los números del análisis.</pre></div>
+        </div>
+      </div>
+      <div class="completar"><button type="button" data-hecho="8">Marcar misión como hecha</button></div>
+    </article>
+  </div>
+</section>
+
+<!-- CUESTIONARIO -->
+<section class="bloque" id="cuestionario">
+  <div class="wrap">
+    <h2>Cuestionario: la azotea de la torre</h2>
+    <p class="intro">Seis preguntas para comprobar lo aprendido. Al responder verás si acertaste y por qué. Si apruebas, se ilumina la azotea.</p>
+    <div class="quiz" id="quiz"></div>
+    <div class="resultado" id="resultado" hidden>
+      <span class="nota-grande" id="notaQuiz">0/6</span>
+      <p id="mensajeQuiz"></p>
+      <button class="btn btn-senal" id="reiniciarQuiz" type="button">Volver a intentar</button>
+    </div>
+  </div>
+</section>
+
+<!-- PLANTILLAS -->
+<section class="bloque claro" id="plantillas">
+  <div class="wrap">
+    <h2>Plantillas para llevarte</h2>
+    <p class="intro">Copia la de tu área, completa los corchetes y úsala en tu cuenta de trabajo. Es el punto de partida de la tarea para la sesión 3.</p>
+    <div class="pestanas" role="tablist" id="pestanas">
+      <button role="tab" aria-selected="true" data-p="fin">Finanzas</button>
+      <button role="tab" aria-selected="false" data-p="leg">Legal</button>
+      <button role="tab" aria-selected="false" data-p="rrhh">RRHH</button>
+      <button role="tab" aria-selected="false" data-p="pro">Proyectos</button>
+    </div>
+    <div class="prompt" id="plantilla"><div class="prompt-cab"><span class="punto" style="background:var(--senal)"></span><span class="quien" id="plantillaTitulo">Finanzas</span><button class="copiar" type="button">Copiar</button></div><pre id="plantillaTexto"></pre></div>
+    <div class="aviso" style="background:var(--senal-suave);border-color:var(--senal)"><span aria-hidden="true">✎</span><span><b style="color:var(--tinta)">Tarea para la sesión 3.</b> Elige una tarea repetitiva de tu semana, escribe su prompt con los 5 ingredientes y pruébalo con datos ficticios o anonimizados. En la próxima sesión lo convertiremos en un Proyecto para no repetirlo en cada chat.</span></div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Programa de IA Generativa con Claude · Sesión 2 · Material de práctica ficticio, creado para el taller.</p>
+    <p>Instructor: Joel Espinoza · <a href="https://www.datapath.ai" target="_blank" rel="noopener">datapath.ai</a> · Planes y precios: <a href="https://claude.com/pricing" target="_blank" rel="noopener">claude.com/pricing</a></p>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  var KEY="taller-claude-s2";
+  var estado={misiones:{},check:{},quiz:null};
+  try{var g=localStorage.getItem(KEY);if(g){estado=Object.assign(estado,JSON.parse(g))}}catch(e){}
+  function guardar(){try{localStorage.setItem(KEY,JSON.stringify(estado))}catch(e){}}
+
+  function toast(t){var el=document.getElementById("toast");el.textContent=t;el.classList.add("ver");clearTimeout(toast.t);toast.t=setTimeout(function(){el.classList.remove("ver")},1800)}
+
+  function copiarTexto(texto,btn){
+    function ok(){if(btn){var o=btn.textContent;btn.textContent="Copiado";btn.classList.add("ok");setTimeout(function(){btn.textContent=o;btn.classList.remove("ok")},1500)}toast("Listo. Pégalo en Claude.")}
+    if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(texto).then(ok,function(){respaldo()})}else{respaldo()}
+    function respaldo(){var ta=document.createElement("textarea");ta.value=texto;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");ok()}catch(e){toast("Selecciona el texto y cópialo con Ctrl + C")}document.body.removeChild(ta)}
+  }
+  document.addEventListener("click",function(e){
+    var b=e.target.closest(".copiar");if(!b)return;
+    var pre=b.closest(".prompt").querySelector("pre");copiarTexto(pre.innerText,b);
+  });
+
+  /* Torre */
+  var svg=document.getElementById("torreSvg");var NS="http://www.w3.org/2000/svg";
+  function el(t,a){var n=document.createElementNS(NS,t);for(var k in a)n.setAttribute(k,a[k]);return n}
+  var alto=44,x0=50,ancho=200,base=440;
+  svg.appendChild(el("rect",{x:20,y:base,width:260,height:10,fill:"#5A6B88",rx:2}));
+  var grua=el("g",{});
+  grua.appendChild(el("line",{x1:262,y1:base,x2:262,y2:40,stroke:"#F2B705","stroke-width":4}));
+  grua.appendChild(el("line",{x1:150,y1:46,x2:290,y2:46,stroke:"#F2B705","stroke-width":4}));
+  grua.appendChild(el("line",{x1:180,y1:46,x2:180,y2:70,stroke:"#AEB9CB","stroke-width":1.5}));
+  svg.appendChild(grua);
+  var pisos={};
+  for(var i=1;i<=9;i++){
+    var y=base-i*alto;var g=el("g",{"class":"piso",tabindex:"0",role:"link","aria-label":i<9?"Misión "+i:"Cuestionario"});
+    g.appendChild(el("rect",{"class":"cuerpo",x:x0,y:y,width:ancho,height:alto-4,rx:i<9?2:8}));
+    if(i<9){for(var v=0;v<4;v++){g.appendChild(el("rect",{"class":"ventana",x:x0+96+v*24,y:y+12,width:16,height:16,rx:2}))}}
+    var tx=el("text",{x:x0+14,y:y+26});tx.textContent=i<9?"Piso "+i:"Azotea · Quiz";g.appendChild(tx);
+    (function(n){function ir(){location.hash=n<9?"#m"+n:"#cuestionario"}g.addEventListener("click",ir);g.addEventListener("keydown",function(ev){if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();ir()}})})(i);
+    svg.appendChild(g);pisos[i]=g;
+  }
+
+  function pintar(){
+    var n=0;
+    for(var m=1;m<=8;m++){
+      var h=!!estado.misiones[m];if(h)n++;
+      pisos[m].classList.toggle("hecho",h);
+      var art=document.querySelector('.mision[data-m="'+m+'"]');art.classList.toggle("hecho",h);
+      art.querySelector(".completar button").textContent=h?"Misión hecha ✓ (clic para desmarcar)":"Marcar misión como hecha";
+      document.querySelector('#mapa a[data-m="'+m+'"]').classList.toggle("hecho",h);
+    }
+    pisos[9].classList.toggle("hecho",!!(estado.quiz&&estado.quiz>=4));
+    document.getElementById("avanceTexto").textContent=n+"/8 misiones";
+    document.getElementById("avanceBarra").style.width=(n/8*100)+"%";
+  }
+  document.addEventListener("click",function(e){
+    var b=e.target.closest("[data-hecho]");if(!b)return;var m=b.getAttribute("data-hecho");
+    estado.misiones[m]=!estado.misiones[m];guardar();pintar();
+    if(estado.misiones[m])toast("Piso "+m+" construido");
+  });
+
+  /* Checklist */
+  document.querySelectorAll("#checklist input").forEach(function(c){
+    c.checked=!!estado.check[c.dataset.k];
+    c.addEventListener("change",function(){estado.check[c.dataset.k]=c.checked;guardar()});
+  });
+
+  /* Elegidor de modelo */
+  var colores={haiku:"#7EE0D2",sonnet:"#AAB4FF",opus:"#E2B1EE"};
+  var nombres={haiku:"Haiku",sonnet:"Sonnet",opus:"Opus"};
+  document.getElementById("tarea").addEventListener("change",function(){
+    var v=this.value,box=document.getElementById("veredicto");
+    if(!v){box.innerHTML='<p style="color:#AEB9CB;margin:0">La recomendación aparecerá aquí.</p>';return}
+    var p=v.split("|");box.innerHTML='<div class="nombre" style="color:'+colores[p[0]]+'">'+nombres[p[0]]+'</div><p style="margin:6px 0 0;color:#E8EDF5">'+p[1]+'</p>';
+  });
+
+  /* Constructor de prompts */
+  var ids=["i-rol","i-ctx","i-tar","i-for","i-reg"],cls=["r","c","t","f","g"];
+  var ejemplo=["Actúa como analista de recursos humanos de una inmobiliaria.","Vamos a abrir el puesto de Asistente de Postventa para el proyecto Residencial Mirador de Surco. Reporta a la Jefa de Postventa y atiende reclamos de propietarios.","Redacta el aviso de empleo y 6 preguntas de entrevista.","Aviso de máximo 180 palabras con funciones y requisitos en viñetas. Las preguntas en una lista numerada.","Lenguaje inclusivo. No pidas edad, sexo ni estado civil. Si te falta un dato, márcalo entre corchetes."];
+  function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+  function armar(){
+    var partes=[],n=0;
+    ids.forEach(function(id,i){var v=document.getElementById(id).value.trim();if(v){n++;partes.push('<span class="'+cls[i]+'">'+esc(v)+'</span>')}});
+    document.querySelectorAll(".medidor i").forEach(function(b,i){b.classList.toggle("on",i<n)});
+    var msg=["0 de 5 ingredientes","1 de 5: es un comienzo","2 de 5: sigue sumando","3 de 5: va tomando forma","4 de 5: casi listo","5 de 5: prompt completo"];
+    document.getElementById("medidorTexto").textContent=msg[n];
+    document.getElementById("vistaPrompt").innerHTML=n?partes.join("\n\n"):'<span style="color:#7F8BA0">Empieza a escribir en los campos de la izquierda.</span>';
+  }
+  ids.forEach(function(id){document.getElementById(id).addEventListener("input",armar)});
+  document.getElementById("ejemploReceta").addEventListener("click",function(){ids.forEach(function(id,i){document.getElementById(id).value=ejemplo[i]});armar()});
+  document.getElementById("limpiarReceta").addEventListener("click",function(){ids.forEach(function(id){document.getElementById(id).value=""});armar()});
+  document.getElementById("copiarReceta").addEventListener("click",function(){
+    var t=ids.map(function(id){return document.getElementById(id).value.trim()}).filter(Boolean).join("\n\n");
+    if(!t){toast("Primero escribe al menos un ingrediente");return}copiarTexto(t,this);
+  });
+
+  /* Cuestionario */
+  var preguntas=[
+    {p:"Cada semana tu área recibe 500 consultas de clientes que hay que clasificar por tema. ¿Qué modelo conviene?",o:["Opus, porque es el más inteligente","Haiku, porque es rápido y la tarea es repetitiva","Sonnet, porque siempre es la mejor opción","Cualquiera da igual"],c:1,e:"Clasificar mucho volumen con un criterio claro es el terreno de Haiku: casi la misma calidad, mucho más rápido y con menos consumo del límite de uso. Si quieres más precisión, agrega dos ejemplos al prompt."},
+    {p:"Este prompt: “Actúa como abogado. Revisa el contrato adjunto y dime los riesgos.” ¿Qué ingredientes le faltan?",o:["Rol y tarea","Contexto, formato y reglas","Solo el rol","No le falta nada"],c:1,e:"Tiene rol (abogado) y tarea (revisar riesgos). Le falta contexto (a quién asesoras), formato (tabla, viñetas, extensión) y reglas (citar cláusulas, decir “No figura” si algo no está)."},
+    {p:"Claude afirma que el contrato incluye un seguro contra incendios, pero tú no lo encuentras. ¿Qué haces?",o:["Confío, porque Claude leyó todo el PDF","Le pido que cite el número de cláusula y el texto exacto, y si no puede, lo descarto","Lo vuelvo a preguntar hasta que me diga que sí","Cambio a Haiku para que responda más rápido"],c:1,e:"Pedir la cita textual convierte una afirmación en algo verificable en segundos. Si no hay cita, no hay dato. Es la mejor defensa contra las alucinaciones."},
+    {p:"Tu equipo quiere usar Claude con contratos y datos reales de clientes. ¿Qué tipo de plan corresponde?",o:["La cuenta gratuita personal de cada uno","Un plan personal Pro pagado con la tarjeta de cada persona","Un plan de organización (Team o Enterprise) aprobado por la empresa","Cualquier plan, siempre que se borre el chat después"],c:2,e:"Los planes Team y Enterprise tienen administración central y, por defecto, no usan las conversaciones para entrenar modelos. En los planes personales esa opción viene activada y la persona debe desactivarla."},
+    {p:"Quieres darle a los asesores de ventas un simulador de cuota hipotecaria que puedan usar con sus clientes. ¿Qué le pides a Claude?",o:["Una tabla con 50 escenarios ya calculados","Un artifact interactivo con campos editables, que se pueda compartir por link","Que te dicte la fórmula para hacerlo a mano","Un documento Word con la explicación"],c:1,e:"Un artifact es una pequeña aplicación que Claude construye en el chat: tiene campos, botones y gráficos, y se puede publicar para compartirla. Lo hiciste en la misión 2."},
+    {p:"Claude te entregó un primer borrador que no te convence del todo. ¿Qué es lo más efectivo?",o:["Borrar el chat y empezar de cero con el mismo prompt","Seguir en el mismo chat con pedidos concretos: más corto, otro tono, agrega este dato","Copiar el borrador a Word y corregirlo todo a mano","Cambiar de modelo hasta que salga perfecto"],c:1,e:"Iterar en el mismo chat aprovecha todo el contexto que ya tiene Claude. Pedidos cortos y concretos mejoran el borrador mucho más rápido que empezar de nuevo."}
+  ];
+  var respuestas={};
+  var quiz=document.getElementById("quiz");
+  function renderQuiz(){
+    quiz.innerHTML="";respuestas={};document.getElementById("resultado").hidden=true;
+    preguntas.forEach(function(q,i){
+      var d=document.createElement("div");d.className="pregunta";
+      d.innerHTML='<h3><span>'+(i+1)+' de 6.</span>'+q.p+'</h3><div class="opciones"></div><div class="explica"></div>';
+      var ops=d.querySelector(".opciones");
+      q.o.forEach(function(t,j){
+        var b=document.createElement("button");b.type="button";b.textContent=t;
+        b.addEventListener("click",function(){
+          if(i in respuestas)return;respuestas[i]=j;
+          ops.querySelectorAll("button").forEach(function(x,k){x.disabled=true;if(k===q.c)x.classList.add("bien");else if(k===j)x.classList.add("mal")});
+          d.classList.add("respondida");
+          d.querySelector(".explica").innerHTML=(j===q.c?"<b style='color:var(--verifica)'>Correcto.</b> ":"<b style='color:var(--alerta)'>No es esa.</b> ")+q.e;
+          if(Object.keys(respuestas).length===preguntas.length)final();
+        });
+        ops.appendChild(b);
+      });
+      quiz.appendChild(d);
+    });
+  }
+  function final(){
+    var n=0;preguntas.forEach(function(q,i){if(respuestas[i]===q.c)n++});
+    estado.quiz=n;guardar();pintar();
+    document.getElementById("notaQuiz").textContent=n+"/6";
+    document.getElementById("mensajeQuiz").textContent=n===6?"Perfecto. La torre está completa: tienes todo para aplicar Claude en tu área.":n>=4?"Muy bien. Aprobaste y se encendió la azotea. Repasa las explicaciones de las que fallaste.":"Vuelve a repasar las misiones y la receta del prompt, y prueba otra vez.";
+    document.getElementById("resultado").hidden=false;
+    document.getElementById("resultado").scrollIntoView({behavior:"smooth",block:"center"});
+  }
+  document.getElementById("reiniciarQuiz").addEventListener("click",function(){renderQuiz();quiz.scrollIntoView({behavior:"smooth"})});
+  renderQuiz();
+
+  /* Plantillas */
+  var plantillas={
+    fin:["Finanzas","Actúa como analista financiero de una inmobiliaria. Te adjunto [archivo]. Calcula [indicador] por [proyecto o mes] y señala las variaciones mayores a [porcentaje].\n\nEntrega: una tabla, un gráfico y un resumen de 5 líneas para [destinatario].\n\nReglas: calcula con los datos del archivo, muestra tus cálculos y no asumas datos que no estén en el archivo."],
+    leg:["Legal","Actúa como abogado corporativo y asesora a [parte]. Revisa el [tipo de documento] adjunto.\n\nEntrega una tabla con: Cláusula, Cita textual, Riesgo, Gravedad y Propuesta de cambio.\n\nReglas: toda afirmación con su cita textual. Si algo no figura, escribe \"No figura en el documento\". Revisa la coherencia de plazos, fechas y montos."],
+    rrhh:["RRHH","Actúa como especialista de [selección, capacitación o clima laboral] de una inmobiliaria. Con estos datos: [datos], prepara [entregable] para [público].\n\nFormato: [extensión, viñetas o tabla].\n\nReglas: lenguaje inclusivo, tono [cercano o formal]. No incluyas requisitos de edad, sexo ni estado civil. Si te falta un dato, márcalo entre corchetes."],
+    pro:["Proyectos","Actúa como jefe de proyecto inmobiliario. Con estas notas o archivos: [material], prepara [acta, informe o correo] con estas secciones: [secciones].\n\nReglas: marca como \"Por definir\" cualquier responsable o fecha que no figure. Cierra con los 3 riesgos principales, su semáforo (verde, ámbar o rojo) y una acción de mitigación para cada uno."]
+  };
+  function mostrar(k){
+    document.querySelectorAll("#pestanas button").forEach(function(b){b.setAttribute("aria-selected",b.dataset.p===k?"true":"false")});
+    document.getElementById("plantillaTitulo").textContent="Plantilla · "+plantillas[k][0];
+    document.getElementById("plantillaTexto").textContent=plantillas[k][1];
+  }
+  document.getElementById("pestanas").addEventListener("click",function(e){var b=e.target.closest("button");if(b)mostrar(b.dataset.p)});
+  mostrar("fin");
+  pintar();
+})();
+</script>
+</body>
+</html>
