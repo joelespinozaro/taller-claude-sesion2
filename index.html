@@ -198,6 +198,20 @@ section.bloque{padding:72px 0;scroll-margin-top:58px}
 .vista .fila{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 
 /* Misiones */
+.et.area{background:var(--carbon);color:#FFFFFF}
+.areas-f{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px;align-items:center}
+.areas-f span{font-weight:700;color:var(--titulo);margin-right:4px}
+.areas-f button{font:inherit;font-size:14.5px;font-weight:700;padding:7px 14px;border-radius:999px;border:1.5px solid var(--borde-2);background:var(--blanco);color:var(--titulo);cursor:pointer}
+.areas-f button[aria-pressed="true"]{background:var(--carbon);border-color:var(--carbon);color:#FFFFFF}
+.mapa a .ar{display:block;font-size:12.5px;font-weight:700;color:var(--suave);margin-top:6px}
+.mapa a.tenue{opacity:.32}
+.areas-g{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:14px}
+.areas-g .ag{background:var(--blanco);border:1px solid var(--borde-2);border-top:6px solid var(--c);border-radius:var(--r-m);padding:16px;min-width:0}
+.areas-g .ag b{display:block;font-size:18px;color:var(--titulo);margin-bottom:6px}
+.areas-g .ag p{font-size:14.5px;margin:0 0 8px;line-height:1.45}
+.areas-g .ag em{font-style:normal;font-weight:900;font-size:13.5px;color:var(--coral-osc)}
+@media (max-width:1100px){.areas-g{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:760px){.areas-g{grid-template-columns:1fr}}
 .mapa{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:44px}
 @media (max-width:860px){.mapa{grid-template-columns:repeat(2,1fr)}}
 .mapa a{display:block;background:var(--blanco);border:1px solid var(--borde-2);border-radius:var(--r-m);padding:14px;text-decoration:none;color:var(--titulo)}
@@ -523,7 +537,7 @@ footer a{color:#fff}
     <div>
       <p class="eyebrow">SESIÓN 2 · LABORATORIO PRÁCTICO</p>
       <h1>Hoy construimos con Claude, piso por piso</h1>
-      <p class="bajada">Ocho misiones sobre el trabajo real de una empresa que invierte en oficinas, locales y naves industriales y los alquila: evaluar inversiones, controlar contratos, cobrar, mantener los inmuebles, negociar renovaciones y reportar al directorio. Cada misión te deja algo que funciona. Al terminarla, márcala y se encenderá un piso de la torre.</p>
+      <p class="bajada">Ocho misiones sobre el trabajo real de una empresa que invierte en oficinas, locales y naves industriales y los alquila: evaluar inversiones, controlar contratos, cobrar, mantener los inmuebles, negociar renovaciones y reportar al directorio. Hay casos para Finanzas, Contabilidad, Legal, RRHH y Proyectos, y cada misión te deja algo que funciona. Al terminarla, márcala y se encenderá un piso de la torre.</p>
       <div class="datos">
         <span class="chip">Sesión 2 · Modelos, planes y prompting efectivo</span>
         <span class="chip">8 misiones y un cuestionario</span>
@@ -574,13 +588,23 @@ footer a{color:#fff}
     <p class="intro">Una empresa que invierte en inmuebles y los alquila hace mucho más que cobrar una renta. Evalúa qué comprar, coloca los espacios, firma y renueva contratos, cobra, mantiene oficinas y naves, cuida a sus inquilinos y reporta a sus accionistas. Estas son las preguntas de cada etapa y dónde las vas a practicar.</p>
     <div class="cadena">
       <div class="eslabon"><div class="cab"><span>1</span><b>Inversión</b></div><div class="cuerpo"><p class="dolor">¿Qué inmueble conviene comprar para alquilar?</p><p class="dato">Las oficinas clase A en Lima tenían 8.6% de disponibilidad en el segundo trimestre de 2026, con una renta pedida promedio de US$ 16.5/m². <a href="https://gestion.pe/economia/empresas/oficinas-prime-cerca-del-40-de-lo-que-lima-construye-ya-esta-tomado-antes-del-2027-noticia/" target="_blank" rel="noopener">Gestión, con datos de Cushman &amp; Wakefield</a></p><p class="practica">Misiones 1 y final</p></div></div>
-      <div class="eslabon"><div class="cab"><span>2</span><b>Comercialización</b></div><div class="cuerpo"><p class="dolor">Colocar rápido los espacios vacíos.</p><p class="dato">En oficinas clase A se absorbieron 35,076 m² en el primer semestre de 2026, y cerca del 40% de lo que está en construcción ya está prealquilado. <a href="https://gestion.pe/economia/empresas/oficinas-prime-cerca-del-40-de-lo-que-lima-construye-ya-esta-tomado-antes-del-2027-noticia/" target="_blank" rel="noopener">Gestión</a></p><p class="practica">Misiones 5, 7 y final</p></div></div>
+      <div class="eslabon"><div class="cab"><span>2</span><b>Comercialización</b></div><div class="cuerpo"><p class="dolor">Colocar rápido los espacios vacíos.</p><p class="dato">En oficinas clase A se absorbieron 35,076 m² en el primer semestre de 2026, y cerca del 40% de lo que está en construcción ya está prealquilado. <a href="https://gestion.pe/economia/empresas/oficinas-prime-cerca-del-40-de-lo-que-lima-construye-ya-esta-tomado-antes-del-2027-noticia/" target="_blank" rel="noopener">Gestión</a></p><p class="practica">Misión final</p></div></div>
       <div class="eslabon"><div class="cab"><span>3</span><b>Contratos</b></div><div class="cuerpo"><p class="dolor">Que el contrato proteja de verdad al arrendador.</p><p class="dato">El desalojo con intervención notarial solo procede si el contrato cumple los requisitos de la Ley 30933. Un contrato privado sin las cláusulas adecuadas deja fuera esa vía. <a href="https://busquedas.elperuano.pe/normaslegales/ley-que-regula-el-procedimiento-especial-de-desalojo-con-int-ley-n-30933-1762977-1/" target="_blank" rel="noopener">El Peruano</a></p><p class="practica">Misiones 2 y 6</p></div></div>
-      <div class="eslabon"><div class="cab"><span>4</span><b>Cobranza y finanzas</b></div><div class="cuerpo"><p class="dolor">Cobrar a tiempo y no perder reajustes.</p><p class="dato">Un vencimiento o un reajuste olvidado se paga con meses de renta. Con varias naves y oficinas, el control en hojas sueltas no alcanza.</p><p class="practica">Misiones 2 y 4</p></div></div>
+      <div class="eslabon"><div class="cab"><span>4</span><b>Cobranza y finanzas</b></div><div class="cuerpo"><p class="dolor">Cobrar a tiempo y no perder reajustes.</p><p class="dato">Un vencimiento o un reajuste olvidado se paga con meses de renta. Con varias naves y oficinas, el control en hojas sueltas no alcanza.</p><p class="practica">Misiones 1, 2 y 4</p></div></div>
       <div class="eslabon"><div class="cab"><span>5</span><b>Mantenimiento</b></div><div class="cuerpo"><p class="dolor">Techos, pisos y pistas sin frenar al inquilino.</p><p class="dato">Cada licitación de mantenimiento exige comparar cotizaciones, revisar cifras y elegir proveedor con criterios claros.</p><p class="practica">Misión 3</p></div></div>
-      <div class="eslabon"><div class="cab"><span>6</span><b>Relación con inquilinos</b></div><div class="cuerpo"><p class="dolor">Retener al inquilino en cada renovación.</p><p class="dato">Los almacenes de Lima cerraron 2025 con 11.5% de vacancia y una renta pedida de US$ 6.4/m². El inquilino compara y negocia. <a href="https://energiminas.com/2026/02/16/centro-logisticos-y-almacenes-estamos-viendo-un-mercado-completamente-activo/" target="_blank" rel="noopener">Energiminas, con datos de Cushman &amp; Wakefield</a></p><p class="practica">Misiones 1 y 7</p></div></div>
+      <div class="eslabon"><div class="cab"><span>6</span><b>Relación con inquilinos</b></div><div class="cuerpo"><p class="dolor">Retener al inquilino en cada renovación.</p><p class="dato">Los almacenes de Lima cerraron 2025 con 11.5% de vacancia y una renta pedida de US$ 6.4/m². El inquilino compara y negocia. <a href="https://energiminas.com/2026/02/16/centro-logisticos-y-almacenes-estamos-viendo-un-mercado-completamente-activo/" target="_blank" rel="noopener">Energiminas, con datos de Cushman &amp; Wakefield</a></p><p class="practica">Misiones 2 y 7</p></div></div>
       <div class="eslabon"><div class="cab"><span>7</span><b>Gestión y reportes</b></div><div class="cuerpo"><p class="dolor">Decidir con números claros ante el directorio.</p><p class="dato">Ocupación, cobranza y rentabilidad por inmueble, en un tablero que cualquiera entienda en un minuto.</p><p class="practica">Misiones 4 y final</p></div></div>
     </div>
+    <h3 style="font-size:24px;margin:36px 0 4px">Las áreas que lo hacen funcionar</h3>
+    <p class="intro" style="margin-bottom:0">Cada área tiene su propio caso. Busca la tuya.</p>
+    <div class="areas-g">
+      <div class="ag" style="--c:var(--indigo)"><b>Finanzas</b><p>Rentabilidad por inmueble, flujo de caja y decisiones de inversión ante el directorio.</p><em>Misiones 1, 4 y final</em></div>
+      <div class="ag" style="--c:var(--teal)"><b>Contabilidad</b><p>Conciliar cobros, controlar la detracción de cada alquiler y registrar los inmuebles según la NIC 40.</p><em>Misiones 1, 3 y 5</em></div>
+      <div class="ag" style="--c:var(--rojo)"><b>Legal</b><p>Contratos que protejan al arrendador, renovaciones, adendas y desalojos.</p><em>Misiones 2 y 6</em></div>
+      <div class="ag" style="--c:var(--ambar)"><b>RRHH</b><p>Retener talento, responder reclamos de colaboradores, comunicados y selección.</p><em>Misiones 1 y 7, más el constructor</em></div>
+      <div class="ag" style="--c:var(--coral)"><b>Proyectos y mantenimiento</b><p>Cotizaciones, proveedores y obras en inmuebles con inquilinos operando.</p><em>Misión 3</em></div>
+    </div>
+
   </div>
 </section>
 
@@ -590,8 +614,8 @@ footer a{color:#fff}
     <h2>La teoría en una vista</h2>
     <p class="intro">Claude es el asistente de IA Generativa de Anthropic. Tiene tres modelos con perfiles distintos, y elegir bien ahorra tiempo y límite de uso.</p>
     <div class="modelos">
-      <article class="modelo" style="--c:var(--haiku)"><h3>Haiku</h3><p class="perfil">El asistente veloz</p><p>El más rápido y económico. Brilla en tareas cortas, repetitivas y de mucho volumen.</p><p class="ej">Clasificar 300 solicitudes de inquilinos por tipo y urgencia.</p></article>
-      <article class="modelo" style="--c:var(--sonnet)"><h3>Sonnet</h3><p class="perfil">El analista senior</p><p>Equilibrio entre calidad y velocidad. Es el modelo para el trabajo de todos los días.</p><p class="ej">Responder a un inquilino molesto con la política de mantenimiento a la mano.</p></article>
+      <article class="modelo" style="--c:var(--haiku)"><h3>Haiku</h3><p class="perfil">El asistente veloz</p><p>El más rápido y económico. Brilla en tareas cortas, repetitivas y de mucho volumen.</p><p class="ej">Clasificar 300 movimientos bancarios por cuenta contable.</p></article>
+      <article class="modelo" style="--c:var(--sonnet)"><h3>Sonnet</h3><p class="perfil">El analista senior</p><p>Equilibrio entre calidad y velocidad. Es el modelo para el trabajo de todos los días.</p><p class="ej">Responder a una colaboradora que reclama por su bono, con la política a la mano.</p></article>
       <article class="modelo" style="--c:var(--opus)"><h3>Opus</h3><p class="perfil">El socio experto</p><p>El más profundo. Para decisiones con varios supuestos, cálculos encadenados y criterio.</p><p class="ej">Evaluar si conviene comprar un local alquilado y qué preguntar antes de ofertar.</p></article>
     </div>
     <div class="elegidor">
@@ -600,13 +624,13 @@ footer a{color:#fff}
         <p style="color:#C9CDD3">Elige una tarea y mira la recomendación.</p>
         <label class="sr" for="tarea">Tarea</label>
         <select id="tarea">
-          <option value="">Elige una tarea del negocio</option>
-          <option value="haiku|Es repetitivo y de volumen. Haiku lo hace en segundos y casi igual de bien.">Etiquetar 200 solicitudes de mantenimiento por tipo y urgencia</option>
-          <option value="sonnet|Redacción de calidad con un formato claro. Es el día a día de Sonnet.">Convertir las notas de la visita a una nave en un informe</option>
-          <option value="sonnet|Lectura cuidadosa de un solo documento con citas. Sonnet lo resuelve muy bien.">Revisar un contrato de arrendamiento y señalar riesgos</option>
-          <option value="opus|Varios documentos, supuestos y una recomendación con criterio. Aquí Opus marca la diferencia.">Comparar tres inmuebles y recomendar en cuál invertir</option>
-          <option value="haiku|Respuestas cortas y muchas. Haiku es ideal para un primer borrador masivo.">Responder 50 consultas de disponibilidad de oficinas</option>
-          <option value="opus|Proyectar rentas, vacancia y reajustes en escenarios encadenados pide profundidad. Opus.">Armar los escenarios de flujo de caja de la cartera a 5 años</option>
+          <option value="">Elige una tarea de tu área</option>
+          <option value="haiku|Es repetitivo y de volumen. Haiku lo hace en segundos y casi igual de bien.">Contabilidad: clasificar 300 movimientos bancarios por cuenta</option>
+          <option value="sonnet|Redacción de calidad con un formato claro. Es el día a día de Sonnet.">RRHH: redactar el comunicado de la nueva política de vacaciones</option>
+          <option value="sonnet|Lectura cuidadosa de un solo documento con citas. Sonnet lo resuelve muy bien.">Legal: revisar un contrato de arrendamiento y señalar riesgos</option>
+          <option value="opus|Varios documentos, supuestos y una recomendación con criterio. Aquí Opus marca la diferencia.">Finanzas: comparar tres inmuebles y recomendar en cuál invertir</option>
+          <option value="haiku|Respuestas cortas y muchas. Haiku es ideal para un primer filtro masivo.">Proyectos: etiquetar 200 solicitudes de mantenimiento por urgencia</option>
+          <option value="opus|Medir el impacto de una política contable en varios años y en los resultados pide profundidad. Opus.">Contabilidad: comparar el modelo del costo con el de valor razonable para la cartera</option>
         </select>
       </div>
       <div class="veredicto" id="veredicto"><p style="color:#9CA3AF;margin:0">La recomendación aparecerá aquí.</p></div>
@@ -662,27 +686,28 @@ footer a{color:#fff}
 <section class="bloque" id="misiones">
   <div class="wrap">
     <h2>Las ocho misiones</h2>
-    <p class="intro">Van de menor a mayor dificultad y recorren la cadena del negocio. La última une todo en un solo flujo: investigar, analizar, visualizar, presentar y defender una decisión.</p>
+    <p class="intro">Van de menor a mayor dificultad y recorren la cadena del negocio. Cada una indica para qué áreas está pensada, y casi todas traen una versión para tu área. La última une todo en un solo flujo: investigar, analizar, visualizar, presentar y defender una decisión.</p>
+    <div class="areas-f" id="areasF" role="group" aria-label="Filtrar por área"><span>Tu área:</span><button type="button" aria-pressed="true" data-a="">Todas</button><button type="button" aria-pressed="false" data-a="fin">Finanzas</button><button type="button" aria-pressed="false" data-a="cont">Contabilidad</button><button type="button" aria-pressed="false" data-a="leg">Legal</button><button type="button" aria-pressed="false" data-a="rrhh">RRHH</button><button type="button" aria-pressed="false" data-a="pro">Proyectos</button></div>
     <nav class="mapa" id="mapa" aria-label="Mapa de misiones">
-      <a href="#m1" data-m="1"><span class="n">Misión 1</span><b>Tres modelos para tareas distintas</b></a>
-      <a href="#m2" data-m="2"><span class="n">Misión 2</span><b>Crea una app interna con entrevista</b></a>
-      <a href="#m3" data-m="3"><span class="n">Misión 3</span><b>De foto a Excel con fórmulas</b></a>
-      <a href="#m4" data-m="4"><span class="n">Misión 4</span><b>Un dashboard de la cartera</b></a>
-      <a href="#m5" data-m="5"><span class="n">Misión 5</span><b>Investigación con fuentes</b></a>
-      <a href="#m6" data-m="6"><span class="n">Misión 6</span><b>El contrato bajo la lupa</b></a>
-      <a href="#m7" data-m="7"><span class="n">Misión 7</span><b>Ensayo de una renovación difícil</b></a>
-      <a href="#m8" data-m="8"><span class="n">Misión final</span><b>¿En qué inmueble invertimos?</b></a>
+      <a href="#m1" data-m="1" data-a="fin cont rrhh"><span class="n">Misión 1</span><b>Tres modelos para tareas distintas</b><span class="ar">Contabilidad · RRHH · Finanzas</span></a>
+      <a href="#m2" data-m="2" data-a="leg fin"><span class="n">Misión 2</span><b>Crea una app interna con entrevista</b><span class="ar">Legal · Finanzas</span></a>
+      <a href="#m3" data-m="3" data-a="pro cont"><span class="n">Misión 3</span><b>De foto a Excel con fórmulas</b><span class="ar">Proyectos · Contabilidad</span></a>
+      <a href="#m4" data-m="4" data-a="fin"><span class="n">Misión 4</span><b>Un dashboard de la cartera</b><span class="ar">Finanzas</span></a>
+      <a href="#m5" data-m="5" data-a="cont"><span class="n">Misión 5</span><b>Investigación con fuentes</b><span class="ar">Contabilidad</span></a>
+      <a href="#m6" data-m="6" data-a="leg"><span class="n">Misión 6</span><b>El contrato bajo la lupa</b><span class="ar">Legal</span></a>
+      <a href="#m7" data-m="7" data-a="rrhh"><span class="n">Misión 7</span><b>Ensayo de una conversación difícil</b><span class="ar">RRHH y jefaturas</span></a>
+      <a href="#m8" data-m="8" data-a="fin leg cont"><span class="n">Misión final</span><b>¿En qué inmueble invertimos?</b><span class="ar">Finanzas · Legal · Contabilidad</span></a>
     </nav>
 
     <!-- M1 -->
     <article class="mision" id="m1" data-m="1">
-      <div class="mision-cab"><div class="numero">1</div><div><h3>Tres modelos para tareas distintas</h3><div class="etiquetas"><span class="et">Nivel 1</span><span class="et">Inquilinos e inversión</span><span class="et haiku">Haiku</span><span class="et sonnet">Sonnet</span><span class="et opus">Opus</span></div></div></div>
+      <div class="mision-cab"><div class="numero">1</div><div><h3>Tres modelos para tareas distintas</h3><div class="etiquetas"><span class="et">Nivel 1</span><span class="et area">Contabilidad · RRHH · Finanzas</span><span class="et haiku">Haiku</span><span class="et sonnet">Sonnet</span><span class="et opus">Opus</span></div></div></div>
       <div class="viz" id="viz1">
   <div class="viz-cab"><h4>¿Qué modelo para qué tarea?</h4><span>Elige una tarea y mira qué modelo encaja mejor.</span></div>
   <div class="tog" role="group" aria-label="Tareas">
-    <button type="button" aria-pressed="true" data-e="a">A · Clasificar 24 solicitudes</button>
-    <button type="button" aria-pressed="false" data-e="b">B · Responder al inquilino molesto</button>
-    <button type="button" aria-pressed="false" data-e="c">C · Evaluar la compra de un local</button>
+    <button type="button" aria-pressed="true" data-e="a">A · Contabilidad: clasificar 24 movimientos</button>
+    <button type="button" aria-pressed="false" data-e="b">B · RRHH: responder a una colaboradora</button>
+    <button type="button" aria-pressed="false" data-e="c">C · Finanzas: evaluar un local</button>
   </div>
   <div class="cols3">
     <div class="mod" data-m="a" style="--c:var(--haiku)"><h5>Haiku <small>Ideal aquí</small></h5>
@@ -703,7 +728,7 @@ footer a{color:#fff}
 </div>
       <div class="mision-cuerpo">
         <div class="lado">
-          <p class="para"><b>Qué te llevas:</b> criterio para elegir el modelo correcto según la tarea, probado con tus propios ojos en tres situaciones de la empresa.</p>
+          <p class="para"><b>Qué te llevas:</b> criterio para elegir el modelo correcto según la tarea, probado con tus propios ojos en tres áreas distintas de la empresa.</p>
           <h4>Paso a paso</h4>
           <ol class="pasos">
             <li>Abre un chat nuevo, elige <b>Haiku</b> en el selector y envía la tarea A. Fíjate en lo rápido que responde.</li>
@@ -711,55 +736,56 @@ footer a{color:#fff}
             <li>Abre un tercer chat, elige <b>Opus</b>, activa el pensamiento extendido si ves la opción y envía la tarea C.</li>
             <li>En el chat de la reunión responde: ¿qué habría pasado si usabas Haiku para la tarea C?</li>
           </ol>
-          <details class="ver"><summary>Qué deberías ver</summary><div>Haiku clasifica las 24 solicitudes casi al instante. Sonnet responde con tacto, se hace cargo del techo sin aceptar descuentos ni culpas antes de evaluar. Opus calcula la rentabilidad, nota que el contrato del banco no tiene reajuste y te devuelve preguntas de due diligence que no se te habían ocurrido.</div></details>
+          <details class="ver"><summary>Qué deberías ver</summary><div>Haiku clasifica los 24 movimientos casi al instante y separa las detracciones de los cobros normales. Sonnet le explica a la colaboradora el cálculo de su bono con claridad y empatía, sin prometer cambios. Opus calcula la rentabilidad, nota que el contrato del banco no tiene reajuste y te devuelve preguntas de due diligence que no se te habían ocurrido.</div></details>
           <details class="pista"><summary>Pista si algo falla</summary><div>Si no ves Opus en el selector, revisa que estés en la cuenta del plan de la empresa. Si Haiku mezcla categorías, agrega un tercer ejemplo al prompt.</div></details>
           <details class="reto"><summary>Reto extra</summary><div>Envía la tarea C también a Sonnet y compara: ¿en qué se diferencian las preguntas de due diligence de cada modelo?</div></details>
         </div>
         <div class="lado">
-          <div class="prompt" style="--c:var(--haiku)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Tarea A · Haiku</span><button class="copiar" type="button">Copiar</button></div><pre>Clasifica cada solicitud de inquilino en una categoría (Mantenimiento, Facturación y cobranza, Contrato y renovación, Seguridad, Áreas comunes, Otros) y una urgencia (Alta, Media, Baja). Devuelve una tabla con N°, Inmueble, Categoría y Urgencia. Al final, cuenta cuántas hay por categoría.
+          <div class="prompt" style="--c:var(--haiku)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Tarea A · Haiku</span><button class="copiar" type="button">Copiar</button></div><pre>Clasifica cada movimiento del extracto bancario de octubre en una cuenta (Cobro de alquiler, Detracción recibida, Garantía recibida, Mantenimiento, Servicios, Planilla, Impuestos, Comisiones bancarias, Otros). Devuelve una tabla con N°, Fecha, Descripción, Monto, Cuenta y una columna "Revisar" donde marques lo que te parezca dudoso. Al final, suma los montos por cuenta.
 
 Ejemplos de cómo clasifico:
-- "Se cayó una plancha del techo sobre la zona de carga" = Mantenimiento, Alta
-- "¿Me pueden reenviar la factura de octubre?" = Facturación y cobranza, Baja
+- "ABONO TRANSF LOGISTICA ANDINA SAC 21,060.00" = Cobro de alquiler
+- "PAGO SUNAT PDT 621 IGV" = Impuestos
 
-SOLICITUDES:
-1. Nave A Lurín: la puerta enrollable del andén 3 no sube.
-2. Oficina piso 8: el aire acondicionado de la sala de directorio no enfría.
-3. Almacén Callao: queremos saber si podemos ampliar el contrato a 5 años.
-4. Nave B Lurín: hay goteras sobre la zona de racks.
-5. Local Surco: la factura de octubre tiene mal el RUC.
-6. Oficina piso 3: el ascensor se detiene entre pisos.
-7. Nave Chilca: necesitamos una adenda para subarrendar parte del área.
-8. Oficina piso 11: piden cotización para alquilar el medio piso vacío.
-9. Nave A Lurín: la pista de ingreso tiene huecos y dañan los camiones.
-10. Local Surco: el vigilante nocturno no llegó ayer.
-11. Oficina piso 8: ¿cuándo se aplica el reajuste de la renta?
-12. Nave B Lurín: el tablero eléctrico huele a quemado.
-13. Nave Chilca: no nos llegó la constancia de pago de la garantía.
-14. Oficina piso 3: las luces del estacionamiento no encienden.
-15. Almacén Callao: un postulante pregunta por visitas al almacén.
-16. Nave A Lurín: se activó la alarma contra incendios sin motivo.
-17. Oficina piso 11: el inquilino avisa que no renovará.
-18. Nave B Lurín: el desagüe del baño de operarios está atorado.
-19. Local Surco: piden permiso para cambiar el letrero de fachada.
-20. Nave Chilca: la cerca perimétrica tiene un tramo caído.
-21. Oficina piso 8: la cerradura de la puerta principal falla.
-22. Nave A Lurín: piden una copia del contrato firmado.
-23. Oficina piso 3: hay olor a humedad en el depósito.
-24. Nave B Lurín: el agua del techo mojó mercadería esta mañana.</pre></div>
-          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Tarea B · Sonnet</span><button class="copiar" type="button">Copiar</button></div><pre>Actúa como jefe de relación con inquilinos de una empresa que alquila naves industriales. Responde este correo.
+MOVIMIENTOS:
+1. 02/10 ABONO TRANSF ESTUDIO CONTABLE RIOS 18,500.00
+2. 02/10 COMISION MANTENIMIENTO CUENTA -45.00
+3. 03/10 ABONO TRANSF LOGISTICA ANDINA SAC 21,060.00
+4. 03/10 DEPOSITO BN DETRACCION LOGISTICA ANDINA 2,340.00
+5. 05/10 PAGO PROVEEDOR CLIMATIZA PERU -3,850.00
+6. 06/10 PAGO LUZ DEL SUR NAVE A -1,920.00
+7. 07/10 ABONO TRANSF BOTICA VIDA SANA 11,520.00
+8. 08/10 PAGO SEDAPAL OFICINAS -640.00
+9. 10/10 ABONO TRANSF METALMECANICA DEL SUR 49,500.00
+10. 10/10 DEPOSITO BN DETRACCION METALMECANICA 5,500.00
+11. 12/10 PAGO SUNAT PDT 621 IGV -18,230.00
+12. 14/10 PAGO PROVEEDOR SEGURIDAD ANDINA -7,200.00
+13. 15/10 PAGO HABERES QUINCENA -26,400.00
+14. 16/10 ABONO TRANSF AGENCIA NORTE 9,600.00
+15. 17/10 ABONO GARANTIA NUEVO INQUILINO PISO 11 19,000.00
+16. 18/10 PAGO PROVEEDOR ASCENSORES LIMA -2,100.00
+17. 20/10 ITF -12.40
+18. 21/10 ABONO TRANSF IMPORTADORA DEL PUERTO 16,000.00
+19. 22/10 PAGO MUNICIPALIDAD LURIN ARBITRIOS -4,380.00
+20. 24/10 PAGO PROVEEDOR JARDINES Y LIMPIEZA SAC -2,750.00
+21. 27/10 TRANSF A CUENTA PROPIA -50,000.00
+22. 28/10 PAGO ESSALUD Y AFP -9,870.00
+23. 30/10 PAGO HABERES FIN DE MES -26,400.00
+24. 31/10 ABONO SIN REFERENCIA 3,200.00</pre></div>
+          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Tarea B · Sonnet</span><button class="copiar" type="button">Copiar</button></div><pre>Actúa como especialista de compensaciones de RRHH de una empresa que alquila y mantiene inmuebles corporativos. Responde este correo.
 
 CORREO:
-"Por tercera vez en el mes hay filtraciones en el techo de la Nave B en Lurín. Esta mañana se mojaron 40 pallets de mercadería. Si no lo resuelven esta semana, vamos a descontar los daños de la renta y evaluar no renovar el contrato. Martín Salas, Gerente de Operaciones, Logística Andina"
+"Hola. Me acaba de llegar el bono anual y es solo el 82% de lo que esperaba. Cumplí todas mis metas y nadie me explicó por qué me pagaron menos. Siento que no se valora mi trabajo. Lucía Torres, Asistente Contable"
 
 LO QUE SABEMOS:
-- El mantenimiento del techo está a nuestro cargo.
-- El cambio de cobertura ya está cotizado y puede empezar en 10 días.
-- Los daños a la mercadería se evalúan con el seguro, no se descuentan de la renta.
-- Su contrato vence en 3 meses y es un inquilino importante.
+- La política de bonos pesa 60% las metas de la empresa y 40% las metas individuales.
+- La empresa cumplió 70% de su meta de resultado del año, así que esa parte se paga al 70%.
+- Lucía cumplió el 100% de sus metas individuales.
+- Cálculo: 0.6 × 70% + 0.4 × 100% = 82% del bono.
+- La política se comunicó en febrero, pero no hubo una reunión de explicación.
 
-FORMATO: correo de máximo 160 palabras, con asunto, una disculpa concreta, la solución temporal para esta semana, la fecha de inicio del cambio de techo y un contacto directo.
-REGLAS: no aceptes descuentos de renta ni responsabilidad por daños antes de evaluarlos. No culpes al inquilino. Cuida la relación pensando en la renovación.</pre></div>
+FORMATO: correo de máximo 170 palabras, con asunto, una frase que reconozca su desempeño, el cálculo explicado en 3 líneas simples y una invitación a conversar esta semana.
+REGLAS: no prometas cambios en el bono. No compares con otros colaboradores. Tono cercano y respetuoso. Reconoce que faltó explicar la política.</pre></div>
           <div class="prompt" style="--c:var(--opus)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Tarea C · Opus</span><button class="copiar" type="button">Copiar</button></div><pre>Actúa como gerente de inversiones de una empresa que compra inmuebles para alquilarlos. Nos ofrecen este activo:
 - Local comercial en una avenida principal de Santiago de Surco, 420 m².
 - Precio pedido: US$ 2,100,000.
@@ -781,7 +807,7 @@ Muestra tus cálculos y marca los datos del vendedor que deben verificarse.</pre
 
     <!-- M2 -->
     <article class="mision" id="m2" data-m="2">
-      <div class="mision-cab"><div class="numero">2</div><div><h3>Crea una app interna: Claude te entrevista primero</h3><div class="etiquetas"><span class="et">Nivel 2</span><span class="et">Renta y contratos</span><span class="et sonnet">Sonnet</span><span class="et">Artifacts</span><span class="et">Entrevista</span></div></div></div>
+      <div class="mision-cab"><div class="numero">2</div><div><h3>Crea una app interna: Claude te entrevista primero</h3><div class="etiquetas"><span class="et">Nivel 2</span><span class="et area">Legal y Finanzas</span><span class="et sonnet">Sonnet</span><span class="et">Artifacts</span><span class="et">Entrevista</span></div></div></div>
       <div class="viz" id="viz2">
   <div class="viz-cab"><h4>De la idea a la app en seis pasos</h4><span>Cuando no sabes bien qué pedir, deja que Claude te pregunte.</span></div>
   <div class="flujo2" role="list">
@@ -847,7 +873,7 @@ Cuando tengas suficiente información, resume lo que entendiste en una ficha de 
 
     <!-- M3 -->
     <article class="mision" id="m3" data-m="3">
-      <div class="mision-cab"><div class="numero">3</div><div><h3>De foto a Excel con fórmulas</h3><div class="etiquetas"><span class="et">Nivel 3</span><span class="et">Mantenimiento</span><span class="et sonnet">Sonnet</span><span class="et">Imagen</span><span class="et">Crear archivos</span></div></div></div>
+      <div class="mision-cab"><div class="numero">3</div><div><h3>De foto a Excel con fórmulas</h3><div class="etiquetas"><span class="et">Nivel 3</span><span class="et area">Proyectos y Contabilidad</span><span class="et sonnet">Sonnet</span><span class="et">Imagen</span><span class="et">Crear archivos</span></div></div></div>
       <div class="viz" id="viz3">
   <div class="viz-cab"><h4>De la foto a la fórmula</h4><span>Un número escrito no se puede auditar. Una fórmula sí.</span></div>
   <div class="tog" role="group" aria-label="Vista de la hoja">
@@ -881,6 +907,7 @@ Cuando tengas suficiente información, resume lo que entendiste en una ficha de 
           <details class="ver"><summary>Qué deberías ver</summary><div>Un archivo con dos hojas. Las celdas de total contienen fórmulas, no números pegados. La hoja Verificación compara lo que dice el documento con lo que da el cálculo y resalta cualquier diferencia.</div></details>
           <details class="pista"><summary>Pista si algo falla</summary><div>Si no aparece el archivo para descargar, escribe: “Genera el archivo .xlsx para descargar”. Si leyó mal algún número de la foto, corrígelo en el chat y pide regenerar.</div></details>
           <details class="reto"><summary>Reto extra</summary><div>Pide un correo cordial al proveedor que explique la diferencia encontrada y solicite la cotización corregida. Luego pide una matriz para comparar esta propuesta con otras dos en una licitación: precio, plazo, garantía, experiencia en naves industriales y si trabaja sin detener la operación del inquilino.</div></details>
+          <details class="reto"><summary>Llévalo a tu área</summary><div><b>Contabilidad:</b> foto de 10 recibos de caja chica: Excel con fórmulas, total por concepto y una hoja que cuadre contra el fondo asignado.<br><b>Finanzas:</b> foto de un estado de cuenta: Excel con los cobros del mes y una columna que los cruce con la renta de cada contrato.<br><b>RRHH:</b> foto de la hoja de asistencia firmada: Excel con horas trabajadas, tardanzas y horas extra con fórmulas.<br><b>Legal:</b> foto de una partida registral: ficha con titular, área, cargas y gravámenes, y qué falta verificar.</div></details>
         </div>
         <div class="lado">
           <img src="materiales/cotizacion_techo_nave.png" alt="Foto de la cotización de mantenimiento del techo de la Nave B" style="width:100%;max-height:260px;object-fit:contain;background:#6B6F76;border-radius:12px;margin-bottom:16px">
@@ -898,7 +925,7 @@ Después del archivo, explícame en 3 líneas si la cotización está bien calcu
 
     <!-- M4 -->
     <article class="mision" id="m4" data-m="4">
-      <div class="mision-cab"><div class="numero">4</div><div><h3>Un dashboard de la cartera</h3><div class="etiquetas"><span class="et">Nivel 3</span><span class="et">Finanzas y gestión</span><span class="et sonnet">Sonnet u Opus</span><span class="et">Excel</span><span class="et">Artifacts</span></div></div></div>
+      <div class="mision-cab"><div class="numero">4</div><div><h3>Un dashboard de la cartera</h3><div class="etiquetas"><span class="et">Nivel 3</span><span class="et area">Finanzas</span><span class="et sonnet">Sonnet u Opus</span><span class="et">Excel</span><span class="et">Artifacts</span></div></div></div>
       <div class="viz" id="viz4">
   <div class="viz-cab"><h4>¿Cuánto rinde de verdad un inmueble?</h4><span>Mueve la ocupación y la renta, y mira cómo cambia el semáforo.</span></div>
   <div class="vg">
@@ -930,6 +957,7 @@ Después del archivo, explícame en 3 líneas si la cotización está bien calcu
           <details class="ver"><summary>Qué deberías ver</summary><div>Indicadores arriba, un gráfico por inmueble y otro de cobranza mensual, y un semáforo. Un buen resultado separa el gasto único del techo de los gastos recurrentes, y detecta los problemas reales: un almacén vacío, medio piso vacante y dos inquilinos con pagos pendientes.</div></details>
           <details class="pista"><summary>Pista si algo falla</summary><div>Si los totales no te cuadran, pide: “Muéstrame en una tabla cómo calculaste cada indicador”. Claude puede ejecutar cálculos sobre el Excel, así que pídele que los haga con el archivo y no de memoria.</div></details>
           <details class="reto"><summary>Reto extra</summary><div>Pide un escenario: “Si el almacén de Callao sigue vacío 6 meses más, ¿cuánto deja de ganar la cartera?” y que lo agregue como una pestaña del tablero.</div></details>
+          <details class="reto"><summary>Llévalo a tu área</summary><div><b>Contabilidad:</b> cuentas por cobrar por antigüedad (0 a 30, 31 a 60 y más de 60 días) por inquilino, con las detracciones pendientes de depósito.<br><b>RRHH:</b> rotación, ausentismo y vacaciones pendientes por área, con un semáforo para quien acumula más de 30 días.<br><b>Legal:</b> contratos por vencer, adendas pendientes de firma y procesos de desalojo en curso.<br><b>Proyectos:</b> órdenes de mantenimiento por inmueble, estado, costo contra presupuesto y días abiertos.<br>Usa el mismo prompt: cambia los indicadores y las reglas del semáforo.</div></details>
         </div>
         <div class="lado">
           <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Prompt · Sonnet + Excel</span><button class="copiar" type="button">Copiar</button></div><pre>Actúa como analista financiero de una empresa que alquila oficinas, locales y naves industriales. Con el Excel adjunto, crea un dashboard interactivo para el directorio.
@@ -952,50 +980,52 @@ Reglas: separa los gastos únicos de los recurrentes y explícalo con una nota. 
 
     <!-- M5 -->
     <article class="mision" id="m5" data-m="5">
-      <div class="mision-cab"><div class="numero">5</div><div><h3>Investigación con fuentes que puedes verificar</h3><div class="etiquetas"><span class="et">Nivel 4</span><span class="et">Inversión y comercialización</span><span class="et sonnet">Sonnet</span><span class="et">Búsqueda web</span><span class="et">Research</span></div></div></div>
+      <div class="mision-cab"><div class="numero">5</div><div><h3>Investigación con fuentes que puedes verificar</h3><div class="etiquetas"><span class="et">Nivel 4</span><span class="et area">Contabilidad y tributación</span><span class="et sonnet">Sonnet</span><span class="et">Búsqueda web</span><span class="et">Research</span></div></div></div>
       <div class="viz" id="viz5">
   <div class="viz-cab"><h4>Cómo se conecta una afirmación con su fuente</h4><span>Haz clic en los números entre corchetes.</span></div>
   <div class="cadena-v"><span>Tu pregunta</span><em>→</em><span>Claude busca en la web</span><em>→</em><span>Lee las fuentes</span><em>→</em><span>Escribe con [n]</span><em>→</em><span>Tú verificas</span></div>
   <div class="cita-demo">
-    <div class="texto-cita">Las oficinas clase A en Lima tenían 8.6% de disponibilidad en el segundo trimestre de 2026, con una renta pedida promedio de US$ 16.5/m² <button class="ref" type="button" data-f="f1" aria-pressed="false">[1]</button>. Los almacenes cerraron 2025 con 11.5% de vacancia general, pero Callao clase A llegaba a 26.3% <button class="ref" type="button" data-f="f2" aria-pressed="false">[2]</button>.</div>
+    <div class="texto-cita">El alquiler de inmuebles está sujeto a una detracción de 10% cuando la operación supera S/ 700 <button class="ref" type="button" data-f="f1" aria-pressed="false">[1]</button>. La NIC 40 permite medir las propiedades de inversión al costo o al valor razonable, y la política elegida se aplica a todas ellas <button class="ref" type="button" data-f="f2" aria-pressed="false">[2]</button>.</div>
     <div class="fuentes-demo">
-      <div class="fuente" id="f1"><b>[1] Oficinas prime: cerca del 40% de lo que Lima construye ya está tomado antes del 2027</b>Gestión, con datos de Cushman &amp; Wakefield · 30 ago 2026 · <a href="https://gestion.pe/economia/empresas/oficinas-prime-cerca-del-40-de-lo-que-lima-construye-ya-esta-tomado-antes-del-2027-noticia/" target="_blank" rel="noopener">abrir</a><span class="q">Lo que verificas: la cifra, el trimestre y que se refiere a oficinas clase A.</span></div>
-      <div class="fuente" id="f2"><b>[2] Centros logísticos y almacenes: un mercado activo</b>Energiminas, con datos de Cushman &amp; Wakefield · 16 feb 2026 · <a href="https://energiminas.com/2026/02/16/centro-logisticos-y-almacenes-estamos-viendo-un-mercado-completamente-activo/" target="_blank" rel="noopener">abrir</a><span class="q">Lo que verificas: que el dato es del cierre de 2025, no de 2026. La fecha importa.</span></div>
+      <div class="fuente" id="f1"><b>[1] Detracciones: en la prestación de servicios (Anexo 3)</b>SUNAT, Orientación tributaria · <a href="https://orientacion.sunat.gob.pe/3142-03-en-la-prestacion-de-servicios-empresas" target="_blank" rel="noopener">abrir</a><span class="q">Lo que verificas: que el 10% corresponde a “arrendamiento de bienes”, que incluye inmuebles y desde qué monto aplica.</span></div>
+      <div class="fuente" id="f2"><b>[2] NIC 40 Propiedades de Inversión</b>Texto publicado por el Ministerio de Economía y Finanzas · <a href="https://www.mef.gob.pe/contenidos/conta_publ/con_nor_co/vigentes/nic/NIC_40_BV2010.pdf" target="_blank" rel="noopener">abrir</a><span class="q">Lo que verificas: el párrafo que permite elegir el modelo y si esa versión es la vigente. La fecha de la norma importa.</span></div>
     </div>
   </div>
-  <p class="explica-viz">Sin número no hay forma de saber de dónde salió un dato. <b>Una afirmación sin fuente se trata como una suposición.</b></p>
+  <p class="explica-viz">Sin número no hay forma de saber de dónde salió un dato. <b>Una afirmación sin fuente se trata como una suposición</b>, y en temas tributarios una suposición cuesta multas.</p>
 </div>
       <div class="mision-cuerpo">
         <div class="lado">
-          <p class="para"><b>Qué te llevas:</b> pasar de “búscame info” a un informe de mercado profesional, con cada cifra conectada a su fuente y su fecha.</p>
+          <p class="para"><b>Qué te llevas:</b> pasar de “búscame info” a un informe técnico profesional, con cada afirmación conectada a su norma o fuente y su fecha.</p>
           <h4>Paso a paso</h4>
           <ol class="pasos">
             <li>Abre un chat nuevo con <b>Sonnet</b>. Verifica que la búsqueda web esté activa en el menú de herramientas.</li>
             <li>Envía el prompt de investigación.</li>
-            <li>Abre 2 enlaces de la sección Fuentes. ¿La cifra está realmente en esa página y con esa fecha?</li>
+            <li>Abre 2 enlaces de la sección Fuentes. ¿Lo que afirma está realmente en esa página y es la versión vigente?</li>
             <li>Envía el prompt de verificación en el mismo chat.</li>
           </ol>
-          <details class="ver"><summary>Qué deberías ver</summary><div>Una tabla por submercado con cifras, cada una con su número entre corchetes, y al final la lista de Fuentes con título, medio, fecha y enlace. Donde no encontró un dato confiable, lo dice en vez de inventarlo. La verificación suele marcar al menos una cifra antigua o de otra categoría: por eso se verifica.</div></details>
-          <details class="pista"><summary>Pista si algo falla</summary><div>Si responde sin enlaces, escribe: “Busca en la web y cita cada cifra con su número y su enlace”. Si cita blogs, pide priorizar reportes de consultoras inmobiliarias, gremios y medios especializados.</div></details>
-          <details class="reto"><summary>Reto extra con Research</summary><div>Activa el modo <b>Research</b> y pide: “Prepara un informe sobre el mercado de parques industriales al sur de Lima: inventario, vacancia, rentas, nuevos proyectos y qué buscan hoy los inquilinos logísticos, con fuentes”. Research consulta decenas de fuentes y entrega un informe citado. Lánzalo y revísalo al final.</div></details>
+          <details class="ver"><summary>Qué deberías ver</summary><div>Una tabla por pregunta, cada afirmación con su número entre corchetes, y al final la lista de Fuentes con título, entidad, fecha y enlace. Un buen resultado separa lo que dice la norma de lo que es interpretación, y prioriza SUNAT y el MEF sobre blogs. La verificación suele marcar al menos una fuente antigua o secundaria: por eso se verifica.</div></details>
+          <details class="pista"><summary>Pista si algo falla</summary><div>Si responde sin enlaces, escribe: “Busca en la web y cita cada afirmación con su número y su enlace”. Si cita blogs, pide: “Reemplaza esas fuentes por la norma o la página oficial de SUNAT o del MEF”.</div></details>
+          <details class="reto"><summary>Reto extra con Research</summary><div>Activa el modo <b>Research</b> y pide: “Prepara un informe sobre los cambios tributarios y contables de 2025 y 2026 que afectan a una empresa peruana que alquila oficinas y naves industriales, con fuentes oficiales”. Lánzalo y revísalo al final.</div></details>
+          <details class="reto"><summary>Llévalo a tu área</summary><div><b>Finanzas:</b> “Investiga la vacancia y la renta pedida de oficinas clase A y almacenes en Lima en 2026, por submercado, con fuentes”.<br><b>RRHH:</b> “Investiga el rango salarial de un analista financiero senior y de un contador senior en Lima en 2026, con fuentes”.<br><b>Legal:</b> “Investiga qué exige la Ley 30933 para el desalojo con intervención notarial, con la norma y fuentes”.<br><b>Proyectos:</b> “Investiga qué inspecciones técnicas de seguridad necesita una nave industrial alquilada en Lima y cada cuánto, con fuentes oficiales”.<br>Usa el mismo formato de citas y la misma verificación.</div></details>
         </div>
         <div class="lado">
-          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Investigación · Sonnet + búsqueda web</span><button class="copiar" type="button">Copiar</button></div><pre>Actúa como analista de inteligencia de mercado de una empresa que invierte en oficinas, locales y naves industriales en Lima. Busca en la web la información más reciente de 2025 y 2026 y responde:
+          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Investigación · Sonnet + búsqueda web</span><button class="copiar" type="button">Copiar</button></div><pre>Actúa como contador senior de una empresa peruana que alquila oficinas, locales y naves industriales a otras empresas. Busca en la web la información vigente y responde:
 
-1) Oficinas clase A: disponibilidad, renta pedida por m² por submercado (San Isidro, Miraflores, Surco, San Borja) y nueva oferta en construcción.
-2) Almacenes y naves industriales: vacancia y renta pedida por zona (sur, este, Callao).
-3) Qué tendencias de demanda están cambiando lo que buscan los inquilinos.
+1) Detracciones: ¿qué porcentaje aplica al alquiler de inmuebles, desde qué monto, quién hace el depósito y en qué plazo?
+2) NIC 40: ¿cómo se registran los inmuebles que alquilamos? Compara el modelo del costo y el de valor razonable: qué implica cada uno para los resultados y la depreciación.
+3) Si un inquilino no deposita la detracción o lo hace tarde, ¿qué consecuencias tiene y qué podemos hacer nosotros?
 
 Formato:
 - Un resumen de 5 líneas al inicio.
-- Una tabla por pregunta, con la fecha o el trimestre de cada dato.
-- Cada cifra con un número entre corchetes, por ejemplo [1].
-- Al final, una sección "Fuentes" numerada con: título, medio o entidad, fecha de publicación y enlace.
+- Una tabla por pregunta.
+- Cada afirmación con un número entre corchetes, por ejemplo [1].
+- Al final, una sección "Fuentes" numerada con: título, entidad o medio, fecha de publicación y enlace.
 
 Reglas:
-- Prioriza reportes de consultoras inmobiliarias, gremios y medios especializados.
+- Prioriza fuentes oficiales: SUNAT, MEF, El Peruano. Luego colegios de contadores y firmas de auditoría.
+- Separa lo que dice la norma de lo que es interpretación.
 - No afirmes nada que no esté en una fuente. Si no encuentras algo, escribe "Sin fuente confiable".</pre></div>
-          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Verificación · mismo chat</span><button class="copiar" type="button">Copiar</button></div><pre>Revisa tu respuesta como lo haría un auditor exigente. Arma una tabla con: N° de cifra, Cifra, Fuente citada, ¿La fuente lo dice textualmente? (Sí, Parcial o No), Periodo del dato y Fecha de la fuente. Corrige o retira lo que no puedas confirmar.</pre></div>
+          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Verificación · mismo chat</span><button class="copiar" type="button">Copiar</button></div><pre>Revisa tu respuesta como lo haría un auditor exigente. Arma una tabla con: N° de afirmación, Afirmación, Fuente citada, ¿La fuente lo dice textualmente? (Sí, Parcial o No), ¿Es fuente oficial? y Fecha de la fuente. Corrige o retira lo que no puedas confirmar.</pre></div>
         </div>
       </div>
       <div class="completar"><button type="button" data-hecho="5">Marcar misión como hecha</button></div>
@@ -1003,7 +1033,7 @@ Reglas:
 
     <!-- M6 -->
     <article class="mision" id="m6" data-m="6">
-      <div class="mision-cab"><div class="numero">6</div><div><h3>El contrato bajo la lupa</h3><div class="etiquetas"><span class="et">Nivel 4</span><span class="et">Contratos</span><span class="et opus">Opus</span><span class="et">PDF</span><span class="et">Búsqueda web</span><span class="et">Prompt avanzado</span></div></div></div>
+      <div class="mision-cab"><div class="numero">6</div><div><h3>El contrato bajo la lupa</h3><div class="etiquetas"><span class="et">Nivel 4</span><span class="et area">Legal</span><span class="et opus">Opus</span><span class="et">PDF</span><span class="et">Búsqueda web</span><span class="et">Prompt avanzado</span></div></div></div>
       <div class="viz" id="viz6">
   <div class="viz-cab"><h4>Anatomía de un prompt profesional</h4><span>Apaga un bloque y mira qué se pierde.</span></div>
   <div class="anatomia">
@@ -1043,6 +1073,7 @@ Reglas:
           <details class="ver"><summary>Qué deberías ver</summary><div>Una tabla donde cada riesgo trae su número de cláusula y una cita textual. Lo que dice la Ley 30933 viene con su fuente numerada y su enlace, y Claude explica si este contrato permitiría usar esa vía. En la revisión de coherencia debería encontrar algo que no cuadra dentro del propio contrato. La pregunta trampa se responde con “No figura en el contrato”.</div></details>
           <details class="pista"><summary>Pista si algo falla</summary><div>Si una cita no aparece en el PDF, dile: “No encuentro esa frase en la cláusula que mencionas. Muéstrame el texto exacto o retíralo”.</div></details>
           <details class="reto"><summary>Reto extra</summary><div>Pide la tabla de riesgos ordenada por impacto en soles a 5 años: ¿cuánto le costaría a la empresa la cláusula sin reajuste, la del mantenimiento total y la de las mejoras reembolsables?</div></details>
+          <details class="reto"><summary>Llévalo a tu área</summary><div><b>Finanzas:</b> un contrato de préstamo bancario: covenants, penalidades por prepago y qué pasa si cae el ratio de cobertura.<br><b>Contabilidad:</b> el mismo contrato de la nave: ¿la renta, la garantía y la moneda coinciden con lo que se está facturando?<br><b>RRHH:</b> el contrato con la empresa de vigilancia: responsabilidad por los pagos de su personal y qué pasa si no les paga.<br><b>Proyectos:</b> el contrato de obra del techo: plazos, penalidades por retraso, garantía y adicionales.<br>Mantén las etiquetas &lt;rol&gt;, &lt;contexto&gt;, &lt;tarea&gt; y &lt;reglas&gt;, y cambia su contenido.</div></details>
         </div>
         <div class="lado">
           <div class="prompt" style="--c:var(--opus)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Prompt · Opus + PDF + búsqueda web</span><button class="copiar" type="button">Copiar</button></div><pre>&lt;rol&gt;
@@ -1074,61 +1105,61 @@ El inquilino nos envió su propio modelo de contrato para alquilar una nave indu
 
     <!-- M7 -->
     <article class="mision" id="m7" data-m="7">
-      <div class="mision-cab"><div class="numero">7</div><div><h3>Ensayo de una renovación difícil</h3><div class="etiquetas"><span class="et">Nivel 5</span><span class="et">Relación con inquilinos</span><span class="et sonnet">Sonnet</span><span class="et">Juego de roles</span></div></div></div>
+      <div class="mision-cab"><div class="numero">7</div><div><h3>Ensayo de una conversación difícil</h3><div class="etiquetas"><span class="et">Nivel 5</span><span class="et area">RRHH y jefaturas</span><span class="et sonnet">Sonnet</span><span class="et">Juego de roles</span></div></div></div>
       <div class="viz" id="viz7">
-  <div class="viz-cab"><h4>¿Qué tan cerca estás de cerrar?</h4><span>Así reacciona el inquilino según cómo negocies. Prueba distintas respuestas.</span></div>
+  <div class="viz-cab"><h4>¿Se queda o se va?</h4><span>Así reacciona la colaboradora según cómo conduzcas la conversación. Prueba distintas respuestas.</span></div>
   <div class="termo">
-    <svg class="gauge" viewBox="0 0 240 140" role="img" aria-label="Qué tan cerca está el inquilino de firmar">
+    <svg class="gauge" viewBox="0 0 240 140" role="img" aria-label="Qué tan cerca está la colaboradora de quedarse">
       <path d="M20 120 A100 100 0 0 1 220 120" fill="none" stroke="#E5E7EB" stroke-width="22"/>
       <path d="M20 120 A100 100 0 0 1 70 33.4" fill="none" stroke="#0E9F9A" stroke-width="22"/>
       <path d="M70 33.4 A100 100 0 0 1 170 33.4" fill="none" stroke="#F2A71B" stroke-width="22"/>
       <path d="M170 33.4 A100 100 0 0 1 220 120" fill="none" stroke="#E5484D" stroke-width="22"/>
       <g class="aguja" id="aguja"><line x1="120" y1="120" x2="120" y2="34" stroke="#1E1E1E" stroke-width="5" stroke-linecap="round"/></g>
       <circle cx="120" cy="120" r="10" fill="#1E1E1E"/>
-      <text x="6" y="138" font-size="12" fill="#6B7280" font-family="Lato,sans-serif">Listo para firmar</text>
-      <text x="168" y="138" font-size="12" fill="#6B7280" font-family="Lato,sans-serif">Se va a ir</text>
+      <text x="6" y="138" font-size="12" fill="#6B7280" font-family="Lato,sans-serif">Se queda</text>
+      <text x="190" y="138" font-size="12" fill="#6B7280" font-family="Lato,sans-serif">Se va</text>
     </svg>
     <div>
-      <div class="chat-rosa" aria-live="polite"><span class="quien">Martín Salas · Logística Andina</span><span id="rosa-txt"></span></div>
+      <div class="chat-rosa" aria-live="polite"><span class="quien">Carla Mendoza · Analista Financiera Senior</span><span id="rosa-txt"></span></div>
       <div class="opciones-r">
-        <button type="button" data-d="18" style="--c:var(--rojo)">“Si no le conviene, puede irse a Chilca”</button>
-        <button type="button" data-d="10" style="--c:var(--rojo)">“Le bajo el 20%, no hay problema”</button>
-        <button type="button" data-d="-12" style="--c:var(--teal)">Reconozco lo del techo y doy la fecha del cambio</button>
-        <button type="button" data-d="-14" style="--c:var(--teal)">Muestro datos de mercado de la zona</button>
-        <button type="button" data-d="-16" style="--c:var(--teal)">Propongo 5 años con un descuento menor y reajuste anual</button>
+        <button type="button" data-d="18" style="--c:var(--rojo)">“Si te quieres ir, la puerta está abierta”</button>
+        <button type="button" data-d="10" style="--c:var(--rojo)">“Te doy el 25%, no hay problema”</button>
+        <button type="button" data-d="-12" style="--c:var(--teal)">Le pregunto qué la motiva además del sueldo</button>
+        <button type="button" data-d="-14" style="--c:var(--teal)">Le muestro su banda salarial con datos</button>
+        <button type="button" data-d="-16" style="--c:var(--teal)">Propongo 10% hoy, plan de carrera y revisión en 6 meses</button>
         <button type="button" data-d="0" data-reset="1" style="--c:var(--borde)">Reiniciar</button>
       </div>
     </div>
   </div>
-  <p class="explica-viz">En el chat real, Claude decide cómo reacciona Martín con estas mismas reglas. Al escribir <b>FIN</b>, te evalúa con una rúbrica.</p>
+  <p class="explica-viz">En el chat real, Claude decide cómo reacciona Carla con estas mismas reglas. Al escribir <b>FIN</b>, te evalúa con una rúbrica.</p>
 </div>
       <div class="mision-cuerpo">
         <div class="lado">
-          <p class="para"><b>Qué te llevas:</b> un sparring para ensayar una negociación real antes de tenerla, que además te evalúa con una rúbrica y te da consejos.</p>
+          <p class="para"><b>Qué te llevas:</b> un sparring para ensayar una conversación difícil con alguien de tu equipo antes de tenerla, que además te evalúa con una rúbrica y te da consejos.</p>
           <h4>Paso a paso</h4>
           <ol class="pasos">
-            <li>Abre un chat nuevo con <b>Sonnet</b>, adjunta el contrato de la misión 6 y envía el prompt.</li>
-            <li>Negocia como lo harías en la vida real. Mantén la conversación de 4 a 6 turnos.</li>
-            <li>Prueba una vez ceder de inmediato y observa qué pasa: ¿pide más?</li>
+            <li>Abre un chat nuevo con <b>Sonnet</b> y envía el prompt.</li>
+            <li>Conversa como lo harías en la vida real. Mantén la conversación de 4 a 6 turnos.</li>
+            <li>Prueba una vez aceptar todo de inmediato y observa qué pasa: ¿pide más?</li>
             <li>Escribe <b>FIN</b> y lee tu evaluación.</li>
           </ol>
-          <details class="ver"><summary>Qué deberías ver</summary><div>Un inquilino creíble que usa el techo y la oferta de otras naves para presionar. Si cedes rápido, pide más. Si amenazas, se endurece. Si muestras datos y propones valor a cambio de plazo, se acerca a firmar. Al escribir FIN, una tabla con tu puntaje, una frase tuya como evidencia y un consejo concreto.</div></details>
+          <details class="ver"><summary>Qué deberías ver</summary><div>Una colaboradora creíble que usa la otra oferta para presionar, pero que también valora otras cosas. Si cedes todo rápido, pide más. Si la desafías, se cierra. Si escuchas, muestras datos y propones un camino con fechas, se acerca a quedarse. Al escribir FIN, una tabla con tu puntaje, una frase tuya como evidencia y un consejo concreto.</div></details>
           <details class="pista"><summary>Pista si algo falla</summary><div>Si Claude sale del personaje antes de tiempo, escribe: “Sigue en el personaje hasta que escriba FIN”.</div></details>
-          <details class="reto"><summary>Otros personajes para tu área</summary><div><b>Finanzas:</b> “Actúa como el gerente financiero de un inquilino de oficinas con 3 meses de renta vencidos que pide fraccionar sin intereses”.<br><b>Legal:</b> “Actúa como el abogado de un inquilino que se niega a pagar la penalidad por devolver tarde el local”.<br><b>Mantenimiento:</b> “Actúa como el proveedor del techo que pide un adicional del 25% a mitad de la obra”.<br><b>RRHH:</b> “Actúa como un analista financiero con buen desempeño que pide un aumento y tiene otra oferta”.<br>Copia el mismo bloque de reglas y de evaluación del prompt principal.</div></details>
+          <details class="reto"><summary>Otros personajes para tu área</summary><div><b>Finanzas y comercial:</b> “Actúa como Martín Salas, gerente de operaciones del inquilino de la Nave B, que pide 20% de rebaja para renovar porque hubo filtraciones en el techo”.<br><b>Contabilidad:</b> “Actúa como el gerente de un inquilino que se niega a pagar la factura porque dice que la detracción ya la descontó”.<br><b>Legal:</b> “Actúa como el abogado de un inquilino que se niega a pagar la penalidad por devolver tarde el local”.<br><b>Proyectos:</b> “Actúa como el proveedor del techo que pide un adicional del 25% a mitad de la obra”.<br><b>RRHH:</b> “Actúa como un asistente contable al que debo dar retroalimentación por errores repetidos en el cierre del mes”.<br>Copia el mismo bloque de reglas y de evaluación del prompt principal.</div></details>
         </div>
         <div class="lado">
-          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Prompt · Sonnet + contrato</span><button class="copiar" type="button">Copiar</button></div><pre>Vamos a hacer un ensayo de negociación. Actúa como Martín Salas, Gerente de Operaciones de Logística Andina, el inquilino de la Nave B en Lurín. Su contrato vence en 3 meses. Quiere renovar, pero pide una rebaja del 20% en la renta porque hubo filtraciones en el techo y porque le ofrecieron una nave más barata en Chilca. Yo soy el jefe comercial de la empresa arrendadora.
+          <div class="prompt" style="--c:var(--sonnet)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Prompt · Sonnet</span><button class="copiar" type="button">Copiar</button></div><pre>Vamos a hacer un ensayo de conversación difícil. Actúa como Carla Mendoza, Analista Financiera Senior de una empresa que alquila oficinas y naves industriales. Tiene 4 años en la empresa, muy buen desempeño y gana S/ 8,000 al mes. Le ofrecieron un puesto en otra empresa con 20% más de sueldo y pide un aumento de 25% para quedarse. Yo soy su jefe, el gerente de Finanzas, y RRHH me autorizó hasta 10% de aumento ahora, una revisión en 6 meses y un plan de carrera hacia Jefa de Planeamiento Financiero.
 
 Reglas del personaje:
-- Responde en 2 o 3 líneas, como hablaría un gerente real.
-- Si cedo de inmediato, pide algo más (meses de gracia, mejoras gratis).
-- Si amenazo o minimizo el problema del techo, se endurece y habla de irse.
-- Si muestro datos de mercado, reconozco el problema y propongo valor a cambio de plazo, se acerca a firmar poco a poco.
+- Responde en 2 o 3 líneas, como hablaría una profesional real.
+- Si acepto todo de inmediato, pide algo más (cambio de cargo, home office total).
+- Si la desafío o minimizo su oferta, se cierra y habla de renunciar.
+- Si escucho qué la motiva, muestro datos y propongo un camino con fechas concretas, se acerca a quedarse poco a poco.
 - No salgas del personaje hasta que yo escriba FIN.
 
-Cuando escriba FIN, sal del personaje y evalúame en una tabla del 1 al 5 en: Preparación con datos, Escucha, Propuesta de valor, Firmeza y Cierre. Para cada criterio cita una frase mía como evidencia. Termina con cuánto le habría costado a la empresa lo que acepté, en soles al año, y el consejo más importante para mejorar.
+Cuando escriba FIN, sal del personaje y evalúame en una tabla del 1 al 5 en: Escucha, Claridad, Propuesta de valor, Firmeza con el presupuesto y Cierre. Para cada criterio cita una frase mía como evidencia. Termina con cuánto le costaría a la empresa al año lo que acepté (considera 14 sueldos al año) y el consejo más importante para mejorar.
 
-Empieza tú, con el primer mensaje de Martín.</pre></div>
+Empieza tú, con el primer mensaje de Carla.</pre></div>
         </div>
       </div>
       <div class="completar"><button type="button" data-hecho="7">Marcar misión como hecha</button></div>
@@ -1136,7 +1167,7 @@ Empieza tú, con el primer mensaje de Martín.</pre></div>
 
     <!-- M8 FINAL -->
     <article class="mision final" id="m8" data-m="8">
-      <div class="mision-cab"><div class="numero">★</div><div><h3>Misión final: ¿en qué inmueble invertimos?</h3><div class="etiquetas"><span class="et">Nivel 6</span><span class="et">Inversión y directorio</span><span class="et opus">Opus</span><span class="et">Búsqueda web o Research</span><span class="et">Excel</span><span class="et">Artifacts</span><span class="et">Crear archivos</span></div></div></div>
+      <div class="mision-cab"><div class="numero">★</div><div><h3>Misión final: ¿en qué inmueble invertimos?</h3><div class="etiquetas"><span class="et">Nivel 6</span><span class="et area">Finanzas · Legal · Contabilidad</span><span class="et opus">Opus</span><span class="et">Búsqueda web o Research</span><span class="et">Excel</span><span class="et">Artifacts</span><span class="et">Crear archivos</span></div></div></div>
       <div class="lado" style="padding-bottom:6px">
         <p class="para"><b>El caso:</b> el directorio debe decidir en qué inmueble invertir para alquilarlo. Hay tres opciones: un piso de oficinas clase A en San Isidro, una nave industrial en Lurín y un almacén en Callao. Vas a hacer el trabajo de un analista de inversiones en <b>un solo chat</b>: investigar el mercado, analizar las opciones, visualizar, presentar y defender tu recomendación.</p>
         <p class="para" style="margin:0"><b>Por qué en un solo chat:</b> cada etapa usa lo que produjo la anterior. No tendrás que volver a explicar nada.</p>
@@ -1235,7 +1266,7 @@ Estilo sobrio, una idea por slide, máximo 35 palabras por slide, y notas del or
           <h4><i>5</i>Defiende tu recomendación</h4>
           <p>Claude se convierte en el directorio. Responde sus preguntas como lo harías en la sala.</p>
           <details class="ver"><summary>Qué deberías ver</summary><div>Preguntas incómodas pero justas, basadas en los puntos débiles de tu propio análisis. Al final, una evaluación de qué tan sólida fue tu defensa y qué deberías reforzar antes del directorio real.</div></details>
-          <details class="reto"><summary>Reto extra</summary><div>Pide un correo de 120 palabras al gerente general con la recomendación, el monto de inversión y la presentación adjunta.</div></details>
+          <details class="reto"><summary>Reto extra</summary><div>Pide un correo de 120 palabras al gerente general con la recomendación, el monto de inversión y la presentación adjunta.<br><br><b>Por área:</b> Contabilidad pide cómo se registraría la compra según la NIC 40 y qué detracción aplicaría a la renta. Legal pide la lista de due diligence legal del inmueble elegido. RRHH pide qué personal adicional necesitaría operar el nuevo inmueble y su costo anual.</div></details>
         </div>
         <div class="lado">
           <div class="prompt" style="--c:var(--opus)"><div class="prompt-cab"><span class="punto"></span><span class="quien">Etapa 5 · mismo chat</span><button class="copiar" type="button">Copiar</button></div><pre>Ahora actúa como el directorio de la empresa: exigente, con experiencia en inversiones inmobiliarias y escéptico. Hazme 5 preguntas difíciles sobre mi recomendación, una por una, basadas en los puntos débiles de nuestro análisis. Espera mi respuesta antes de pasar a la siguiente.
@@ -1269,6 +1300,7 @@ Cuando termine la quinta, sal del rol y evalúa mi defensa: qué respuestas conv
     <p class="intro">Copia la que te sirva, completa los corchetes y úsala en tu cuenta de trabajo. Todas siguen la receta del prompt.</p>
     <div class="pestanas" role="tablist" id="pestanas">
       <button role="tab" aria-selected="true" data-p="fin">Finanzas</button>
+      <button role="tab" aria-selected="false" data-p="cont">Contabilidad</button>
       <button role="tab" aria-selected="false" data-p="leg">Legal</button>
       <button role="tab" aria-selected="false" data-p="rrhh">RRHH</button>
       <button role="tab" aria-selected="false" data-p="pro">Proyectos</button>
@@ -1283,7 +1315,7 @@ Cuando termine la quinta, sal del rol y evalúa mi defensa: qué respuestas conv
 <footer>
   <div class="wrap">
     <p>Sesión 2 · Laboratorio Claude · Instructor: Joel Espinoza</p>
-    <p>Datos del sector: <a href="https://gestion.pe/economia/empresas/oficinas-prime-cerca-del-40-de-lo-que-lima-construye-ya-esta-tomado-antes-del-2027-noticia/" target="_blank" rel="noopener">Gestión, con datos de Cushman &amp; Wakefield</a> · <a href="https://energiminas.com/2026/02/16/centro-logisticos-y-almacenes-estamos-viendo-un-mercado-completamente-activo/" target="_blank" rel="noopener">Energiminas</a> · <a href="https://busquedas.elperuano.pe/normaslegales/ley-que-regula-el-procedimiento-especial-de-desalojo-con-int-ley-n-30933-1762977-1/" target="_blank" rel="noopener">El Peruano, Ley 30933</a> · Planes: <a href="https://claude.com/pricing" target="_blank" rel="noopener">claude.com/pricing</a></p>
+    <p>Datos del sector: <a href="https://gestion.pe/economia/empresas/oficinas-prime-cerca-del-40-de-lo-que-lima-construye-ya-esta-tomado-antes-del-2027-noticia/" target="_blank" rel="noopener">Gestión, con datos de Cushman &amp; Wakefield</a> · <a href="https://energiminas.com/2026/02/16/centro-logisticos-y-almacenes-estamos-viendo-un-mercado-completamente-activo/" target="_blank" rel="noopener">Energiminas</a> · <a href="https://busquedas.elperuano.pe/normaslegales/ley-que-regula-el-procedimiento-especial-de-desalojo-con-int-ley-n-30933-1762977-1/" target="_blank" rel="noopener">El Peruano, Ley 30933</a> · <a href="https://orientacion.sunat.gob.pe/3142-03-en-la-prestacion-de-servicios-empresas" target="_blank" rel="noopener">SUNAT, detracciones</a> · <a href="https://www.mef.gob.pe/contenidos/conta_publ/con_nor_co/vigentes/nic/NIC_40_BV2010.pdf" target="_blank" rel="noopener">MEF, NIC 40</a> · Planes: <a href="https://claude.com/pricing" target="_blank" rel="noopener">claude.com/pricing</a></p>
   </div>
 </footer>
 
@@ -1384,12 +1416,12 @@ Cuando termine la quinta, sal del rol y evalúa mi defensa: qué respuestas conv
 
   /* Cuestionario */
   var preguntas=[
-    {p:"Cada mes llegan 500 solicitudes de inquilinos (filtraciones, aire acondicionado, accesos, facturas) que hay que clasificar por tipo y urgencia. ¿Qué modelo conviene?",o:["Opus, porque es el más inteligente","Haiku, porque es rápido y la tarea es repetitiva","Sonnet, porque siempre es la mejor opción","Cualquiera da igual"],c:1,e:"Clasificar mucho volumen con un criterio claro es el terreno de Haiku: casi la misma calidad, mucho más rápido y con menos consumo del límite de uso. Si quieres más precisión, agrega dos ejemplos al prompt."},
+    {p:"Contabilidad recibe cada mes 500 facturas de proveedores que hay que clasificar por cuenta contable. ¿Qué modelo conviene?",o:["Opus, porque es el más inteligente","Haiku, porque es rápido y la tarea es repetitiva","Sonnet, porque siempre es la mejor opción","Cualquiera da igual"],c:1,e:"Clasificar mucho volumen con un criterio claro es el terreno de Haiku: casi la misma calidad, mucho más rápido y con menos consumo del límite de uso. Si quieres más precisión, agrega dos ejemplos al prompt."},
     {p:"Este prompt: “Actúa como abogado. Revisa el contrato de arrendamiento adjunto y dime los riesgos.” ¿Qué ingredientes le faltan?",o:["Rol y tarea","Contexto, formato y reglas","Solo el rol","No le falta nada"],c:1,e:"Tiene rol (abogado) y tarea (revisar riesgos). Le falta contexto (asesoras a la arrendadora y el borrador lo hizo el inquilino), formato (tabla, viñetas, extensión) y reglas (citar cláusulas, decir “No figura” si algo no está)."},
     {p:"Claude afirma que, según el contrato de la Nave B, el inquilino paga los arbitrios y el impuesto predial, pero tú no encuentras esa cláusula. ¿Qué haces?",o:["Confío, porque Claude leyó todo el PDF","Le pido que cite el número de cláusula y el texto exacto, y si no puede, lo descarto","Lo vuelvo a preguntar hasta que me diga que sí","Cambio a Haiku para que responda más rápido"],c:1,e:"Pedir la cita textual convierte una afirmación en algo verificable en segundos. Si no hay cita, no hay dato. En ese contrato no figura quién paga los arbitrios ni el predial: justo lo que hay que negociar."},
     {p:"Tu equipo quiere usar Claude con los contratos y los datos de pago reales de los inquilinos. ¿Qué tipo de plan corresponde?",o:["La cuenta gratuita personal de cada uno","Un plan personal Pro pagado con la tarjeta de cada persona","Un plan de organización (Team o Enterprise) aprobado por la empresa","Cualquier plan, siempre que se borre el chat después"],c:2,e:"Los planes Team y Enterprise tienen administración central y, por defecto, no usan las conversaciones para entrenar modelos. En los planes personales esa opción viene activada y la persona debe desactivarla."},
     {p:"Quieres que el área comercial y Legal vean en un solo lugar los contratos por vencer y los reajustes del mes. ¿Qué le pides a Claude?",o:["Una lista en texto con los contratos de este mes","Un artifact interactivo con filtros y alertas, que se pueda compartir por link","Que te dicte las fórmulas para hacerlo a mano","Un documento Word con la explicación"],c:1,e:"Un artifact es una pequeña aplicación que Claude construye en el chat: tiene campos, filtros y gráficos, y se puede publicar para compartirla. Lo hiciste en la misión 2, después de que Claude te entrevistó."},
-    {p:"Claude te entregó un primer borrador de la carta de renovación que no te convence del todo. ¿Qué es lo más efectivo?",o:["Borrar el chat y empezar de cero con el mismo prompt","Seguir en el mismo chat con pedidos concretos: más corto, otro tono, agrega el reajuste","Copiar el borrador a Word y corregirlo todo a mano","Cambiar de modelo hasta que salga perfecto"],c:1,e:"Iterar en el mismo chat aprovecha todo el contexto que ya tiene Claude. Pedidos cortos y concretos mejoran el borrador mucho más rápido que empezar de nuevo."}
+    {p:"Claude te entregó un primer borrador del comunicado de RRHH sobre la nueva política de vacaciones y no te convence del todo. ¿Qué es lo más efectivo?",o:["Borrar el chat y empezar de cero con el mismo prompt","Seguir en el mismo chat con pedidos concretos: más corto, otro tono, agrega las fechas de corte","Copiar el borrador a Word y corregirlo todo a mano","Cambiar de modelo hasta que salga perfecto"],c:1,e:"Iterar en el mismo chat aprovecha todo el contexto que ya tiene Claude. Pedidos cortos y concretos mejoran el borrador mucho más rápido que empezar de nuevo."}
   ];
   var respuestas={};
   var quiz=document.getElementById("quiz");
@@ -1427,6 +1459,7 @@ Cuando termine la quinta, sal del rol y evalúa mi defensa: qué respuestas conv
   /* Plantillas */
   var plantillas={
     fin:["Finanzas","Actúa como analista financiero de una empresa que alquila oficinas, locales y naves. Te adjunto [archivo de cartera o cobranza]. Calcula por inmueble: ocupación, porcentaje cobrado, NOI y rendimiento sobre su valor, para [mes o periodo].\n\nEntrega: una tabla, un gráfico y un resumen de 5 líneas para [gerencia o directorio].\n\nReglas: calcula con los datos del archivo y muestra tus cálculos. Separa los gastos únicos de los recurrentes. Marca en rojo a quien cobró menos del [porcentaje]. No asumas datos que no estén en el archivo."],
+    cont:["Contabilidad","Actúa como contador senior de una empresa que alquila oficinas, locales y naves industriales. Te adjunto [extracto bancario, registro de ventas o reporte de cobranza] de [mes]. Concilia [qué contra qué], por ejemplo los cobros del banco contra las facturas emitidas y las detracciones depositadas.\n\nEntrega: una tabla de partidas conciliadas, una tabla de diferencias con su posible causa y los asientos de ajuste propuestos.\n\nReglas: usa el plan de cuentas [adjunto o descrito] y no inventes cuentas. Marca \"Revisar\" lo que no puedas explicar con los datos. Si citas una norma tributaria o contable, incluye la fuente oficial y su fecha."],
     leg:["Legal","Actúa como abogado especialista en arrendamientos y asesora a la arrendadora. Revisa el [contrato, adenda o carta] adjunto de [inmueble] con [inquilino].\n\nEntrega una tabla con: Cláusula, Cita textual, Riesgo, Gravedad y Propuesta de cambio. Revisa en especial renta y reajuste, garantía, mantenimiento, seguros, mejoras, subarriendo, resolución, penalidades y las cláusulas para el desalojo notarial de la Ley 30933.\n\nReglas: toda afirmación con su cita textual. Si algo no figura, escribe \"No figura en el contrato\". Revisa la coherencia de plazos, fechas y montos, en números y en letras."],
     rrhh:["RRHH","Actúa como especialista de [selección, capacitación o clima laboral] de una empresa que alquila y mantiene inmuebles corporativos. Con estos datos: [datos], prepara [entregable] para [público].\n\nFormato: [extensión, viñetas o tabla].\n\nReglas: lenguaje inclusivo, tono [cercano o formal]. No incluyas requisitos de edad, sexo ni estado civil. Si te falta un dato, márcalo entre corchetes."],
     pro:["Proyectos y mantenimiento","Actúa como jefe de mantenimiento de una cartera de oficinas y naves industriales. Con estas cotizaciones o notas: [material], prepara [cuadro comparativo, acta o informe] para [inmueble].\n\nEl cuadro compara proveedores por: precio total con IGV, plazo, garantía, alcance y cómo afecta la operación del inquilino.\n\nReglas: verifica las sumas de cada cotización y marca cualquier error. Marca como \"Por definir\" cualquier responsable o fecha que no figure. Cierra con los 3 riesgos principales, su semáforo y una acción para cada uno."],
@@ -1451,7 +1484,7 @@ Cuando termine la quinta, sal del rol y evalúa mi defensa: qué respuestas conv
   function soles(n){return "S/ "+Math.round(n).toLocaleString("en-US")}
 
   /* M1 */
-  var t1={a:"Clasificar solicitudes de inquilinos es <b>repetitivo y de volumen</b>. Haiku lo hace casi igual de bien, mucho más rápido y gastando menos de tu límite de uso.",b:"Responder a un inquilino molesto pide <b>tono, criterio y cuidado con la política</b>. Sonnet equilibra calidad y velocidad.",c:"Evaluar la compra de un local encadena <b>cálculos, supuestos y una decisión de millones</b>. Aquí vale la pena la profundidad de Opus."};
+  var t1={a:"Contabilidad: clasificar movimientos bancarios es <b>repetitivo y de volumen</b>. Haiku lo hace casi igual de bien, mucho más rápido y gastando menos de tu límite de uso.",b:"RRHH: responder a una colaboradora molesta pide <b>tono, empatía y cuidado con la política</b>. Sonnet equilibra calidad y velocidad.",c:"Finanzas: evaluar la compra de un local encadena <b>cálculos, supuestos y una decisión de millones</b>. Aquí vale la pena la profundidad de Opus."};
   function m1(e){
     $$("#viz1 .tog button").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.e===e?"true":"false")});
     $$("#viz1 .mod").forEach(function(m){m.classList.toggle("on",m.dataset.m===e);m.classList.toggle("off",m.dataset.m!==e)});
@@ -1563,18 +1596,24 @@ Cuando termine la quinta, sal del rol y evalúa mi defensa: qué respuestas conv
 
   /* M7 */
   var nivel=70,frases={
-    "18":"Perfecto, entonces nos vemos en Chilca. Ya tengo la propuesta sobre la mesa.",
-    "10":"Gracias. Y ya que estamos, también necesito tres meses de gracia y que arreglen el patio de maniobras.",
-    "-12":"Bueno, al menos lo reconoce. Si el techo queda listo antes de la renovación, podemos conversar.",
-    "-14":"Mmm, no sabía que la vacancia en el sur estaba tan baja. Igual necesito algo de alivio.",
-    "-16":"Cinco años con reajuste me da estabilidad. Mándeme la propuesta por escrito y la llevo a mi gerencia."
+    "18":"Entendido. Entonces le aviso a la otra empresa que acepto. Le entrego mi carta el lunes.",
+    "10":"Gracias. Y ya que estamos, también quisiera el cargo de jefa y trabajar remoto toda la semana.",
+    "-12":"La verdad, no es solo la plata. Siento que llevo dos años haciendo lo mismo y no veo hacia dónde crecer.",
+    "-14":"No sabía que ya estaba en la parte alta de la banda. Igual la otra oferta es concreta.",
+    "-16":"Un plan con fecha y la revisión en 6 meses me da algo que la otra empresa no. ¿Me lo puede dar por escrito?"
   };
   function m7(d,reset){
-    if(reset){nivel=70;$("#rosa-txt").textContent="Mi contrato vence en tres meses. Con las filtraciones del techo y una nave más barata en Chilca, necesito una rebaja del 20%."}
+    if(reset){nivel=70;$("#rosa-txt").textContent="Me ofrecieron un puesto con 20% más de sueldo. Me gusta trabajar aquí, pero necesito un aumento de 25% para quedarme."}
     else{nivel=Math.max(5,Math.min(100,nivel+d));$("#rosa-txt").textContent=frases[String(d)]}
     $("#aguja").style.transform="rotate("+((nivel/100)*180-90)+"deg)";
   }
   $$("#viz7 .opciones-r button").forEach(function(b){b.addEventListener("click",function(){m7(+b.dataset.d,!!b.dataset.reset)})});m7(0,true);
+
+  /* Filtro por área */
+  $$("#areasF button").forEach(function(b){b.addEventListener("click",function(){
+    var k=b.dataset.a;$$("#areasF button").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});
+    $$("#mapa a").forEach(function(l){l.classList.toggle("tenue",!!k&&(" "+l.dataset.a+" ").indexOf(" "+k+" ")<0)});
+  })});
 
   /* M8 */
   var etapas=[
